@@ -1,0 +1,46 @@
+{
+    "name": "flagrow/terms",
+    "description": "Ask users to accept terms of use before using the forum",
+    "keywords": [
+        "extension",
+        "flarum",
+        "flagrow",
+        "terms",
+        "tos",
+        "policy"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Clark Winkelmann",
+            "email": "clark.winkelmann@gmail.com",
+            "homepage": "https://clarkwinkelmann.com/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/flagrow/linguist/issues",
+        "source": "https://github.com/flagrow/linguist"
+    },
+    "require": {
+        "flarum/core": "^0.1.0-beta.7"
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Flagrow Terms",
+            "icon": {
+                "name": "paperclip",
+                "backgroundColor": "#f4f4f4",
+                "color": "#5f4bb6"
+            }
+        },
+        "flagrow": {
+            "discuss": "#"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Flagrow\\Terms\\": "src/"
+        }
+    }
+}

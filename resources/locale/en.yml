@@ -1,0 +1,43 @@
+flagrow-terms:
+    admin:
+        settings:
+            title: Terms Settings
+
+            field:
+                signup-legal-text: Additional text on signup form
+
+        titles:
+            policies: Policies
+
+        buttons:
+            new-policy: New Policy
+            edit-policy: Edit Policy
+            add-policy: Add Policy
+            save-policy: Save Policy
+            delete-policy: Delete Policy
+
+        messages:
+            delete-policy-confirmation: Are you sure you want to delete {name} ?
+
+        policies:
+            name: Name
+            url: Url
+            update_message: Update Message
+            terms_updated_at: Updated at
+
+        permissions:
+            see-user-policies-state: See the user policies state
+            postpone-policies-accept: Can postpone accepting the new terms
+
+    forum:
+        signup:
+            i-accept: I accept the <a>{policy}</a>
+            must-accept: The {policy} must be accepted.
+
+        accept-modal:
+            title: Terms Update
+            updated-at: The terms were updated on {date}
+            updated-recently: The terms were updated since your last visit
+            i-accept: I accept the new <a>{policy}</a>
+            accept: Confirm
+            close: You can now close this modal
