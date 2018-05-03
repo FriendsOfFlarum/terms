@@ -58,7 +58,7 @@ class PolicyRepository
             $this->rememberState = [];
 
             foreach ($this->all() as $policy) {
-                $accepted_at = $userPolicies->has($policy->id) ? $userPolicies->get($policy->id)->pivot->accepted_at : null;
+                $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || ($policy->terms_updated_at && $policy->terms_updated_at->gt($accepted_at));
 
                 $this->rememberState[$policy->id] = [
