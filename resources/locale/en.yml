@@ -30,6 +30,7 @@ flagrow-terms:
             update-message: Update Message
             update-message-help: A message to show to existing users who have not yet accepted the latest terms.
             terms-updated-at: Updated at
+            terms-updated-at-placeholder: YYYY-MM-DD (hh:mm:ss)
             terms-updated-at-help: >
                 The date of the last terms update.
                 Setting this value will require all users who accepted prior to that date to accept again.

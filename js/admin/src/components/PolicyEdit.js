@@ -89,6 +89,7 @@ export default class PolicyEdit extends Component {
                     type: 'text',
                     value: this.policy.terms_updated_at(),
                     oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
+                    placeholder: app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-placeholder'),
                 }),
                 m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help')),
             ]),

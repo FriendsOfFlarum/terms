@@ -43,7 +43,7 @@ export default class AcceptPoliciesModal extends Modal {
         return policies.map(policy => m('div', [
             m('h2', policy.name()),
             (policy.terms_updated_at() ? app.translator.trans('flagrow-terms.forum.accept-modal.updated-at', {
-                date: policy.terms_updated_at(),
+                date: moment(policy.terms_updated_at()).format('dddd, Do MMMM YYYY'),
             }) : app.translator.trans('flagrow-terms.forum.accept-modal.updated-recently')),
             (policy.update_message() ? m('p', policy.update_message()) : null),
             m('.Form-group', m('div', m('label.checkbox', [

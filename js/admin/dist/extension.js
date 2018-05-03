@@ -118,7 +118,8 @@ System.register('flagrow/terms/components/PolicyEdit', ['flarum/app', 'flarum/he
                         }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.update-message-help'))]), m('.Form-group', [m('label', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at')), m('input.FormControl', {
                             type: 'text',
                             value: this.policy.terms_updated_at(),
-                            oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at'))
+                            oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
+                            placeholder: app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-placeholder')
                         }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help'))]), m('li.ButtonGroup', [Button.component({
                             type: 'submit',
                             className: 'Button Button--primary',
