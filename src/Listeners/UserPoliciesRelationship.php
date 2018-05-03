@@ -5,7 +5,6 @@ namespace Flagrow\Terms\Listeners;
 use Flagrow\Terms\Policy;
 use Flagrow\Terms\Repositories\PolicyRepository;
 use Flarum\Api\Serializer\UserBasicSerializer;
-use Flarum\Core\Access\AssertPermissionTrait;
 use Flarum\Core\User;
 use Flarum\Event\GetModelRelationship;
 use Flarum\Event\PrepareApiAttributes;
@@ -13,8 +12,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class UserPoliciesRelationship
 {
-    use AssertPermissionTrait;
-
     public function subscribe(Dispatcher $events)
     {
         $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);

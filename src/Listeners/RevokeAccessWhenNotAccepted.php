@@ -4,15 +4,12 @@ namespace Flagrow\Terms\Listeners;
 
 use Flagrow\Terms\PermissionLock;
 use Flagrow\Terms\Repositories\PolicyRepository;
-use Flarum\Core\Access\AssertPermissionTrait;
 use Flarum\Core\Group;
 use Flarum\Event\PrepareUserGroups;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class RevokeAccessWhenNotAccepted
 {
-    use AssertPermissionTrait;
-
     public function subscribe(Dispatcher $events)
     {
         $events->listen(PrepareUserGroups::class, [$this, 'prepareUserGroups']);
