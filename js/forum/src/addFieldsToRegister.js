@@ -18,11 +18,11 @@ export default function () {
         const legalText = app.forum.attribute('flagrow-terms.signup-legal-text');
 
         if (legalText) {
-            additionalContent.push(m('p', legalText));
+            additionalContent.push(m('.Form-group', m('.Flagrow-Terms-SignUp-Legal.Alert', legalText)));
         }
 
         this.flagrowTermsPolicies.forEach(policy => {
-            additionalContent.push(m('.Form-group', m('div', m('label.checkbox', [
+            additionalContent.push(m('.Form-group', m('.Flagrow-Terms-Check.Flagrow-Terms-Check--signup', m('label.checkbox', [
                 m('input', {
                     type: 'checkbox',
                     bidi: this[policy.form_key()],

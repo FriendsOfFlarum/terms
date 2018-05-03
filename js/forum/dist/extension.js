@@ -62,11 +62,11 @@ System.register('flagrow/terms/addFieldsToRegister', ['flarum/extend', 'flarum/a
             var legalText = app.forum.attribute('flagrow-terms.signup-legal-text');
 
             if (legalText) {
-                additionalContent.push(m('p', legalText));
+                additionalContent.push(m('.Form-group', m('.Flagrow-Terms-SignUp-Legal.Alert', legalText)));
             }
 
             this.flagrowTermsPolicies.forEach(function (policy) {
-                additionalContent.push(m('.Form-group', m('div', m('label.checkbox', [m('input', {
+                additionalContent.push(m('.Form-group', m('.Flagrow-Terms-Check.Flagrow-Terms-Check--signup', m('label.checkbox', [m('input', {
                     type: 'checkbox',
                     bidi: _this2[policy.form_key()],
                     disabled: _this2.loading
@@ -183,7 +183,7 @@ System.register('flagrow/terms/components/AcceptPoliciesModal', ['flarum/app', '
                         return policies.map(function (policy) {
                             return m('div', [m('h2', policy.name()), app.forum.attribute('flagrow-terms.hide-updated-at') ? null : m('p', policy.terms_updated_at() ? app.translator.trans('flagrow-terms.forum.accept-modal.updated-at', {
                                 date: moment(policy.terms_updated_at()).format('dddd, Do MMMM YYYY')
-                            }) : app.translator.trans('flagrow-terms.forum.accept-modal.updated-recently')), policy.update_message() ? m('p', policy.update_message()) : null, m('.Form-group', m('div', m('label.checkbox', [m('input', {
+                            }) : app.translator.trans('flagrow-terms.forum.accept-modal.updated-recently')), policy.update_message() ? m('p', policy.update_message()) : null, m('.Form-group', m('.Flagrow-Terms-Check.Flagrow-Terms-Check--login', m('label.checkbox', [m('input', {
                                 type: 'checkbox',
                                 bidi: _this3[policy.form_key()]
                             }), app.translator.trans('flagrow-terms.forum.accept-modal.i-accept', {

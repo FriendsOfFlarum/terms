@@ -46,7 +46,7 @@ export default class AcceptPoliciesModal extends Modal {
                 date: moment(policy.terms_updated_at()).format('dddd, Do MMMM YYYY'),
             }) : app.translator.trans('flagrow-terms.forum.accept-modal.updated-recently'))),
             (policy.update_message() ? m('p', policy.update_message()) : null),
-            m('.Form-group', m('div', m('label.checkbox', [
+            m('.Form-group', m('.Flagrow-Terms-Check.Flagrow-Terms-Check--login', m('label.checkbox', [
                 m('input', {
                     type: 'checkbox',
                     bidi: this[policy.form_key()],
