@@ -48,3 +48,11 @@ flagrow-terms:
             i-accept: I accept the new <a>{policy}</a>
             accept: Confirm
             close: You can now close this modal
+
+        state-modal:
+            title: Terms accept state for user {username}
+            accepted-at: Accepted at {date}
+            not-accepted: Not accepted
+
+        user_controls:
+            state_button: Terms accept state

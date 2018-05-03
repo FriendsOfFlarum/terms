@@ -243,10 +243,10 @@ System.register('flagrow/terms/helpers/sortByAttribute', [], function (_export, 
 });;
 'use strict';
 
-System.register('flagrow/terms/main', ['flarum/extend', 'flarum/app', 'flarum/Model', 'flarum/models/User', 'flagrow/terms/models/Policy', 'flagrow/terms/addAcceptModal', 'flagrow/terms/addFieldsToRegister'], function (_export, _context) {
+System.register('flagrow/terms/main', ['flarum/extend', 'flarum/app', 'flarum/Model', 'flarum/models/User', 'flagrow/terms/models/Policy', 'flagrow/terms/addAcceptModal', 'flagrow/terms/addFieldsToRegister', 'flagrow/terms/addUserPoliciesStateControl'], function (_export, _context) {
     "use strict";
 
-    var extend, app, Model, User, Policy, addAcceptModal, addFieldsToRegister;
+    var extend, app, Model, User, Policy, addAcceptModal, addFieldsToRegister, addUserPoliciesStateControl;
     return {
         setters: [function (_flarumExtend) {
             extend = _flarumExtend.extend;
@@ -262,6 +262,8 @@ System.register('flagrow/terms/main', ['flarum/extend', 'flarum/app', 'flarum/Mo
             addAcceptModal = _flagrowTermsAddAcceptModal.default;
         }, function (_flagrowTermsAddFieldsToRegister) {
             addFieldsToRegister = _flagrowTermsAddFieldsToRegister.default;
+        }, function (_flagrowTermsAddUserPoliciesStateControl) {
+            addUserPoliciesStateControl = _flagrowTermsAddUserPoliciesStateControl.default;
         }],
         execute: function () {
 
@@ -271,9 +273,11 @@ System.register('flagrow/terms/main', ['flarum/extend', 'flarum/app', 'flarum/Mo
                 User.prototype.flagrowTermsPoliciesState = Model.attribute('flagrowTermsPoliciesState');
                 User.prototype.flagrowTermsPoliciesHasUpdate = Model.attribute('flagrowTermsPoliciesHasUpdate');
                 User.prototype.flagrowTermsPoliciesMustAccept = Model.attribute('flagrowTermsPoliciesMustAccept');
+                User.prototype.seeFlagrowTermsPoliciesState = Model.attribute('seeFlagrowTermsPoliciesState');
 
                 addAcceptModal();
                 addFieldsToRegister();
+                addUserPoliciesStateControl();
             });
         }
     };
@@ -321,5 +325,97 @@ System.register('flagrow/terms/models/Policy', ['flarum/Model', 'flarum/utils/mi
 
             _export('default', Policy);
         }
+    };
+});;
+'use strict';
+
+System.register('flagrow/terms/components/UserPoliciesStateModal', ['flarum/app', 'flarum/components/Modal', 'flagrow/terms/helpers/sortByAttribute'], function (_export, _context) {
+    "use strict";
+
+    var app, Modal, sortByAttribute, UserPoliciesStateModal;
+    return {
+        setters: [function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumComponentsModal) {
+            Modal = _flarumComponentsModal.default;
+        }, function (_flagrowTermsHelpersSortByAttribute) {
+            sortByAttribute = _flagrowTermsHelpersSortByAttribute.default;
+        }],
+        execute: function () {
+            UserPoliciesStateModal = function (_Modal) {
+                babelHelpers.inherits(UserPoliciesStateModal, _Modal);
+
+                function UserPoliciesStateModal() {
+                    babelHelpers.classCallCheck(this, UserPoliciesStateModal);
+                    return babelHelpers.possibleConstructorReturn(this, (UserPoliciesStateModal.__proto__ || Object.getPrototypeOf(UserPoliciesStateModal)).apply(this, arguments));
+                }
+
+                babelHelpers.createClass(UserPoliciesStateModal, [{
+                    key: 'init',
+                    value: function init() {
+                        babelHelpers.get(UserPoliciesStateModal.prototype.__proto__ || Object.getPrototypeOf(UserPoliciesStateModal.prototype), 'init', this).call(this);
+                    }
+                }, {
+                    key: 'title',
+                    value: function title() {
+                        return app.translator.trans('flagrow-terms.forum.state-modal.title', {
+                            username: this.props.user.username()
+                        });
+                    }
+                }, {
+                    key: 'content',
+                    value: function content() {
+                        var _this2 = this;
+
+                        return m('.Modal-body', m('ul', sortByAttribute(app.store.all('flagrow-terms-policies')).map(function (policy) {
+                            var state = _this2.props.user.flagrowTermsPoliciesState()[policy.id()];
+
+                            return m('li', policy.name() + ': ' + (state && state.accepted_at ? app.translator.trans('flagrow-terms.forum.state-modal.accepted-at', {
+                                date: state.accepted_at
+                            }) : app.translator.trans('flagrow-terms.forum.state-modal.not-accepted')));
+                        })));
+                    }
+                }]);
+                return UserPoliciesStateModal;
+            }(Modal);
+
+            _export('default', UserPoliciesStateModal);
+        }
+    };
+});;
+'use strict';
+
+System.register('flagrow/terms/addUserPoliciesStateControl', ['flarum/extend', 'flarum/app', 'flarum/utils/UserControls', 'flarum/components/Button', 'flagrow/terms/components/UserPoliciesStateModal'], function (_export, _context) {
+    "use strict";
+
+    var extend, app, UserControls, Button, UserPoliciesStateModal;
+
+    _export('default', function () {
+        extend(UserControls, 'moderationControls', function (items, user) {
+            if (app.forum.attribute('flagrow-terms.canSeeUserPoliciesState')) {
+                items.add('flagrow-terms.state', Button.component({
+                    icon: 'paperclip',
+                    children: app.translator.trans('flagrow-terms.forum.user_controls.state_button'),
+                    onclick: function onclick() {
+                        app.modal.show(new UserPoliciesStateModal({ user: user }));
+                    }
+                }));
+            }
+        });
+    });
+
+    return {
+        setters: [function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumUtilsUserControls) {
+            UserControls = _flarumUtilsUserControls.default;
+        }, function (_flarumComponentsButton) {
+            Button = _flarumComponentsButton.default;
+        }, function (_flagrowTermsComponentsUserPoliciesStateModal) {
+            UserPoliciesStateModal = _flagrowTermsComponentsUserPoliciesStateModal.default;
+        }],
+        execute: function () {}
     };
 });

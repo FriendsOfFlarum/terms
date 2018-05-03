@@ -25,6 +25,7 @@ class InjectSettings
     {
         if ($event->serializer instanceof ForumSerializer) {
             $event->attributes['flagrow-terms.signup-legal-text'] = $this->settings->get('flagrow-terms.signup-legal-text', '');
+            $event->attributes['flagrow-terms.canSeeUserPoliciesState'] = $event->actor->can('flagrow-terms.see-user-policies-state');
         }
     }
 }
