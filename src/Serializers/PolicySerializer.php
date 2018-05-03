@@ -4,6 +4,7 @@ namespace Flagrow\Terms\Serializers;
 
 use Flagrow\Terms\Policy;
 use Flarum\Api\Serializer\AbstractSerializer;
+use Flarum\Settings\SettingsRepositoryInterface;
 
 class PolicySerializer extends AbstractSerializer
 {
@@ -15,6 +16,17 @@ class PolicySerializer extends AbstractSerializer
      */
     protected function getDefaultAttributes($model)
     {
-        return $model->toArray();
+        $attributes = $model->toArray();
+
+        /**
+         * @var $settings SettingsRepositoryInterface
+         */
+        $settings = app(SettingsRepositoryInterface::class);
+
+        if ($settings->get('flagrow-terms.hide-updated-at')) {
+            $attributes['terms_updated_at'] = null;
+        }
+
+        return $attributes;
     }
 }

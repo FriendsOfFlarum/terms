@@ -1,5 +1,6 @@
 import app from 'flarum/app';
 import SettingsModal from 'flarum/components/SettingsModal';
+import Switch from 'flarum/components/Switch';
 import PolicyList from 'flagrow/terms/components/PolicyList';
 
 const settingsPrefix = 'flagrow-terms.';
@@ -17,6 +18,13 @@ export default class TermsSettingsModal extends SettingsModal {
                 m('textarea.FormControl', {
                     bidi: this.setting(settingsPrefix + 'signup-legal-text'),
                 }),
+            ]),
+            m('.Form-group', [
+                m('label', Switch.component({
+                    state: this.setting(settingsPrefix + 'hide-updated-at')() > 0,
+                    onchange: this.setting(settingsPrefix + 'hide-updated-at'),
+                    children: app.translator.trans(translationPrefix + 'field.hide-updated-at'),
+                })),
             ]),
             PolicyList.component(),
         ];

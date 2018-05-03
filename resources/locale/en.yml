@@ -5,6 +5,7 @@ flagrow-terms:
 
             field:
                 signup-legal-text: Additional text on signup form
+                hide-updated-at: Do not show the date of update of the terms when an update is available
 
         titles:
             policies: Policies

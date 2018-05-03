@@ -303,15 +303,17 @@ System.register('flagrow/terms/components/PolicyList', ['flarum/app', 'flarum/Co
 });;
 'use strict';
 
-System.register('flagrow/terms/components/TermsSettingsModal', ['flarum/app', 'flarum/components/SettingsModal', 'flagrow/terms/components/PolicyList'], function (_export, _context) {
+System.register('flagrow/terms/components/TermsSettingsModal', ['flarum/app', 'flarum/components/SettingsModal', 'flarum/components/Switch', 'flagrow/terms/components/PolicyList'], function (_export, _context) {
     "use strict";
 
-    var app, SettingsModal, PolicyList, settingsPrefix, translationPrefix, TermsSettingsModal;
+    var app, SettingsModal, Switch, PolicyList, settingsPrefix, translationPrefix, TermsSettingsModal;
     return {
         setters: [function (_flarumApp) {
             app = _flarumApp.default;
         }, function (_flarumComponentsSettingsModal) {
             SettingsModal = _flarumComponentsSettingsModal.default;
+        }, function (_flarumComponentsSwitch) {
+            Switch = _flarumComponentsSwitch.default;
         }, function (_flagrowTermsComponentsPolicyList) {
             PolicyList = _flagrowTermsComponentsPolicyList.default;
         }],
@@ -337,7 +339,11 @@ System.register('flagrow/terms/components/TermsSettingsModal', ['flarum/app', 'f
                     value: function form() {
                         return [m('.Form-group', [m('label', app.translator.trans(translationPrefix + 'field.signup-legal-text')), m('textarea.FormControl', {
                             bidi: this.setting(settingsPrefix + 'signup-legal-text')
-                        })]), PolicyList.component()];
+                        })]), m('.Form-group', [m('label', Switch.component({
+                            state: this.setting(settingsPrefix + 'hide-updated-at')() > 0,
+                            onchange: this.setting(settingsPrefix + 'hide-updated-at'),
+                            children: app.translator.trans(translationPrefix + 'field.hide-updated-at')
+                        }))]), PolicyList.component()];
                     }
                 }]);
                 return TermsSettingsModal;
