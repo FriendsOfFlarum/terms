@@ -17,7 +17,10 @@ flagrow-terms:
             delete-policy: Delete Policy
 
         messages:
-            delete-policy-confirmation: Are you sure you want to delete {name} ?
+            delete-policy-confirmation: >
+                This will permanently delete the policy {name} and the associated accept dates from the database.
+                Please make sure you made a backup of those dates if you need them for legal reasons.
+                Are you sure you want to delete this policy ?
 
         policies:
             name: Name
