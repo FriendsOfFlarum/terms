@@ -21,9 +21,16 @@ flagrow-terms:
 
         policies:
             name: Name
+            name-help: This name will be shown beside the checkbox and as the title of the update modal.
             url: Url
-            update_message: Update Message
-            terms_updated_at: Updated at
+            url-help: The url to the page where you can read the terms. Will open in a new tab when clicked.
+            update-message: Update Message
+            update-message-help: A message to show to existing users who have not yet accepted the latest terms.
+            terms-updated-at: Updated at
+            terms-updated-at-help: >
+                The date of the last terms update.
+                Setting this value will require all users who accepted prior to that date to accept again.
+                Must be in the past (otherwise users would never be able to accept after the date and get past the modal).
 
         permissions:
             see-user-policies-state: See the user policies state

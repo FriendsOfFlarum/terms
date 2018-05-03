@@ -112,14 +112,14 @@ System.register('flagrow/terms/components/PolicyEdit', ['flarum/app', 'flarum/he
                             type: 'url',
                             value: this.policy.url(),
                             oninput: m.withAttr('value', this.updateAttribute.bind(this, 'url'))
-                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.description-help'))]), m('.Form-group', [m('label', app.translator.trans('flagrow-terms.admin.policies.update_message')), m('textarea.FormControl', {
+                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.url-help'))]), m('.Form-group', [m('label', app.translator.trans('flagrow-terms.admin.policies.update-message')), m('textarea.FormControl', {
                             value: this.policy.update_message(),
                             oninput: m.withAttr('value', this.updateAttribute.bind(this, 'update_message'))
-                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.description-help'))]), m('.Form-group', [m('label', app.translator.trans('flagrow-terms.admin.policies.terms_updated_at')), m('input.FormControl', {
+                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.update-message-help'))]), m('.Form-group', [m('label', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at')), m('input.FormControl', {
                             type: 'text',
                             value: this.policy.terms_updated_at(),
                             oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at'))
-                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.description-help'))])])]), m('li.ButtonGroup', [Button.component({
+                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help'))])])]), m('li.ButtonGroup', [Button.component({
                             type: 'submit',
                             className: 'Button Button--primary',
                             children: app.translator.trans('flagrow-terms.admin.buttons.' + (this.policy.exists ? 'save' : 'add') + '-policy'),
