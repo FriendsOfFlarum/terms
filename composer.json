@@ -35,7 +35,7 @@
             }
         },
         "flagrow": {
-            "discuss": "#"
+            "discuss": "https://discuss.flarum.org/d/11714-flagrow-terms-ask-your-users-to-accept-tos-and-privacy-policy"
         }
     },
     "autoload": {
