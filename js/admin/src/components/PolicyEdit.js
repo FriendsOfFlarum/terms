@@ -35,14 +35,14 @@ export default class PolicyEdit extends Component {
     }
 
     view() {
-        return m('.Mason-Box', [
-            (this.policy.exists ? m('span.fa.fa-arrows.Mason-Box--handle.js-policy-handle') : null),
-            m('.Button.Button--block.Mason-Box-Header', {
+        return m('.Flagrow-Terms-Policiy-Box', [
+            (this.policy.exists ? m('span.fa.fa-arrows.Flagrow-Terms-Policiy-Box--handle.js-policy-handle') : null),
+            m('.Button.Button--block.Flagrow-Terms-Policiy-Header', {
                 onclick: () => {
                     this.toggleFields = !this.toggleFields;
                 },
             }, [
-                m('.Mason-Box-Header-Title', this.boxTitle()),
+                m('.Flagrow-Terms-Policiy-Header-Title', this.boxTitle()),
                 m('div', [
                     (this.policy.exists ? [
                         app.translator.trans('flagrow-terms.admin.buttons.edit-policy'),
@@ -56,46 +56,41 @@ export default class PolicyEdit extends Component {
     }
 
     viewFields() {
-        return m('form', [
-            m('.Mason-Box--row', [
-                m('.Mason-Box--column', [
-                    m('h4', 'Field settings'),
-                    m('.Form-group', [
-                        m('label', app.translator.trans('flagrow-terms.admin.policies.name')),
-                        m('input.FormControl', {
-                            type: 'text',
-                            value: this.policy.name(),
-                            oninput: m.withAttr('value', this.updateAttribute.bind(this, 'name')),
-                        }),
-                        m('.helpText', app.translator.trans('flagrow-terms.admin.policies.name-help')),
-                    ]),
-                    m('.Form-group', [
-                        m('label', app.translator.trans('flagrow-terms.admin.policies.url')),
-                        m('input.FormControl', {
-                            type: 'url',
-                            value: this.policy.url(),
-                            oninput: m.withAttr('value', this.updateAttribute.bind(this, 'url')),
-                        }),
-                        m('.helpText', app.translator.trans('flagrow-terms.admin.policies.url-help')),
-                    ]),
-                    m('.Form-group', [
-                        m('label', app.translator.trans('flagrow-terms.admin.policies.update-message')),
-                        m('textarea.FormControl', {
-                            value: this.policy.update_message(),
-                            oninput: m.withAttr('value', this.updateAttribute.bind(this, 'update_message')),
-                        }),
-                        m('.helpText', app.translator.trans('flagrow-terms.admin.policies.update-message-help')),
-                    ]),
-                    m('.Form-group', [
-                        m('label', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at')),
-                        m('input.FormControl', {
-                            type: 'text',
-                            value: this.policy.terms_updated_at(),
-                            oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
-                        }),
-                        m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help')),
-                    ]),
-                ]),
+        return m('form.Flagrow-Terms-Policiy-Body', [
+            m('.Form-group', [
+                m('label', app.translator.trans('flagrow-terms.admin.policies.name')),
+                m('input.FormControl', {
+                    type: 'text',
+                    value: this.policy.name(),
+                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'name')),
+                }),
+                m('.helpText', app.translator.trans('flagrow-terms.admin.policies.name-help')),
+            ]),
+            m('.Form-group', [
+                m('label', app.translator.trans('flagrow-terms.admin.policies.url')),
+                m('input.FormControl', {
+                    type: 'url',
+                    value: this.policy.url(),
+                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'url')),
+                }),
+                m('.helpText', app.translator.trans('flagrow-terms.admin.policies.url-help')),
+            ]),
+            m('.Form-group', [
+                m('label', app.translator.trans('flagrow-terms.admin.policies.update-message')),
+                m('textarea.FormControl', {
+                    value: this.policy.update_message(),
+                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'update_message')),
+                }),
+                m('.helpText', app.translator.trans('flagrow-terms.admin.policies.update-message-help')),
+            ]),
+            m('.Form-group', [
+                m('label', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at')),
+                m('input.FormControl', {
+                    type: 'text',
+                    value: this.policy.terms_updated_at(),
+                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
+                }),
+                m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help')),
             ]),
             m('li.ButtonGroup', [
                 Button.component({

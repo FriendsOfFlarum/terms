@@ -95,16 +95,16 @@ System.register('flagrow/terms/components/PolicyEdit', ['flarum/app', 'flarum/he
                     value: function view() {
                         var _this2 = this;
 
-                        return m('.Mason-Box', [this.policy.exists ? m('span.fa.fa-arrows.Mason-Box--handle.js-policy-handle') : null, m('.Button.Button--block.Mason-Box-Header', {
+                        return m('.Flagrow-Terms-Policiy-Box', [this.policy.exists ? m('span.fa.fa-arrows.Flagrow-Terms-Policiy-Box--handle.js-policy-handle') : null, m('.Button.Button--block.Flagrow-Terms-Policiy-Header', {
                             onclick: function onclick() {
                                 _this2.toggleFields = !_this2.toggleFields;
                             }
-                        }, [m('.Mason-Box-Header-Title', this.boxTitle()), m('div', [this.policy.exists ? [app.translator.trans('flagrow-terms.admin.buttons.edit-policy'), ' '] : null, icon(this.toggleFields ? 'chevron-up' : 'chevron-down')])]), this.toggleFields ? this.viewFields() : null]);
+                        }, [m('.Flagrow-Terms-Policiy-Header-Title', this.boxTitle()), m('div', [this.policy.exists ? [app.translator.trans('flagrow-terms.admin.buttons.edit-policy'), ' '] : null, icon(this.toggleFields ? 'chevron-up' : 'chevron-down')])]), this.toggleFields ? this.viewFields() : null]);
                     }
                 }, {
                     key: 'viewFields',
                     value: function viewFields() {
-                        return m('form', [m('.Mason-Box--row', [m('.Mason-Box--column', [m('h4', 'Field settings'), m('.Form-group', [m('label', app.translator.trans('flagrow-terms.admin.policies.name')), m('input.FormControl', {
+                        return m('form.Flagrow-Terms-Policiy-Body', [m('.Form-group', [m('label', app.translator.trans('flagrow-terms.admin.policies.name')), m('input.FormControl', {
                             type: 'text',
                             value: this.policy.name(),
                             oninput: m.withAttr('value', this.updateAttribute.bind(this, 'name'))
@@ -119,7 +119,7 @@ System.register('flagrow/terms/components/PolicyEdit', ['flarum/app', 'flarum/he
                             type: 'text',
                             value: this.policy.terms_updated_at(),
                             oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at'))
-                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help'))])])]), m('li.ButtonGroup', [Button.component({
+                        }), m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help'))]), m('li.ButtonGroup', [Button.component({
                             type: 'submit',
                             className: 'Button Button--primary',
                             children: app.translator.trans('flagrow-terms.admin.buttons.' + (this.policy.exists ? 'save' : 'add') + '-policy'),
@@ -271,7 +271,7 @@ System.register('flagrow/terms/components/PolicyList', ['flarum/app', 'flarum/Co
                             })));
                         });
 
-                        return m('div', [m('h2', app.translator.trans('flagrow-terms.admin.titles.policies')), m('.Mason-Container', [m('.js-policies-container', fieldsList), PolicyEdit.component({
+                        return m('div', [m('h2', app.translator.trans('flagrow-terms.admin.titles.policies')), m('.Flagrow-Terms-Policies-Container', [m('.js-policies-container', fieldsList), PolicyEdit.component({
                             key: 'new',
                             policy: null
                         })])]);

@@ -49,7 +49,7 @@ export default class PolicyList extends Component {
 
         return m('div', [
             m('h2', app.translator.trans('flagrow-terms.admin.titles.policies')),
-            m('.Mason-Container', [
+            m('.Flagrow-Terms-Policies-Container', [
                 m('.js-policies-container', fieldsList),
                 PolicyEdit.component({
                     key: 'new',

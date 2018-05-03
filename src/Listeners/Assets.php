@@ -24,7 +24,7 @@ class Assets
         } else if ($app->isAdmin()) {
             $app->addAssets([
                 __DIR__ . '/../../js/admin/dist/extension.js',
-                //__DIR__ . '/../../resources/less/admin.less',
+                __DIR__ . '/../../resources/less/admin.less',
             ]);
         }
 
