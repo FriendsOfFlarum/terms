@@ -1,0 +1,63 @@
+flagrow-terms:
+    admin:
+        settings:
+            title: Configuración de los Términos y Condiciones
+
+            field:
+                signup-legal-text: Texto adicional a mostrar en el formulario de registro
+                hide-updated-at: No mostrar la fecha de actualización de los términos cuando una actualización está disponible
+
+        titles:
+            policies: Políticas
+
+        buttons:
+            new-policy: Nueva política
+            edit-policy: Editar política
+            add-policy: Añadir política
+            save-policy: Guardar política
+            delete-policy: Borrar política
+
+        messages:
+            delete-policy-confirmation: >
+                Esto borrará permanentemente la política {name} y las fechas de aceptación asociadas de la base de datos.
+                Por favor asegúrate de hacer una copia de seguridad de esas fechas si las necesitas por razones legales.
+                ¿Estás seguro de que quieres borrar esta política?
+
+        policies:
+            name: Nombre
+            name-help: Este nombre será mostrado junto a la casilla de verificación, y como título del modal de actualización.
+            url: Url
+            url-help: La URL de la página donde se pueden leer los términos. Se abrirá en una nueva pestaña al clickear.
+            update-message: Mensaje de actualización
+            update-message-help: Un mensaje para mostrar a los usuarios existentes que todavía no han aceptado los últimos términos y condiciones.
+            terms-updated-at: Actualizado el
+            terms-updated-at-placeholder: YYYY-MM-DD (hh:mm:ss)
+            terms-updated-at-help: >
+                Fecha de la última actualización de los términos.
+                Modificar este valor requerirá a todos los usuarios que aceptaron los términos que los acepten de nuevo.
+                La fecha debe ser del pasado, si no los usuarios nunca podrán aceptarlos más allá de la fecha y cerrar la ventana de diálogo.
+
+        permissions:
+            see-user-policies-state: Ver el estado de las políticas de usuario
+            postpone-policies-accept: Se puede posponer la aceptación de los nuevos términos
+
+    forum:
+        signup:
+            i-accept: Acepto la <a>{policy}</a>
+            must-accept: La {policy} debe ser aceptada.
+
+        accept-modal:
+            title: Actualización de los Términos y Condiciones
+            updated-at: Los términos y condiciones fueron actualizados el {date}
+            updated-recently: Los términos y condiciones del servicio fueron actualizados desde tu última visita.
+            i-accept: Acepto la nueva <a>{policy}</a>
+            accept: Confirmar
+            close: Ya puedes cerrar esta ventana.
+
+        state-modal:
+            title: Estado de aceptación de los términos para el usuario {username}
+            accepted-at: Aceptado el {date}
+            not-accepted: No aceptado
+
+        user_controls:
+            state_button: Estado de aceptación de los términos
