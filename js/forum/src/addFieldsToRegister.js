@@ -38,12 +38,26 @@ export default function () {
             ]))));
         });
 
+        let fieldsAdded = false;
+
         // Add the new content inside the Form element, at the second-to-last position (last is submit button)
         children.forEach(child => {
+            // Only ever add the fields once
+            // Otherwise there could be some Mithril templating issues
+            if (fieldsAdded) {
+                return;
+            }
+
             if (child.attrs && child.attrs.className && child.attrs.className.indexOf('Form') !== -1) {
                 child.children.splice(child.children.length - 1, 0, additionalContent);
+
+                fieldsAdded = true;
             }
         });
+
+        if (!fieldsAdded) {
+            console.error('Could not insert flagrow/terms fields into SignUpModal');
+        }
     });
 
     extend(SignUpModal.prototype, 'submitData', function (data) {
