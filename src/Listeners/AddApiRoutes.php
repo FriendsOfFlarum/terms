@@ -46,5 +46,11 @@ class AddApiRoutes
             'flagrow.terms.api.policies.delete',
             Controllers\PolicyAcceptController::class
         );
+
+        $routes->get(
+            '/flagrow/terms/policies/{id:[0-9]+}/export.{format:json|csv}',
+            'flagrow.terms.api.policies.export',
+            Controllers\PolicyExportController::class
+        );
     }
 }

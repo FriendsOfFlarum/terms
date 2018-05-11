@@ -3,6 +3,7 @@
 namespace Flagrow\Terms;
 
 use Carbon\Carbon;
+use Flarum\Core\User;
 use Flarum\Database\AbstractModel;
 
 /**
@@ -39,6 +40,11 @@ class Policy extends AbstractModel
         'update_message',
         'terms_updated_at',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'flagrow_terms_policy_user')->withPivot('accepted_at');
+    }
 
     protected function setUrlAttribute($value)
     {

@@ -14,4 +14,9 @@ class PolicyPolicy extends AbstractPolicy
     {
         return $actor->can('flagrow-terms.postpone-policies-accept');
     }
+
+    public function export(User $actor, Policy $policy)
+    {
+        return $actor->can('flagrow-terms.export-policies');
+    }
 }

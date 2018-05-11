@@ -35,6 +35,7 @@ export default class TermsSettingsModal extends SettingsModal {
                 m('.helpText', app.translator.trans(translationPrefix + 'field.date-format-help', {
                     a: m('a', {
                         href: 'https://momentjs.com/docs/#/displaying/format/',
+                        target: '_blank',
                     }),
                 })),
             ]),

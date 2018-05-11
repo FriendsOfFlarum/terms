@@ -93,7 +93,20 @@ export default class PolicyEdit extends Component {
                 }),
                 m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help')),
             ]),
-            m('li.ButtonGroup', [
+            (this.policy.exists ? m('.Form-group', [
+                m('label', app.translator.trans('flagrow-terms.admin.policies.export-url')),
+                m('.ButtonGroup', ['json', 'csv'].map(format => m('a.Button.Flagrow-Terms-Export-Button', {
+                    href: app.forum.attribute('apiUrl') + '/flagrow/terms/policies/' + this.policy.id() + '/export.' + format,
+                    target: '_blank',
+                }, format.toUpperCase()))),
+                m('.helpText', app.translator.trans('flagrow-terms.admin.policies.export-url-help', {
+                    a: m('a', {
+                        href: 'https://github.com/flagrow/terms/wiki/Export-url',
+                        target: '_blank',
+                    }),
+                })),
+            ]) : null),
+            m('.ButtonGroup', [
                 Button.component({
                     type: 'submit',
                     className: 'Button Button--primary',

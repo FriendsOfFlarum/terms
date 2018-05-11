@@ -15,5 +15,11 @@ export default function () {
             label: app.translator.trans('flagrow-terms.admin.permissions.postpone-policies-accept'),
             permission: 'flagrow-terms.postpone-policies-accept',
         });
+
+        items.add('flagrow-terms-export-policies', {
+            icon: 'paperclip',
+            label: app.translator.trans('flagrow-terms.admin.permissions.export-policies'),
+            permission: 'flagrow-terms.export-policies',
+        });
     });
 }

@@ -38,10 +38,15 @@ flagrow-terms:
                 The date of the last terms update.
                 Setting this value will require all users who accepted prior to that date to accept again.
                 Must be in the past (otherwise users would never be able to accept after the date and get past the modal).
+            export-url: Export url
+            export-url-help: >
+                Any user with permission "Export all policies data" can access those urls to download the list of users who accepted this policy.
+                You can find more details about the available options on the <a>extension wiki</a>.
 
         permissions:
             see-user-policies-state: See the user policies state
             postpone-policies-accept: Can postpone accepting the new terms
+            export-policies: Export all users and policies data
 
     forum:
         signup:
