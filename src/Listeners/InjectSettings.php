@@ -26,6 +26,7 @@ class InjectSettings
         if ($event->serializer instanceof ForumSerializer) {
             $event->attributes['flagrow-terms.signup-legal-text'] = $this->settings->get('flagrow-terms.signup-legal-text', '');
             $event->attributes['flagrow-terms.hide-updated-at'] = (bool) $this->settings->get('flagrow-terms.hide-updated-at');
+            $event->attributes['flagrow-terms.date-format'] = $this->settings->get('flagrow-terms.date-format') ?: 'YYYY-MM-DD';
             $event->attributes['flagrow-terms.canSeeUserPoliciesState'] = $event->actor->can('flagrow-terms.see-user-policies-state');
         }
     }

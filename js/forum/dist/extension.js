@@ -283,7 +283,7 @@ System.register('flagrow/terms/components/AcceptPoliciesModal', ['flarum/app', '
 
                         return policies.map(function (policy) {
                             return m('div', [m('h2', policy.name()), app.forum.attribute('flagrow-terms.hide-updated-at') ? null : m('p', policy.terms_updated_at() ? app.translator.trans('flagrow-terms.forum.accept-modal.updated-at', {
-                                date: moment(policy.terms_updated_at()).format('dddd, Do MMMM YYYY')
+                                date: moment(policy.terms_updated_at()).format(app.forum.attribute('flagrow-terms.date-format'))
                             }) : app.translator.trans('flagrow-terms.forum.accept-modal.updated-recently')), policy.update_message() ? m('p', policy.update_message()) : null, m('.Form-group', m('.Flagrow-Terms-Check.Flagrow-Terms-Check--login', m('label.checkbox', [m('input', {
                                 type: 'checkbox',
                                 bidi: _this3[policy.form_key()]
@@ -460,7 +460,7 @@ System.register('flagrow/terms/components/UserPoliciesStateModal', ['flarum/app'
                             var state = _this2.props.user.flagrowTermsPoliciesState()[policy.id()];
 
                             return m('li', policy.name() + ': ' + (state && state.accepted_at ? app.translator.trans('flagrow-terms.forum.state-modal.accepted-at', {
-                                date: state.accepted_at
+                                date: moment(state.accepted_at).format(app.forum.attribute('flagrow-terms.date-format')) + ' (' + state.accepted_at + ')'
                             }) : app.translator.trans('flagrow-terms.forum.state-modal.not-accepted')));
                         })));
                     }

@@ -26,6 +26,18 @@ export default class TermsSettingsModal extends SettingsModal {
                     children: app.translator.trans(translationPrefix + 'field.hide-updated-at'),
                 })),
             ]),
+            m('.Form-group', [
+                m('label', app.translator.trans(translationPrefix + 'field.date-format')),
+                m('input[type=text].FormControl', {
+                    bidi: this.setting(settingsPrefix + 'date-format'),
+                    placeholder: 'YYYY-MM-DD',
+                }),
+                m('.helpText', app.translator.trans(translationPrefix + 'field.date-format-help', {
+                    a: m('a', {
+                        href: 'https://momentjs.com/docs/#/displaying/format/',
+                    }),
+                })),
+            ]),
             PolicyList.component(),
         ];
     }

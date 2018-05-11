@@ -18,7 +18,7 @@ export default class UserPoliciesStateModal extends Modal {
             const state = this.props.user.flagrowTermsPoliciesState()[policy.id()];
 
             return m('li', policy.name() + ': ' + (state && state.accepted_at ? app.translator.trans('flagrow-terms.forum.state-modal.accepted-at', {
-                date: state.accepted_at,
+                date: moment(state.accepted_at).format(app.forum.attribute('flagrow-terms.date-format')) + ' (' + state.accepted_at + ')',
             }) : app.translator.trans('flagrow-terms.forum.state-modal.not-accepted')));
         })));
     }
