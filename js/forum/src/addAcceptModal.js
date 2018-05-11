@@ -1,6 +1,7 @@
 import app from 'flarum/app';
 import {extend} from 'flarum/extend';
 import Page from 'flarum/components/Page';
+import IndexPage from 'flarum/components/IndexPage';
 import AcceptPoliciesModal from 'flagrow/terms/components/AcceptPoliciesModal';
 
 export default function () {
@@ -11,12 +12,17 @@ export default function () {
             return;
         }
 
-        initialized = true;
+        // We only show the modal if the first page loaded was the index page
+        // And that new updates are available
+        // And that the user *must* accept them
+        if (app.current instanceof IndexPage) {
+            const user = app.session.user;
 
-        const user = app.session.user;
-
-        if (user && user.flagrowTermsPoliciesHasUpdate()) {
-            app.modal.show(new AcceptPoliciesModal());
+            if (user && user.flagrowTermsPoliciesMustAccept()) {
+                app.modal.show(new AcceptPoliciesModal());
+            }
         }
+
+        initialized = true;
     });
 }

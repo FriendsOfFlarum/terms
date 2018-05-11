@@ -5,6 +5,7 @@ import User from 'flarum/models/User';
 import Policy from 'flagrow/terms/models/Policy';
 import addAcceptModal from 'flagrow/terms/addAcceptModal';
 import addFieldsToRegister from 'flagrow/terms/addFieldsToRegister';
+import addUpdateAlert from 'flagrow/terms/addUpdateAlert';
 import addUserPoliciesStateControl from 'flagrow/terms/addUserPoliciesStateControl';
 
 app.initializers.add('flagrow-terms', () => {
@@ -17,5 +18,6 @@ app.initializers.add('flagrow-terms', () => {
 
     addAcceptModal();
     addFieldsToRegister();
+    addUpdateAlert();
     addUserPoliciesStateControl();
 });

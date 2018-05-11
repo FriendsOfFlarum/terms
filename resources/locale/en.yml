@@ -59,5 +59,10 @@ flagrow-terms:
             accepted-at: Accepted at {date}
             not-accepted: Not accepted
 
+        update-alert:
+            must-accept-message: We've temporarily restricted access to your account while you check out the new terms.
+            can-accept-message: We recently updated the terms. You must accept them to continue using this website.
+            review: Click here to review and accept the new terms
+
         user_controls:
             state_button: Terms accept state

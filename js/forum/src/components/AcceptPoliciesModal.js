@@ -12,10 +12,6 @@ export default class AcceptPoliciesModal extends Modal {
         });
     }
 
-    isDismissible() {
-        return !app.session.user.flagrowTermsPoliciesMustAccept();
-    }
-
     title() {
         return app.translator.trans('flagrow-terms.forum.accept-modal.title');
     }
