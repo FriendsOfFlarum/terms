@@ -569,7 +569,7 @@ System.register('flagrow/terms/models/Policy', ['flarum/Model', 'flarum/utils/mi
                 name: Model.attribute('name'),
                 url: Model.attribute('url'),
                 update_message: Model.attribute('update_message'),
-                terms_updated_at: Model.attribute('terms_updated_at'),
+                terms_updated_at: Model.attribute('terms_updated_at', Model.transformDate),
                 form_key: computed('id', function (id) {
                     return 'flagrow_terms_policy_' + id;
                 })

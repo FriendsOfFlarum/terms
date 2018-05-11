@@ -25,6 +25,8 @@ class PolicySerializer extends AbstractSerializer
 
         if ($settings->get('flagrow-terms.hide-updated-at')) {
             $attributes['terms_updated_at'] = null;
+        } else {
+            $attributes['terms_updated_at'] = $this->formatDate($model->terms_updated_at);
         }
 
         return $attributes;

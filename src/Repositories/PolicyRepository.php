@@ -3,6 +3,7 @@
 namespace Flagrow\Terms\Repositories;
 
 use Carbon\Carbon;
+use DateTime;
 use Flagrow\Terms\Policy;
 use Flagrow\Terms\Validators\PolicyValidator;
 use Flarum\Core\User;
@@ -62,7 +63,8 @@ class PolicyRepository
                 $has_update = !$accepted_at || ($policy->terms_updated_at && $policy->terms_updated_at->gt($accepted_at));
 
                 $this->rememberState[$policy->id] = [
-                    'accepted_at' => $accepted_at,
+                    // Same format as Flarum is using for the serializer responses
+                    'accepted_at' => $accepted_at ? $accepted_at->format(DateTime::RFC3339) : null,
                     'has_update' => $has_update,
                     'must_accept' => $has_update && !$user->can('postponeAccept', $policy),
                 ];
