@@ -163,7 +163,7 @@ export default class PolicyEdit extends Component {
     deletePolicy() {
         if (!confirm(app.translator.trans('flagrow-terms.admin.messages.delete-policy-confirmation', {
                 name: this.policy.name(),
-            }))) {
+            }).join(''))) {
             return;
         }
 

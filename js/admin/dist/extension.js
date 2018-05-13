@@ -197,7 +197,7 @@ System.register('flagrow/terms/components/PolicyEdit', ['flarum/app', 'flarum/he
 
                         if (!confirm(app.translator.trans('flagrow-terms.admin.messages.delete-policy-confirmation', {
                             name: this.policy.name()
-                        }))) {
+                        }).join(''))) {
                             return;
                         }
 

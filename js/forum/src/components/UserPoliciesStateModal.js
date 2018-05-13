@@ -19,7 +19,7 @@ export default class UserPoliciesStateModal extends Modal {
 
             return m('li', policy.name() + ': ' + (state && state.accepted_at ? app.translator.trans('flagrow-terms.forum.state-modal.accepted-at', {
                 date: moment(state.accepted_at).format(app.forum.attribute('flagrow-terms.date-format')) + ' (' + state.accepted_at + ')',
-            }) : app.translator.trans('flagrow-terms.forum.state-modal.not-accepted')));
+            }).join('') : app.translator.trans('flagrow-terms.forum.state-modal.not-accepted')));
         })));
     }
 }
