@@ -9,13 +9,20 @@ use Illuminate\Contracts\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Tobscure\JsonApi\Document;
+use Zend\Diactoros\Uri;
 use Zend\Stratigility\MiddlewareInterface;
 
 class RegisterMiddleware implements MiddlewareInterface
 {
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        if ($request->getUri()->getPath() === '/register') {
+        // Get the register endpoint for this Flarum
+        $registerUri = new Uri(app()->url('register'));
+
+        // Compare if the current path is the register endpoint
+        // We only compare the path and not the host, that way even if Flarum redirects aren't set up correctly
+        // and Flarum is accessed via the wrong hostname this middleware will still run
+        if ($request->getUri()->getPath() === $registerUri->getPath()) {
             /**
              * @var $validator RegisterPolicyValidator
              */
