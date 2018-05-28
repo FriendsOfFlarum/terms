@@ -64,5 +64,6 @@ export default function () {
         this.flagrowTermsPolicies.forEach(policy => {
             data[policy.form_key()] = this[policy.form_key()]();
         });
+        return data;
     });
 }
