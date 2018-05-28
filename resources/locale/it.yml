@@ -1,0 +1,75 @@
+flagrow-terms:
+    admin:
+        settings:
+            title: Imposta Condizioni
+
+            field:
+                signup-legal-text: Testo aggiuntivo sul modulo d'iscrizione
+                hide-updated-at: Non mostrare la data di aggiornamento delle condizioni quando un aggiornamento è disponibile
+                date-format: Formato data
+                date-format-help: Puoi usare qualsiasi formato valido per <a>Moment.js</a>. Lascia il campo vuoto per quello predefinito.
+
+        titles:
+            policies: Condizioni
+
+        buttons:
+            new-policy: Nuove Condizioni
+            edit-policy: Modifica Condizioni
+            add-policy: Aggiungi Condizioni
+            save-policy: Salva Condizioni
+            delete-policy: Elimina Condizioni
+
+        messages:
+            delete-policy-confirmation: >
+                Questo eliminerà permanentemente le condizioni {name} e le date di accettazione associate dal database.
+                Accertati di aver effettuato una copia di riserva di queste date nel caso dovessi averne bisogno per ragioni legali.
+                Sei sicuro di voler eliminare queste condizioni ?
+
+        policies:
+            name: Nome
+            name-help: Questo nome verrà mestrato accanto alla casella di controllo e come titolo della vista per l'aggiornamento.
+            url: Indirizzo
+            url-help: L'indirizzo della pagina dove è possibile leggere le condizioni. Sarà aperto in un nuovo tab quando cliccato.
+            update-message: Messaggio di aggiornamento
+            update-message-help: Un messaggio da mostrare agli utenti esistenti che non hanno ancora accettato le ultime condizioni.
+            terms-updated-at: Aggiornato il
+            terms-updated-at-placeholder: YYYY-MM-DD (hh:mm:ss)
+            terms-updated-at-help: >
+                La data dell'ultimo aggiornamento delle condizioni.
+                Impostando questo valore si obbligheranno tutti gli utenti che le hanno accettate prima di quella data ad accettarle nuovamente.
+                Deve essere passata (altrimenti gli utenti non potranno mai accettarle dopo la data e superare la vista).
+            export-url: Indirizzi di esportazione
+            export-url-help: >
+                Qualsiasi utente con il permesso "Esporta tutti i dati degli utenti e delle condizioni" può accedere a questi indirizzi per scaricare la lista degli utenti che hanno accettato queste condizioni.
+                Puoi trovare maggiori dettagli sulle opzioni disponibili sul <a>wiki delle estensioni</a>.
+
+        permissions:
+            see-user-policies-state: Visualizza lo stato delle condizioni degli utenti
+            postpone-policies-accept: Puoi rinviare l'accettazione delle nuove condizioni
+            export-policies: Esporta tutti i dati degli utenti e delle condizioni
+
+    forum:
+        signup:
+            i-accept: Accetto le condizioni <a>{policy}</a>
+            must-accept: Le condizioni {policy} devono essere accettate.
+
+        accept-modal:
+            title: Aggiornamento Condizioni
+            updated-at: Le condizioni sono state aggiornate il {date}
+            updated-recently: Le condizioni sono state aggiornate dalla tua ultima visita
+            i-accept: Accetto le nuove condizioni <a>{policy}</a>
+            accept: Conferma
+            close: Ora puoi chiudere questa vista
+
+        state-modal:
+            title: Stato di accettazione delle condizioni per l'utente {username}
+            accepted-at: Accettate il {date}
+            not-accepted: Non accettate
+
+        update-alert:
+            must-accept-message: Abbiamo temporaneamente ristretto l'accesso al tuo account mentre controlli le nuovi condizioni.
+            can-accept-message: Abbiamo aggiornato le condizioni di recente. Devi accettarle per continuare ad utilizzare questo sito.
+            review: Clicca qui per visionare ed accettare le nuove condizioni
+
+        user_controls:
+            state_button: Stato di accettazione delle condizioni
