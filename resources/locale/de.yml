@@ -1,0 +1,75 @@
+flagrow-terms:
+    admin:
+        settings:
+            title: Nutzungsbedingungen Einstellungen
+
+            field:
+                signup-legal-text: Zusätzlicher Text für das Anmeldeformular
+                hide-updated-at: Das Datum der Aktualierung der Nutzungsbedingungen nicht anzeigen, wenn ein Update verfügbar ist
+                date-format: Datumsformat
+                date-format-help: Sie können jedes gültige <a>Moment.js</a> Format verwenden. Das Feld leer lassen für den Standardwert.
+
+        titles:
+            policies: Richtlinien
+
+        buttons:
+            new-policy: Neue Richtlinie
+            edit-policy: Richtlinie bearbeiten
+            add-policy: Richtlinie hinzufügen
+            save-policy: Richtlinie speichern
+            delete-policy: Richtlinie löschen
+
+        messages:
+            delete-policy-confirmation: >
+                Dadurch wird die Richtlinie {name} und die zugehörigen akzeptierten Daten endgültig aus der Datenbank gelöscht.
+                Bitte stellen Sie sicher, dass Sie diese  Daten gesichert haben, wenn die aus rechtlichen Gründen benötigt werden.
+                Möchten Sie wirklich diese Richtlinie löschen ?
+
+        policies:
+            name: Name
+            name-help: Dieser Name wird neben dem Kontrollkästchen, als Titel des aktualisierten Fensters angezeigt
+            url: URL
+            url-help: Die URL zu der Seite, wo Sie die Begriffe lesen können. Wird beim Klicken in einem neuen Tab geöffnet.
+            update-message: Nachricht aktualieren
+            update-message-help: Eine Nachricht, die bestehenden Nutzern angezeigt wird, die die aktuellen Nutzungsbedingungen noch nicht akzeptiert haben.
+            terms-updated-at: aktualisiert am
+            terms-updated-at-placeholder: YYYY-MM-DD (hh:mm:ss)
+            terms-updated-at-help: >
+                Datum der letzen Aktualierung der Nutzungsbedingungen.
+                Wenn Sie diesen Wert festlegen, müssen alle Benutzer, die vor diesem Datum akzeptiert haben, erneut akzeptieren.
+                Muss in der Vergangenheit liegen (sonst würden die Benutzer nach dem Datum niemals akzeptieren und über das Modal hinauskommen).
+            export-url: URL exportieren
+            export-url-help: >
+                Jeder Benutzer mit der Berechtigung "Alle Richtlinien exportierene" kann auf diese URLs zugreifen, um die Liste der Benutzer herunterzuladen, die diese Richtlinie akzeptiert haben. 
+                Weitere Informationen zu den verfügbaren Optionen finden Sie im <a>extension wiki</a>.
+
+        permissions:
+            see-user-policies-state: Siehe den Status der Benutzerrichtlinien
+            postpone-policies-accept: Kann die Annahme der neuen Bedingungen hinauszögern
+            export-policies: Alle Benutzer- und Richtliniendaten exportieren
+
+    forum:
+        signup:
+            i-accept: Ich akzeptiere die <a>{policy}</a>
+            must-accept: Die {policy} muss akzeptiert werden.
+
+        accept-modal:
+            title: Nutzungsbedingungen Update
+            updated-at: Die Nutzungsbedingungen wurden am {date} aktualisiert
+            updated-recently: Die Bedingungen wurden seit Ihrem letzten Besuch aktualisiert
+            i-accept: Ich akzeptiere die neue <a>{policy}</a>
+            accept: Bestätigen
+            close: Sie können dieses Fenster jetzt schliessen
+
+        state-modal:
+            title: Status Nutzungsbedingungen für den Benutzer {username}
+            accepted-at: akzeptiert am {date}
+            not-accepted: Nicht akzeptiert
+
+        update-alert:
+            must-accept-message: Wir haben den Zugriff auf Ihr Konto vorübergehend eingeschränkt, während Sie sich die neuen Nutzungsbedingungen ansehen.
+            can-accept-message: Wir haben die Nutzungsbedingungen vor Kurzem aktualisiert. Sie müssen diese akzeptieren, um diese Website weiterhin nutzen zu können.
+            review: Klicken Sie hier, um die neuen Nutzungsbedingungen zu überprüfen und zu akzeptieren
+
+        user_controls:
+            state_button: Status Nutzungsbedingungen
