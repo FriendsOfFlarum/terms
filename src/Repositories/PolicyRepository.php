@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use DateTime;
 use Flagrow\Terms\Policy;
 use Flagrow\Terms\Validators\PolicyValidator;
-use Flarum\Core\User;
+use Flarum\User\User;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Collection;
 

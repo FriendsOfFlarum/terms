@@ -6,21 +6,21 @@ use Flagrow\Terms\Repositories\PolicyRepository;
 use Flagrow\Terms\Serializers\PolicySerializer;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Event\ConfigureApiController;
+use Flarum\Api\Event\WillGetData;
 use Flarum\Event\GetApiRelationship;
-use Flarum\Event\PrepareApiData;
+use Flarum\Api\Event\WillSerializeData;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class ForumPoliciesRelationship
 {
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(PrepareApiData::class, [$this, 'loadRelationship']);
+        $events->listen(WillSerializeData::class, [$this, 'loadRelationship']);
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
-        $events->listen(ConfigureApiController::class, [$this, 'addIncludes']);
+        $events->listen(WillGetData::class, [$this, 'addIncludes']);
     }
 
-    public function loadRelationship(PrepareApiData $event)
+    public function loadRelationship(WillSerializeData $event)
     {
         /**
          * @var $policies PolicyRepository
@@ -39,7 +39,7 @@ class ForumPoliciesRelationship
         }
     }
 
-    public function addIncludes(ConfigureApiController $event)
+    public function addIncludes(WillGetData $event)
     {
         if ($event->isController(ShowForumController::class)) {
             $event->addInclude('flagrowTermsPolicies');

@@ -1,7 +1,7 @@
 import {extend} from 'flarum/extend';
 import app from 'flarum/app';
 import SignUpModal from 'flarum/components/SignUpModal';
-import sortByAttribute from 'flagrow/terms/helpers/sortByAttribute';
+import sortByAttribute from '../common/helpers/sortByAttribute';
 
 export default function () {
     extend(SignUpModal.prototype, 'init', function () {

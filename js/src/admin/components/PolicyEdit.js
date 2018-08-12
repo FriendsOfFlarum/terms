@@ -48,7 +48,7 @@ export default class PolicyEdit extends Component {
                         app.translator.trans('flagrow-terms.admin.buttons.edit-policy'),
                         ' ',
                     ] : null),
-                    icon(this.toggleFields ? 'chevron-up' : 'chevron-down'),
+                    icon(this.toggleFields ? 'fas fa-chevron-up' : 'fas fa-chevron-down'),
                 ]),
             ]),
             (this.toggleFields ? this.viewFields() : null),

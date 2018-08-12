@@ -2,7 +2,7 @@ import app from 'flarum/app';
 import Component from 'flarum/Component';
 import Alert from 'flarum/components/Alert';
 import Button from 'flarum/components/Button';
-import AcceptPoliciesModal from 'flagrow/terms/components/AcceptPoliciesModal';
+import AcceptPoliciesModal from './AcceptPoliciesModal';
 
 class AlertWithContainer extends Alert {
     view() {

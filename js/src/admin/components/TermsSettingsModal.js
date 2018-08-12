@@ -1,7 +1,7 @@
 import app from 'flarum/app';
 import SettingsModal from 'flarum/components/SettingsModal';
 import Switch from 'flarum/components/Switch';
-import PolicyList from 'flagrow/terms/components/PolicyList';
+import PolicyList from './PolicyList';
 
 const settingsPrefix = 'flagrow-terms.';
 const translationPrefix = 'flagrow-terms.admin.settings.';

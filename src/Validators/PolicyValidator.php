@@ -2,7 +2,7 @@
 
 namespace Flagrow\Terms\Validators;
 
-use Flarum\Core\Validator\AbstractValidator;
+use Flarum\Foundation\AbstractValidator;
 
 class PolicyValidator extends AbstractValidator
 {

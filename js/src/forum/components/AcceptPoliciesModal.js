@@ -1,7 +1,7 @@
 import app from 'flarum/app';
 import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
-import sortByAttribute from 'flagrow/terms/helpers/sortByAttribute';
+import sortByAttribute from '../../common/helpers/sortByAttribute';
 
 export default class AcceptPoliciesModal extends Modal {
     init() {

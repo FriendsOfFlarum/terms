@@ -3,7 +3,7 @@
 namespace Flagrow\Terms;
 
 use Carbon\Carbon;
-use Flarum\Core\User;
+use Flarum\User\User;
 use Flarum\Database\AbstractModel;
 
 /**

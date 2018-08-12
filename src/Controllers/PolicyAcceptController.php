@@ -3,17 +3,17 @@
 namespace Flagrow\Terms\Controllers;
 
 use Flagrow\Terms\Repositories\PolicyRepository;
-use Flarum\Api\Controller\AbstractResourceController;
-use Flarum\Api\Serializer\UserBasicSerializer;
-use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\User\AssertPermissionTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class PolicyAcceptController extends AbstractResourceController
+class PolicyAcceptController extends AbstractShowController
 {
     use AssertPermissionTrait;
 
-    public $serializer = UserBasicSerializer::class;
+    public $serializer = BasicUserSerializer::class;
 
     protected $policies;
 

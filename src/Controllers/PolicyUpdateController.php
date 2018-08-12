@@ -4,12 +4,12 @@ namespace Flagrow\Terms\Controllers;
 
 use Flagrow\Terms\Repositories\PolicyRepository;
 use Flagrow\Terms\Serializers\PolicySerializer;
-use Flarum\Api\Controller\AbstractResourceController;
-use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\User\AssertPermissionTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class PolicyUpdateController extends AbstractResourceController
+class PolicyUpdateController extends AbstractCreateController
 {
     use AssertPermissionTrait;
 

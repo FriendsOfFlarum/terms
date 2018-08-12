@@ -1,6 +1,6 @@
 import app from 'flarum/app';
 import Modal from 'flarum/components/Modal';
-import sortByAttribute from 'flagrow/terms/helpers/sortByAttribute';
+import sortByAttribute from '../../common/helpers/sortByAttribute';
 
 export default class UserPoliciesStateModal extends Modal {
     init() {

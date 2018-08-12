@@ -3,7 +3,7 @@
 namespace Flagrow\Terms\Validators;
 
 use Flagrow\Terms\Repositories\PolicyRepository;
-use Flarum\Core\Validator\AbstractValidator;
+use Flarum\Foundation\AbstractValidator;
 
 class RegisterPolicyValidator extends AbstractValidator
 {

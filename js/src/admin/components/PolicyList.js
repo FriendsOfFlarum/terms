@@ -1,7 +1,7 @@
 import app from 'flarum/app';
 import Component from 'flarum/Component';
-import PolicyEdit from 'flagrow/terms/components/PolicyEdit';
-import sortByAttribute from 'flagrow/terms/helpers/sortByAttribute';
+import PolicyEdit from './PolicyEdit';
+import sortByAttribute from '../../common/helpers/sortByAttribute';
 
 export default class PolicyList extends Component {
     init() {

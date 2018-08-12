@@ -2,7 +2,7 @@ import {override} from 'flarum/extend';
 import IndexPage from 'flarum/components/IndexPage';
 import DiscussionPage from 'flarum/components/DiscussionPage';
 import UserPage from 'flarum/components/UserPage';
-import UpdateAlert from 'flagrow/terms/components/UpdateAlert';
+import UpdateAlert from './components/UpdateAlert';
 
 // This single method will be used to inject the alert into existing components
 // If the view is already an array, we add our content at the start

@@ -1,0 +1,14 @@
+{
+    "name": "@flagrow/terms",
+    "version": "0.0.0",
+    "scripts": {
+        "build": "webpack --mode production",
+        "watch": "webpack --mode development --watch"
+    },
+    "dependencies": {
+        "flarum-webpack-config": "^0.1.0-beta.8",
+        "jquery-sortable": "^0.9.13",
+        "webpack": "^4.0.0",
+        "webpack-cli": "^3.0.7"
+    }
+}

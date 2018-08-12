@@ -2,11 +2,11 @@ import {extend} from 'flarum/extend';
 import app from 'flarum/app';
 import Model from 'flarum/Model';
 import User from 'flarum/models/User';
-import Policy from 'flagrow/terms/models/Policy';
-import addAcceptModal from 'flagrow/terms/addAcceptModal';
-import addFieldsToRegister from 'flagrow/terms/addFieldsToRegister';
-import addUpdateAlert from 'flagrow/terms/addUpdateAlert';
-import addUserPoliciesStateControl from 'flagrow/terms/addUserPoliciesStateControl';
+import Policy from '../common/models/Policy';
+import addAcceptModal from './addAcceptModal';
+import addFieldsToRegister from './addFieldsToRegister';
+import addUpdateAlert from './addUpdateAlert';
+import addUserPoliciesStateControl from './addUserPoliciesStateControl';
 
 app.initializers.add('flagrow-terms', () => {
     app.store.models['flagrow-terms-policies'] = Policy;

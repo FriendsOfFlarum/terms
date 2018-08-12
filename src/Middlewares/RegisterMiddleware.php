@@ -3,18 +3,27 @@
 namespace Flagrow\Terms\Middlewares;
 
 use Flagrow\Terms\Validators\RegisterPolicyValidator;
-use Flarum\Api\Handler\IlluminateValidationExceptionHandler;
+use Flarum\Api\ExceptionHandler\IlluminateValidationExceptionHandler;
 use Flarum\Api\JsonApiResponse;
-use Illuminate\Contracts\Validation\ValidationException;
+use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Tobscure\JsonApi\Document;
 use Zend\Diactoros\Uri;
-use Zend\Stratigility\MiddlewareInterface;
 
 class RegisterMiddleware implements MiddlewareInterface
 {
-    public function __invoke(Request $request, Response $response, callable $out = null)
+
+    /**
+     * Process an incoming server request and return a response, optionally delegating
+     * response creation to a handler.
+     * @param Request $request
+     * @param RequestHandlerInterface $handler
+     * @return Response
+     */
+    public function process(Request $request, RequestHandlerInterface $handler): Response
     {
         // Get the register endpoint for this Flarum
         $registerUri = new Uri(app()->url('register'));
@@ -47,6 +56,6 @@ class RegisterMiddleware implements MiddlewareInterface
             }
         }
 
-        return $out ? $out($request, $response) : $response;
+        return $handler->handle($request);
     }
 }

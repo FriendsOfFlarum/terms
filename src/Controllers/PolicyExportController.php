@@ -4,14 +4,15 @@ namespace Flagrow\Terms\Controllers;
 
 use Carbon\Carbon;
 use Flagrow\Terms\Repositories\PolicyRepository;
-use Flarum\Core\Access\AssertPermissionTrait;
-use Flarum\Core\User;
-use Flarum\Http\Controller\ControllerInterface;
+use Flarum\User\AssertPermissionTrait;
+use Flarum\User\User;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\TextResponse;
 
-class PolicyExportController implements ControllerInterface
+class PolicyExportController implements RequestHandlerInterface
 {
     use AssertPermissionTrait;
 
@@ -22,7 +23,7 @@ class PolicyExportController implements ControllerInterface
         $this->policies = $policies;
     }
 
-    public function handle(ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         $id = array_get($request->getQueryParams(), 'id');
         $format = array_get($request->getQueryParams(), 'format');

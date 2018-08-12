@@ -4,10 +4,10 @@ namespace Flagrow\Terms\Listeners;
 
 use Flagrow\Terms\Policy;
 use Flagrow\Terms\Repositories\PolicyRepository;
-use Flarum\Api\Serializer\UserBasicSerializer;
-use Flarum\Core\User;
+use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\User\User;
 use Flarum\Event\GetModelRelationship;
-use Flarum\Event\PrepareApiAttributes;
+use Flarum\Api\Event\Serializing;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class UserPoliciesRelationship
@@ -15,7 +15,7 @@ class UserPoliciesRelationship
     public function subscribe(Dispatcher $events)
     {
         $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
-        $events->listen(PrepareApiAttributes::class, [$this, 'addAttributes']);
+        $events->listen(Serializing::class, [$this, 'addAttributes']);
     }
 
     public function getModelRelationship(GetModelRelationship $event)
@@ -25,9 +25,9 @@ class UserPoliciesRelationship
         }
     }
 
-    public function addAttributes(PrepareApiAttributes $event)
+    public function addAttributes(Serializing $event)
     {
-        if ($event->isSerializer(UserBasicSerializer::class)) {
+        if ($event->isSerializer(BasicUserSerializer::class)) {
             if ($event->actor->can('seeFlagrowTermsPoliciesState', $event->model)) {
                 /**
                  * @var $policies PolicyRepository

@@ -4,7 +4,7 @@ namespace Flagrow\Terms\Controllers;
 
 use Flagrow\Terms\Repositories\PolicyRepository;
 use Flarum\Api\Controller\AbstractDeleteController;
-use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\User\AssertPermissionTrait;
 use Psr\Http\Message\ServerRequestInterface;
 
 class PolicyDeleteController extends AbstractDeleteController
