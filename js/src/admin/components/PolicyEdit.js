@@ -36,7 +36,7 @@ export default class PolicyEdit extends Component {
 
     view() {
         return m('.Flagrow-Terms-Policiy-Box', [
-            (this.policy.exists ? m('span.fa.fa-arrows.Flagrow-Terms-Policiy-Box--handle.js-policy-handle') : null),
+            (this.policy.exists ? m('span.fas.fa-arrows-alt.Flagrow-Terms-Policiy-Box--handle.js-policy-handle') : null),
             m('.Button.Button--block.Flagrow-Terms-Policiy-Header', {
                 onclick: () => {
                     this.toggleFields = !this.toggleFields;

@@ -935,7 +935,7 @@ function (_Component) {
   _proto.view = function view() {
     var _this = this;
 
-    return m('.Flagrow-Terms-Policiy-Box', [this.policy.exists ? m('span.fa.fa-arrows.Flagrow-Terms-Policiy-Box--handle.js-policy-handle') : null, m('.Button.Button--block.Flagrow-Terms-Policiy-Header', {
+    return m('.Flagrow-Terms-Policiy-Box', [this.policy.exists ? m('span.fas.fa-arrows-alt.Flagrow-Terms-Policiy-Box--handle.js-policy-handle') : null, m('.Button.Button--block.Flagrow-Terms-Policiy-Header', {
       onclick: function onclick() {
         _this.toggleFields = !_this.toggleFields;
       }
