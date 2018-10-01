@@ -1,0 +1,75 @@
+flagrow-terms:
+    admin:
+        settings:
+            title: 條款設置
+
+            field:
+                signup-legal-text: 註冊表單上的附加文本
+                hide-updated-at: 更新可用時，請勿顯示更新條款的日期
+                date-format: 日期格式
+                date-format-help: 您可以使用任何有效的 <a>Moment.js</a> 格式。默認情況下字段留空。
+
+        titles:
+            policies: 政策
+
+        buttons:
+            new-policy: 新政策
+            edit-policy: 編輯政策
+            add-policy: 添加政策
+            save-policy: 保存政策
+            delete-policy: 刪除政策
+
+        messages:
+            delete-policy-confirmation: >
+                這將永久刪除政策 {name} 以及數據庫中的相關接受日期。
+                如果您出於法律原因需要它們，請確保備份這些日期
+                您確定要刪除此政策嗎？
+
+        policies:
+            name: 名稱
+            name-help: 此名稱將顯示在復選框旁邊，並顯示為更新模式的標題。
+            url: 網址
+            url-help: 您可以閱讀條款的網頁的網址。 單擊時將在新選項卡中打開。
+            update-message: 更新信息
+            update-message-help: 向尚未接受最新條款的現有用戶顯示的消息。
+            terms-updated-at: 更新於
+            terms-updated-at-placeholder: YYYY-MM-DD (hh:mm:ss)
+            terms-updated-at-help: >
+                條款最後的更新日期。
+                設置此值將要求在該日期之前接受的所有用戶再次接受。
+                必須在過去（否則用戶將無法在日期之後接受）。
+            export-url: 導出網址
+            export-url-help: >
+                具有“導出所有策略數據”權限的任何用戶都可以訪問這些URL以下載接受此策略的用戶列表。
+                您可以在 <a>擴展維基</a> 上找到有關可用選項的更多詳細信息
+
+        permissions:
+            see-user-policies-state: 參閱用戶策略狀態
+            postpone-policies-accept: 可以推遲接受新條款
+            export-policies: 導出所有用戶和策略數據
+
+    forum:
+        signup:
+            i-accept: 我接受 <a>{policy}</a>
+            must-accept: 您必須接受 {policy}。
+
+        accept-modal:
+            title: 條款更新
+            updated-at: 條款已於 {date} 更新
+            updated-recently: 自您上次訪問以來，這些條款已更新
+            i-accept: 我接受新的 <a>{policy}</a>
+            accept: 確認
+            close: 您現在可以關閉此視窗
+
+        state-modal:
+            title: 用戶接受條款的狀態 {username}
+            accepted-at: 於 {date} 接受
+            not-accepted: 不接受
+
+        update-alert:
+            must-accept-message: 在您查看新條款時，我們暫時限制了對您帳戶的訪問權限。
+            can-accept-message: 我們最近更新了條款。 您必須接受它們才能繼續使用本網站。
+            review: 點擊此處查看並接受新條款
+
+        user_controls:
+            state_button: 條款接受狀態
