@@ -91,14 +91,14 @@ module.exports =
 /*!******************!*\
   !*** ./forum.js ***!
   \******************/
-/*! no exports provided */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/common */ "./src/common/index.js");
-/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_common__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _src_common__WEBPACK_IMPORTED_MODULE_2__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _src_common__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/common */ "./src/common/index.js");
+/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_src_common__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _src_common__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _src_common__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _src_forum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/forum */ "./src/forum/index.js");
 /* empty/unused harmony star reexport */
 
@@ -201,7 +201,7 @@ function (_mixin) {
   name: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('name'),
   url: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('url'),
   update_message: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('update_message'),
-  terms_updated_at: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('terms_updated_at', flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.transformDate),
+  terms_updated_at: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('terms_updated_at'),
   form_key: flarum_utils_computed__WEBPACK_IMPORTED_MODULE_3___default()('id', function (id) {
     return 'flagrow_terms_policy_' + id;
   })
@@ -287,18 +287,17 @@ __webpack_require__.r(__webpack_exports__);
       _this[policy.form_key()] = m.prop(false);
     });
   });
-  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_2___default.a.prototype, 'body', function (children) {
+  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_2___default.a.prototype, 'fields', function (fields) {
     var _this2 = this;
 
-    var additionalContent = [];
     var legalText = flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.forum.attribute('flagrow-terms.signup-legal-text');
 
     if (legalText) {
-      additionalContent.push(m('.Form-group', m('.Flagrow-Terms-SignUp-Legal.Alert', legalText)));
+      fields.add('flagrow-terms-legal-text', m('.Form-group', m('.Flagrow-Terms-SignUp-Legal.Alert', legalText)));
     }
 
     this.flagrowTermsPolicies.forEach(function (policy) {
-      additionalContent.push(m('.Form-group', m('.Flagrow-Terms-Check.Flagrow-Terms-Check--signup', m('label.checkbox', [m('input', {
+      fields.add('flagrow-terms-policy-' + policy.id(), m('.Form-group', m('.Flagrow-Terms-Check.Flagrow-Terms-Check--signup', m('label.checkbox', [m('input', {
         type: 'checkbox',
         bidi: _this2[policy.form_key()],
         disabled: _this2.loading
@@ -310,24 +309,6 @@ __webpack_require__.r(__webpack_exports__);
         }) : m('span')
       })]))));
     });
-    var fieldsAdded = false; // Add the new content inside the Form element, at the second-to-last position (last is submit button)
-
-    children.forEach(function (child) {
-      // Only ever add the fields once
-      // Otherwise there could be some Mithril templating issues
-      if (fieldsAdded) {
-        return;
-      }
-
-      if (child.attrs && child.attrs.className && child.attrs.className.indexOf('Form') !== -1) {
-        child.children.splice(child.children.length - 1, 0, additionalContent);
-        fieldsAdded = true;
-      }
-    });
-
-    if (!fieldsAdded) {
-      console.error('Could not insert flagrow/terms fields into SignUpModal');
-    }
   });
   Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_SignUpModal__WEBPACK_IMPORTED_MODULE_2___default.a.prototype, 'submitData', function (data) {
     var _this3 = this;

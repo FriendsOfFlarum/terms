@@ -91,14 +91,14 @@ module.exports =
 /*!******************!*\
   !*** ./admin.js ***!
   \******************/
-/*! no exports provided */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/common */ "./src/common/index.js");
-/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_common__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _src_common__WEBPACK_IMPORTED_MODULE_2__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _src_common__WEBPACK_IMPORTED_MODULE_2__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/common */ "./src/common/index.js");
+/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_src_common__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _src_common__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _src_common__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _src_admin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/admin */ "./src/admin/index.js");
 /* empty/unused harmony star reexport */
 
@@ -1319,7 +1319,7 @@ function (_mixin) {
   name: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('name'),
   url: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('url'),
   update_message: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('update_message'),
-  terms_updated_at: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('terms_updated_at', flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.transformDate),
+  terms_updated_at: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('terms_updated_at'),
   form_key: flarum_utils_computed__WEBPACK_IMPORTED_MODULE_3___default()('id', function (id) {
     return 'flagrow_terms_policy_' + id;
   })
