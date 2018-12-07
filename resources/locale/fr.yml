@@ -20,6 +20,7 @@ flagrow-terms:
             add-policy: Ajouter la politique
             save-policy: Sauvegarder la politique
             delete-policy: Supprimer la politique
+            set-to-now: Définir sur maintenant
 
         messages:
             delete-policy-confirmation: >

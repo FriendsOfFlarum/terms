@@ -18,6 +18,7 @@ flagrow-terms:
             add-policy: Add Policy
             save-policy: Save Policy
             delete-policy: Delete Policy
+            set-to-now: Set to now
 
         messages:
             delete-policy-confirmation: >

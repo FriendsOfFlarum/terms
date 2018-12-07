@@ -956,12 +956,18 @@ function (_Component) {
     }), m('.helpText', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.url-help'))]), m('.Form-group', [m('label', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.update-message')), m('textarea.FormControl', {
       value: this.policy.update_message(),
       oninput: m.withAttr('value', this.updateAttribute.bind(this, 'update_message'))
-    }), m('.helpText', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.update-message-help'))]), m('.Form-group', [m('label', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.terms-updated-at')), m('input.FormControl', {
+    }), m('.helpText', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.update-message-help'))]), m('.Form-group', [m('label', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.terms-updated-at')), m('.Flagrow-Terms-Input-Group', [m('input.FormControl', {
       type: 'text',
       value: this.policy.terms_updated_at(),
       oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
       placeholder: flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.terms-updated-at-placeholder')
-    }), m('.helpText', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help'))]), this.policy.exists ? m('.Form-group', [m('label', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.export-url')), m('.ButtonGroup', ['json', 'csv'].map(function (format) {
+    }), flarum_components_Button__WEBPACK_IMPORTED_MODULE_4___default.a.component({
+      className: 'Button Button--primary',
+      onclick: function onclick() {
+        _this2.updateAttribute('terms_updated_at', moment().milliseconds(0).toISOString());
+      },
+      children: flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.buttons.set-to-now')
+    })]), m('.helpText', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help'))]), this.policy.exists ? m('.Form-group', [m('label', flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('flagrow-terms.admin.policies.export-url')), m('.ButtonGroup', ['json', 'csv'].map(function (format) {
       return m('a.Button.Flagrow-Terms-Export-Button', {
         href: flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.forum.attribute('apiUrl') + '/flagrow/terms/policies/' + _this2.policy.id() + '/export.' + format,
         target: '_blank'

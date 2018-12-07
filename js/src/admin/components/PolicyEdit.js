@@ -85,12 +85,21 @@ export default class PolicyEdit extends Component {
             ]),
             m('.Form-group', [
                 m('label', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at')),
-                m('input.FormControl', {
-                    type: 'text',
-                    value: this.policy.terms_updated_at(),
-                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
-                    placeholder: app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-placeholder'),
-                }),
+                m('.Flagrow-Terms-Input-Group', [
+                    m('input.FormControl', {
+                        type: 'text',
+                        value: this.policy.terms_updated_at(),
+                        oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
+                        placeholder: app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-placeholder'),
+                    }),
+                    Button.component({
+                        className: 'Button Button--primary',
+                        onclick: () => {
+                            this.updateAttribute('terms_updated_at', moment().milliseconds(0).toISOString());
+                        },
+                        children: app.translator.trans('flagrow-terms.admin.buttons.set-to-now'),
+                    }),
+                ]),
                 m('.helpText', app.translator.trans('flagrow-terms.admin.policies.terms-updated-at-help')),
             ]),
             (this.policy.exists ? m('.Form-group', [
