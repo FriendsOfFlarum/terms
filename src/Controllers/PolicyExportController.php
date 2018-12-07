@@ -23,7 +23,7 @@ class PolicyExportController implements RequestHandlerInterface
         $this->policies = $policies;
     }
 
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $id = array_get($request->getQueryParams(), 'id');
         $format = array_get($request->getQueryParams(), 'format');
@@ -34,7 +34,7 @@ class PolicyExportController implements RequestHandlerInterface
         } else {
             $include = [
                 'email',
-                'join_time',
+                'joined_at',
                 'accepted_at',
             ];
         }
@@ -52,7 +52,8 @@ class PolicyExportController implements RequestHandlerInterface
                 'id' => $user->id,
                 'email' => $user->email,
                 'username' => $user->username,
-                'join_time' => $user->join_time->toIso8601String(),
+                'display_name' => $user->display_name,
+                'joined_at' => $user->joined_at->toIso8601String(),
                 'accepted_at' => Carbon::parse($user->pivot->accepted_at)->toIso8601String(),
             ], $include);
         });
