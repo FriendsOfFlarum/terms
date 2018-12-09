@@ -1,3 +1,5 @@
+import 'html5sortable';
+
 import app from 'flarum/app';
 import Component from 'flarum/Component';
 import PolicyEdit from './PolicyEdit';

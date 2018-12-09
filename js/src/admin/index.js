@@ -1,4 +1,3 @@
-import 'jquery-sortable';
 import app from 'flarum/app';
 import Policy from '../common/models/Policy';
 import TermsSettingsModal from './components/TermsSettingsModal';
