@@ -3,14 +3,13 @@
 namespace Flagrow\Terms\Middlewares;
 
 use Flagrow\Terms\Validators\RegisterPolicyValidator;
-use Flarum\Api\ExceptionHandler\IlluminateValidationExceptionHandler;
-use Flarum\Api\JsonApiResponse;
+use Flarum\Foundation\ErrorHandling\ExceptionHandler\IlluminateValidationExceptionHandler;
+use Flarum\Foundation\ErrorHandling\JsonApiFormatter;
 use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Tobscure\JsonApi\Document;
 use Zend\Diactoros\Uri;
 
 class RegisterMiddleware implements MiddlewareInterface
@@ -47,12 +46,9 @@ class RegisterMiddleware implements MiddlewareInterface
 
                 // We need to handle/format the error ourselves because the front-end (forum) doesn't have that error handler
                 // Only the API-end has it (that's where the remaining of the sign up / login logic is)
-                $response = $handler->handle($exception);
+                $error = $handler->handle($exception);
 
-                $document = new Document();
-                $document->setErrors($response->getErrors());
-
-                return new JsonApiResponse($document, $response->getStatus());
+                return (new JsonApiFormatter())->format($error, $request);
             }
         }
 
