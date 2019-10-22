@@ -1,19 +1,21 @@
 <?php
 
-namespace FoF\Terms\Listeners;
+namespace FoF\Terms\Extenders;
 
 use Flarum\Event\ConfigureMiddleware;
+use Flarum\Extend\ExtenderInterface;
+use Flarum\Extension\Extension;
 use Flarum\User\Event\Registered;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Container\Container;
 
-class UserRegistration
+class UserRegistration implements ExtenderInterface
 {
-    public function subscribe(Dispatcher $events)
+    public function extend(Container $container, Extension $extension = null)
     {
-        $events->listen(Registered::class, [$this, 'registered']);
-        $events->listen(ConfigureMiddleware::class, [$this, 'middlewares']);
+        $container['events']->listen(Registered::class, [$this, 'registered']);
+        $container['events']->listen(ConfigureMiddleware::class, [$this, 'middlewares']);
     }
 
     public function registered(Registered $event)

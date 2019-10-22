@@ -1,21 +1,23 @@
 <?php
 
-namespace FoF\Terms\Listeners;
+namespace FoF\Terms\Extenders;
 
 use Flarum\Api\Event\Serializing;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Event\GetModelRelationship;
+use Flarum\Extend\ExtenderInterface;
+use Flarum\Extension\Extension;
 use Flarum\User\User;
 use FoF\Terms\Policy;
 use FoF\Terms\Repositories\PolicyRepository;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Container\Container;
 
-class UserPoliciesRelationship
+class UserPoliciesRelationship implements ExtenderInterface
 {
-    public function subscribe(Dispatcher $events)
+    public function extend(Container $container, Extension $extension = null)
     {
-        $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
-        $events->listen(Serializing::class, [$this, 'addAttributes']);
+        $container['events']->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
+        $container['events']->listen(Serializing::class, [$this, 'addAttributes']);
     }
 
     public function getModelRelationship(GetModelRelationship $event)

@@ -7,11 +7,13 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('admin'))
-        ->js(__DIR__.'/js/dist/admin.js')
-        ->css(__DIR__.'/resources/less/admin.less'),
+        ->js(__DIR__ . '/js/dist/admin.js')
+        ->css(__DIR__ . '/resources/less/admin.less'),
     (new Extend\Frontend('forum'))
-        ->js(__DIR__.'/js/dist/forum.js'),
+        ->js(__DIR__ . '/js/dist/forum.js'),
+
     new Extend\Locales(__DIR__ . '/resources/locale'),
+
     (new Extend\Routes('api'))
         ->post(
             '/fof/terms/policies/order',
@@ -48,14 +50,15 @@ return [
             'fof.terms.api.policies.export',
             Controllers\PolicyExportController::class
         ),
-    function (Dispatcher $events) {
-        $events->subscribe(Listeners\ForumPoliciesRelationship::class);
-        $events->subscribe(Listeners\InjectSettings::class);
-        $events->subscribe(Listeners\RevokeAccessWhenNotAccepted::class);
-        $events->subscribe(Listeners\UserPoliciesRelationship::class);
-        $events->subscribe(Listeners\UserRegistration::class);
 
+    new Extenders\ForumPoliciesRelationship(),
+    new Extenders\InjectSettings(),
+    new Extenders\RevokeAccessWhenNotAccepted(),
+    new Extenders\UserPoliciesRelationship(),
+    new Extenders\UserRegistration(),
+
+    function (Dispatcher $events) {
         $events->subscribe(Access\PolicyPolicy::class);
         $events->subscribe(Access\UserPolicy::class);
-    }
+    },
 ];

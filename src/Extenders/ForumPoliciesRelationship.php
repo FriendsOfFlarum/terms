@@ -1,23 +1,25 @@
 <?php
 
-namespace FoF\Terms\Listeners;
+namespace FoF\Terms\Extenders;
 
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Event\WillGetData;
 use Flarum\Api\Event\WillSerializeData;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Event\GetApiRelationship;
+use Flarum\Extend\ExtenderInterface;
+use Flarum\Extension\Extension;
 use FoF\Terms\Repositories\PolicyRepository;
 use FoF\Terms\Serializers\PolicySerializer;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Container\Container;
 
-class ForumPoliciesRelationship
+class ForumPoliciesRelationship implements ExtenderInterface
 {
-    public function subscribe(Dispatcher $events)
+    public function extend(Container $container, Extension $extension = null)
     {
-        $events->listen(WillSerializeData::class, [$this, 'loadRelationship']);
-        $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
-        $events->listen(WillGetData::class, [$this, 'addIncludes']);
+        $container['events']->listen(WillSerializeData::class, [$this, 'loadRelationship']);
+        $container['events']->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
+        $container['events']->listen(WillGetData::class, [$this, 'addIncludes']);
     }
 
     public function loadRelationship(WillSerializeData $event)
