@@ -3,8 +3,10 @@ import SettingsModal from 'flarum/components/SettingsModal';
 import Switch from 'flarum/components/Switch';
 import PolicyList from './PolicyList';
 
-const settingsPrefix = 'flagrow-terms.';
-const translationPrefix = 'flagrow-terms.admin.settings.';
+const settingsPrefix = 'fof-terms.';
+const translationPrefix = 'fof-terms.admin.settings.';
+
+/* global m */
 
 export default class TermsSettingsModal extends SettingsModal {
     title() {

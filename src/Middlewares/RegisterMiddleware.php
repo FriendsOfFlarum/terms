@@ -1,10 +1,10 @@
 <?php
 
-namespace Flagrow\Terms\Middlewares;
+namespace FoF\Terms\Middlewares;
 
-use Flagrow\Terms\Validators\RegisterPolicyValidator;
 use Flarum\Foundation\ErrorHandling\ExceptionHandler\IlluminateValidationExceptionHandler;
 use Flarum\Foundation\ErrorHandling\JsonApiFormatter;
+use FoF\Terms\Validators\RegisterPolicyValidator;
 use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -14,7 +14,6 @@ use Zend\Diactoros\Uri;
 
 class RegisterMiddleware implements MiddlewareInterface
 {
-
     /**
      * Process an incoming server request and return a response, optionally delegating
      * response creation to a handler.

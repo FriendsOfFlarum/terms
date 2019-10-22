@@ -1,11 +1,11 @@
 <?php
 
-namespace Flagrow\Terms\Controllers;
+namespace FoF\Terms\Controllers;
 
-use Flagrow\Terms\Repositories\PolicyRepository;
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\User\AssertPermissionTrait;
+use FoF\Terms\Repositories\PolicyRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -22,6 +22,12 @@ class PolicyAcceptController extends AbstractShowController
         $this->policies = $policies;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param Document $document
+     * @return mixed
+     * @throws \Flarum\User\Exception\NotAuthenticatedException
+     */
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $id = array_get($request->getQueryParams(), 'id');

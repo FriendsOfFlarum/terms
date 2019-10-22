@@ -1,11 +1,11 @@
 <?php
 
-namespace Flagrow\Terms\Listeners;
+namespace FoF\Terms\Listeners;
 
-use Flagrow\Terms\Middlewares\RegisterMiddleware;
-use Flagrow\Terms\Repositories\PolicyRepository;
 use Flarum\Event\ConfigureMiddleware;
 use Flarum\User\Event\Registered;
+use FoF\Terms\Middlewares\RegisterMiddleware;
+use FoF\Terms\Repositories\PolicyRepository;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class UserRegistration

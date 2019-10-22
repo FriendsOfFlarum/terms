@@ -1,9 +1,9 @@
 <?php
 
-namespace Flagrow\Terms\Listeners;
+namespace FoF\Terms\Listeners;
 
-use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Event\Serializing;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -24,10 +24,10 @@ class InjectSettings
     public function permissions(Serializing $event)
     {
         if ($event->serializer instanceof ForumSerializer) {
-            $event->attributes['flagrow-terms.signup-legal-text'] = $this->settings->get('flagrow-terms.signup-legal-text', '');
-            $event->attributes['flagrow-terms.hide-updated-at'] = (bool) $this->settings->get('flagrow-terms.hide-updated-at');
-            $event->attributes['flagrow-terms.date-format'] = $this->settings->get('flagrow-terms.date-format') ?: 'YYYY-MM-DD';
-            $event->attributes['flagrow-terms.canSeeUserPoliciesState'] = $event->actor->can('flagrow-terms.see-user-policies-state');
+            $event->attributes['fof-terms.signup-legal-text'] = $this->settings->get('fof-terms.signup-legal-text', '');
+            $event->attributes['fof-terms.hide-updated-at'] = (bool) $this->settings->get('fof-terms.hide-updated-at');
+            $event->attributes['fof-terms.date-format'] = $this->settings->get('fof-terms.date-format') ?: 'YYYY-MM-DD';
+            $event->attributes['fof-terms.canSeeUserPoliciesState'] = $event->actor->can('fof-terms.see-user-policies-state');
         }
     }
 }

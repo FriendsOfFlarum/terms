@@ -1,11 +1,11 @@
 <?php
 
-namespace Flagrow\Terms\Listeners;
+namespace FoF\Terms\Listeners;
 
-use Flagrow\Terms\PermissionLock;
-use Flagrow\Terms\Repositories\PolicyRepository;
-use Flarum\Group\Group;
 use Flarum\Event\PrepareUserGroups;
+use Flarum\Group\Group;
+use FoF\Terms\PermissionLock;
+use FoF\Terms\Repositories\PolicyRepository;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class RevokeAccessWhenNotAccepted

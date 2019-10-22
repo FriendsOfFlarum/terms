@@ -1,10 +1,10 @@
 <?php
 
-namespace Flagrow\Terms\Controllers;
+namespace FoF\Terms\Controllers;
 
-use Flagrow\Terms\Repositories\PolicyRepository;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\User\AssertPermissionTrait;
+use FoF\Terms\Repositories\PolicyRepository;
 use Psr\Http\Message\ServerRequestInterface;
 
 class PolicyDeleteController extends AbstractDeleteController
@@ -18,6 +18,10 @@ class PolicyDeleteController extends AbstractDeleteController
         $this->policies = $policies;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @throws \Flarum\User\Exception\PermissionDeniedException
+     */
     protected function delete(ServerRequestInterface $request)
     {
         $this->assertAdmin($request->getAttribute('actor'));

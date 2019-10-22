@@ -1,10 +1,9 @@
 {
-    "name": "flagrow/terms",
+    "name": "fof/terms",
     "description": "Ask users to accept terms of use before using the forum",
     "keywords": [
         "extension",
         "flarum",
-        "flagrow",
         "terms",
         "tos",
         "policy"
@@ -19,22 +18,25 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/flagrow/linguist/issues",
-        "source": "https://github.com/flagrow/linguist"
+        "issues": "https://github.com/FriendsOfFlarum/linguist/issues",
+        "source": "https://github.com/FriendsOfFlarum/linguist"
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.8"
+        "flarum/core": ">=0.1.0-beta.10 <0.1.0-beta.12"
+    },
+    "replace": {
+        "flagrow/terms": "*"
     },
     "conflict": {
         "reflar/user-management": "^0.1.0"
     },
     "extra": {
         "flarum-extension": {
-            "title": "Flagrow Terms",
+            "title": "FoF Terms",
             "icon": {
                 "name": "fas fa-paperclip",
-                "backgroundColor": "#f4f4f4",
-                "color": "#5f4bb6"
+                "backgroundColor": "#e74c3c",
+                "color": "#fff"
             }
         },
         "flagrow": {
@@ -43,7 +45,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Flagrow\\Terms\\": "src/"
+            "FoF\\Terms\\": "src/"
         }
     }
 }

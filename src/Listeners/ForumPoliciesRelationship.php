@@ -1,14 +1,14 @@
 <?php
 
-namespace Flagrow\Terms\Listeners;
+namespace FoF\Terms\Listeners;
 
-use Flagrow\Terms\Repositories\PolicyRepository;
-use Flagrow\Terms\Serializers\PolicySerializer;
 use Flarum\Api\Controller\ShowForumController;
-use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Event\WillGetData;
-use Flarum\Event\GetApiRelationship;
 use Flarum\Api\Event\WillSerializeData;
+use Flarum\Api\Serializer\ForumSerializer;
+use Flarum\Event\GetApiRelationship;
+use FoF\Terms\Repositories\PolicyRepository;
+use FoF\Terms\Serializers\PolicySerializer;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class ForumPoliciesRelationship
@@ -28,21 +28,21 @@ class ForumPoliciesRelationship
         $policies = app(PolicyRepository::class);
 
         if ($event->isController(ShowForumController::class)) {
-            $event->data['flagrowTermsPolicies'] = $policies->all();
+            $event->data['fofTermsPolicies'] = $policies->all();
         }
     }
 
     public function getApiAttributes(GetApiRelationship $event)
     {
-        if ($event->isRelationship(ForumSerializer::class, 'flagrowTermsPolicies')) {
-            return $event->serializer->hasMany($event->model, PolicySerializer::class, 'flagrowTermsPolicies');
+        if ($event->isRelationship(ForumSerializer::class, 'fofTermsPolicies')) {
+            return $event->serializer->hasMany($event->model, PolicySerializer::class, 'fofTermsPolicies');
         }
     }
 
     public function addIncludes(WillGetData $event)
     {
         if ($event->isController(ShowForumController::class)) {
-            $event->addInclude('flagrowTermsPolicies');
+            $event->addInclude('fofTermsPolicies');
         }
     }
 }

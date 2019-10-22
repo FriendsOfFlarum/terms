@@ -1,15 +1,17 @@
-import 'html5sortable';
+import sortable from 'html5sortable/dist/html5sortable.es.js';
 
 import app from 'flarum/app';
 import Component from 'flarum/Component';
 import PolicyEdit from './PolicyEdit';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
 
+/* global m, $ */
+
 export default class PolicyList extends Component {
     init() {
         app.request({
             method: 'GET',
-            url: app.forum.attribute('apiUrl') + '/flagrow/terms/policies',
+            url: app.forum.attribute('apiUrl') + '/fof/terms/policies',
         }).then(result => {
             app.store.pushPayload(result);
 
@@ -18,23 +20,21 @@ export default class PolicyList extends Component {
     }
 
     config() {
-        this.$('.js-policies-container')
-            .sortable({
-                handle: '.js-policy-handle',
-            })
-            .on('sortupdate', () => {
-                const sorting = this.$('.js-policy-data')
-                    .map(function () {
-                        return $(this).data('id');
-                    })
-                    .get();
+        sortable($.find('.js-policies-container')[0], {
+            handle: '.js-policy-handle',
+        })[0].addEventListener('sortupdate', () => {
+            const sorting = this.$('.js-policy-data')
+                .map(function () {
+                    return $(this).data('id');
+                })
+                .get();
 
-                this.updateSort(sorting);
-            });
+            this.updateSort(sorting);
+        });
     }
 
     view() {
-        const policies = app.store.all('flagrow-terms-policies');
+        const policies = app.store.all('fof-terms-policies');
 
         let fieldsList = [];
 
@@ -50,8 +50,8 @@ export default class PolicyList extends Component {
             });
 
         return m('div', [
-            m('h2', app.translator.trans('flagrow-terms.admin.titles.policies')),
-            m('.Flagrow-Terms-Policies-Container', [
+            m('h2', app.translator.trans('fof-terms.admin.titles.policies')),
+            m('.FoF-Terms-Policies-Container', [
                 m('.js-policies-container', fieldsList),
                 PolicyEdit.component({
                     key: 'new',
@@ -64,7 +64,7 @@ export default class PolicyList extends Component {
     updateSort(sorting) {
         app.request({
             method: 'POST',
-            url: app.forum.attribute('apiUrl') + '/flagrow/terms/policies/order',
+            url: app.forum.attribute('apiUrl') + '/fof/terms/policies/order',
             data: {
                 sort: sorting,
             },

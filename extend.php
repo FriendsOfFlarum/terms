@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Terms;
+namespace FoF\Terms;
 
 use Flarum\Extend;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -14,38 +14,38 @@ return [
     new Extend\Locales(__DIR__ . '/resources/locale'),
     (new Extend\Routes('api'))
         ->post(
-            '/flagrow/terms/policies/order',
-            'flagrow.terms.api.policies.order',
+            '/fof/terms/policies/order',
+            'fof.terms.api.policies.order',
             Controllers\PolicyOrderController::class
         )
         ->get(
-            '/flagrow/terms/policies',
-            'flagrow.terms.api.policies.index',
+            '/fof/terms/policies',
+            'fof.terms.api.policies.index',
             Controllers\PolicyIndexController::class
         )
         ->post(
-            '/flagrow/terms/policies',
-            'flagrow.terms.api.policies.store',
+            '/fof/terms/policies',
+            'fof.terms.api.policies.store',
             Controllers\PolicyStoreController::class
         )
         ->patch(
-            '/flagrow/terms/policies/{id:[0-9]+}',
-            'flagrow.terms.api.policies.update',
+            '/fof/terms/policies/{id:[0-9]+}',
+            'fof.terms.api.policies.update',
             Controllers\PolicyUpdateController::class
         )
         ->delete(
-            '/flagrow/terms/policies/{id:[0-9]+}',
-            'flagrow.terms.api.policies.delete',
+            '/fof/terms/policies/{id:[0-9]+}',
+            'fof.terms.api.policies.delete',
             Controllers\PolicyDeleteController::class
         )
         ->post(
-            '/flagrow/terms/policies/{id:[0-9]+}/accept',
-            'flagrow.terms.api.policies.delete',
+            '/fof/terms/policies/{id:[0-9]+}/accept',
+            'fof.terms.api.policies.delete',
             Controllers\PolicyAcceptController::class
         )
         ->get(
-            '/flagrow/terms/policies/{id:[0-9]+}/export.{format:json|csv}',
-            'flagrow.terms.api.policies.export',
+            '/fof/terms/policies/{id:[0-9]+}/export.{format:json|csv}',
+            'fof.terms.api.policies.export',
             Controllers\PolicyExportController::class
         ),
     function (Dispatcher $events) {

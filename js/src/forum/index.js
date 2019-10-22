@@ -8,13 +8,13 @@ import addFieldsToRegister from './addFieldsToRegister';
 import addUpdateAlert from './addUpdateAlert';
 import addUserPoliciesStateControl from './addUserPoliciesStateControl';
 
-app.initializers.add('flagrow-terms', () => {
-    app.store.models['flagrow-terms-policies'] = Policy;
+app.initializers.add('fof-terms', () => {
+    app.store.models['fof-terms-policies'] = Policy;
 
-    User.prototype.flagrowTermsPoliciesState = Model.attribute('flagrowTermsPoliciesState');
-    User.prototype.flagrowTermsPoliciesHasUpdate = Model.attribute('flagrowTermsPoliciesHasUpdate');
-    User.prototype.flagrowTermsPoliciesMustAccept = Model.attribute('flagrowTermsPoliciesMustAccept');
-    User.prototype.seeFlagrowTermsPoliciesState = Model.attribute('seeFlagrowTermsPoliciesState');
+    User.prototype.fofTermsPoliciesState = Model.attribute('fofTermsPoliciesState');
+    User.prototype.fofTermsPoliciesHasUpdate = Model.attribute('fofTermsPoliciesHasUpdate');
+    User.prototype.fofTermsPoliciesMustAccept = Model.attribute('fofTermsPoliciesMustAccept');
+    User.prototype.seeFoFTermsPoliciesState = Model.attribute('seeFoFTermsPoliciesState');
 
     addAcceptModal();
     addFieldsToRegister();

@@ -1,9 +1,9 @@
 <?php
 
-namespace Flagrow\Terms\Validators;
+namespace FoF\Terms\Validators;
 
-use Flagrow\Terms\Repositories\PolicyRepository;
 use Flarum\Foundation\AbstractValidator;
+use FoF\Terms\Repositories\PolicyRepository;
 
 class RegisterPolicyValidator extends AbstractValidator
 {
@@ -17,7 +17,7 @@ class RegisterPolicyValidator extends AbstractValidator
         $rules = [];
 
         foreach ($policies->all() as $policy) {
-            $rules['flagrow_terms_policy_' . $policy->id] = 'accepted';
+            $rules['fof_terms_policy_' . $policy->id] = 'accepted';
         }
 
         return $rules;
@@ -33,7 +33,7 @@ class RegisterPolicyValidator extends AbstractValidator
         $messages = [];
 
         foreach ($policies->all() as $policy) {
-            $messages['flagrow_terms_policy_' . $policy->id . '.accepted'] = $this->translator->trans('flagrow-terms.forum.signup.must-accept', [
+            $messages['fof_terms_policy_' . $policy->id . '.accepted'] = $this->translator->trans('fof-terms.forum.signup.must-accept', [
                 '{policy}' => $policy->name,
             ]);
         }

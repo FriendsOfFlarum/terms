@@ -1,28 +1,48 @@
-# Terms by ![Flagrow logo](https://avatars0.githubusercontent.com/u/16413865?v=3&s=20) [Flagrow](https://discuss.flarum.org/d/1832-flagrow-extension-developer-group), a project of [Gravure](https://gravure.io/)
+# Terms by FriendsOfFlarum
 
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/flagrow/terms/blob/master/LICENSE.md) [![Latest Stable Version](https://img.shields.io/packagist/v/flagrow/terms.svg)](https://packagist.org/packages/flagrow/terms) [![Total Downloads](https://img.shields.io/packagist/dt/flagrow/terms.svg)](https://packagist.org/packages/flagrow/terms) [![Donate](https://img.shields.io/badge/patreon-support-yellow.svg)](https://www.patreon.com/flagrow) [![Join our Discord server](https://discordapp.com/api/guilds/240489109041315840/embed.png)](https://flagrow.io/join-discord)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/FriendsOfFlarum/terms/blob/master/LICENSE.md) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/terms.svg)](https://packagist.org/packages/fof/terms) [![Total Downloads](https://img.shields.io/packagist/dt/fof/terms.svg)](https://packagist.org/packages/fof/terms)
 
 This extension allows you to define a list of terms the user must agree to before using the forum.
 
 It was made with the new General Data Protection Regulation in mind but please consult with your legal team to see whether it fits your requirements.
 
-The initial version of this extension was sponsored by [profesionalreview.com](https://www.profesionalreview.com/).
-
 ## Installation
 
-Use [Bazaar](https://discuss.flarum.org/d/5151-flagrow-bazaar-the-extension-marketplace) or install manually:
+Use [Bazaar](https://discuss.flarum.org/d/5151) or install manually:
 
 ```bash
-composer require flagrow/terms
+composer require fof/terms
 ```
 
 ## Updating
 
 ```bash
-composer update flagrow/terms
+composer require fof/terms
 php flarum migrate
 php flarum cache:clear
 ```
+
+### Updating from Flagrow
+
+This extension replaces [Flagrow Terms](https://packagist.org/packages/flagrow/terms).
+
+To upgrade from the old extension to the new one:
+
+- **Backup your data!** You should backup the database. You can also download Terms' data as JSON, see documentation below.
+
+- Disable the Terms extension in the admin panel.
+
+- Run:
+
+```sh
+composer require fof/terms
+```
+
+Composer should let you know that `flagrow/terms` has been automatically removed.
+
+- Enable the new extension in the admin panel.
+
+- Your existing data will be migrated to FoF Terms automatically.
 
 ## Configuration
 
@@ -38,28 +58,19 @@ You can customize who can skip the modal without accepting the new terms immedia
 
 Admins can see the date at which a user accepted the terms by going to their profile page and selecting the terms button in the dropdown menu. You can customize who can see those dates in the permissions.
 
-## Raw data
+## Data Export
 
-In case you want to export the data (for your GDPR logs for example), you will have to access the database.
+In case you want to export the data (for your GDPR logs for example), a JSON and CSV export is available.
 
-The `flagrow_terms_policies` table contains the list of policies and the `flagrow_terms_policy_user` table contains the relationship between the two along with the `accepted_at` timestamp of the moment they accepted it.
+The link can be found in the Policy edit form of the admin panel.
 
-## Support our work
-
-We prefer to keep our work available to everyone.
-In order to do so we rely on voluntary contributions on [Patreon](https://www.patreon.com/flagrow).
-
-## Security
-
-If you discover a security vulnerability within Terms, please send an email to the Gravure team at security@gravure.io. All security vulnerabilities will be promptly addressed.
-
-Please include as many details as possible. You can use `php flarum info` to get the PHP, Flarum and extension versions installed.
+If you want to automate the export, the available options are [documented on the wiki](https://github.com/FriendsOfFlarum/terms/wiki/Export-url).
 
 ## Links
 
 - [Flarum Discuss post](https://discuss.flarum.org/d/11714-flagrow-terms-ask-your-users-to-accept-tos-and-privacy-policy)
-- [Source code on GitHub](https://github.com/flagrow/terms)
-- [Report an issue](https://github.com/flagrow/terms/issues)
-- [Download via Packagist](https://packagist.org/packages/flagrow/terms)
+- [Source code on GitHub](https://github.com/FriendsOfFlarum/terms)
+- [Report an issue](https://github.com/FriendsOfFlarum/terms/issues)
+- [Download via Packagist](https://packagist.org/packages/fof/terms)
 
-An extension by [Flagrow](https://flagrow.io/), a project of [Gravure](https://gravure.io/).
+An extension by [FriendsOfFlarum](https://github.com/FriendsOfFlarum)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Terms;
+namespace FoF\Terms;
 
 class PermissionLock
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Flagrow\Terms\Controllers;
+namespace FoF\Terms\Controllers;
 
 use Carbon\Carbon;
-use Flagrow\Terms\Repositories\PolicyRepository;
 use Flarum\User\AssertPermissionTrait;
 use Flarum\User\User;
+use FoF\Terms\Repositories\PolicyRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -23,6 +23,11 @@ class PolicyExportController implements RequestHandlerInterface
         $this->policies = $policies;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     * @throws \Flarum\User\Exception\PermissionDeniedException
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $id = array_get($request->getQueryParams(), 'id');
@@ -43,7 +48,7 @@ class PolicyExportController implements RequestHandlerInterface
 
         $this->assertCan($request->getAttribute('actor'), 'export', $policy);
 
-        $data = $policy->users()->orderBy('flagrow_terms_policy_user.accepted_at')->get()->map(function ($user) use ($include) {
+        $data = $policy->users()->orderBy('fof_terms_policy_user.accepted_at')->get()->map(function ($user) use ($include) {
             /**
              * @var $user User
              */

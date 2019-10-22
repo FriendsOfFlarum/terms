@@ -1,10 +1,10 @@
 <?php
 
-namespace Flagrow\Terms\Access;
+namespace FoF\Terms\Access;
 
-use Flagrow\Terms\Policy;
 use Flarum\User\AbstractPolicy;
 use Flarum\User\User;
+use FoF\Terms\Policy;
 
 class PolicyPolicy extends AbstractPolicy
 {
@@ -12,11 +12,11 @@ class PolicyPolicy extends AbstractPolicy
 
     public function postponeAccept(User $actor, Policy $policy)
     {
-        return $actor->can('flagrow-terms.postpone-policies-accept');
+        return $actor->can('fof-terms.postpone-policies-accept');
     }
 
     public function export(User $actor, Policy $policy)
     {
-        return $actor->can('flagrow-terms.export-policies');
+        return $actor->can('fof-terms.export-policies');
     }
 }
