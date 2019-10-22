@@ -31,6 +31,7 @@ export default class AcceptPoliciesModal extends Modal {
 
         if (policies.length === 0) {
             return Button.component({
+                className: 'Button',
                 children: app.translator.trans('fof-terms.forum.accept-modal.close'),
                 onclick() {
                     app.modal.close();
@@ -62,6 +63,10 @@ export default class AcceptPoliciesModal extends Modal {
                 children: app.translator.trans('fof-terms.forum.accept-modal.accept'),
                 disabled: !this[policy.form_key()](),
                 onclick: () => {
+                    // We need to save the "must accept" property before performing the request
+                    // Because an updated user serializer will be returned
+                    const hadToAcceptToInteract = app.session.user.fofTermsPoliciesMustAccept();
+
                     app.request({
                         url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + '/accept',
                         method: 'POST',
@@ -71,7 +76,13 @@ export default class AcceptPoliciesModal extends Modal {
 
                         // If this was the last policy to accept, close the modal
                         if (policies.length === 1) {
-                            app.modal.close();
+                            if (hadToAcceptToInteract) {
+                                // If the user was previously not allowed to interact with the forum,
+                                // we refresh to get updated permissions in the frontend
+                                window.location.reload();
+                            } else {
+                                app.modal.close();
+                            }
                         }
 
                         m.redraw();
