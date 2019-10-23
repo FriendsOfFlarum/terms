@@ -18,7 +18,7 @@ export default function () {
         if (app.current instanceof IndexPage) {
             const user = app.session.user;
 
-            if (user && user.flagrowTermsPoliciesMustAccept()) {
+            if (user && user.fofTermsPoliciesMustAccept()) {
                 app.modal.show(new AcceptPoliciesModal());
             }
         }

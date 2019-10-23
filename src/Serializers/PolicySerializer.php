@@ -1,14 +1,14 @@
 <?php
 
-namespace Flagrow\Terms\Serializers;
+namespace FoF\Terms\Serializers;
 
-use Flagrow\Terms\Policy;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Settings\SettingsRepositoryInterface;
+use FoF\Terms\Policy;
 
 class PolicySerializer extends AbstractSerializer
 {
-    protected $type = 'flagrow-terms-policies';
+    protected $type = 'fof-terms-policies';
 
     /**
      * @param Policy $model
@@ -23,7 +23,7 @@ class PolicySerializer extends AbstractSerializer
          */
         $settings = app(SettingsRepositoryInterface::class);
 
-        if ($settings->get('flagrow-terms.hide-updated-at')) {
+        if ($settings->get('fof-terms.hide-updated-at')) {
             $attributes['terms_updated_at'] = null;
         } else {
             $attributes['terms_updated_at'] = $this->formatDate($model->terms_updated_at);

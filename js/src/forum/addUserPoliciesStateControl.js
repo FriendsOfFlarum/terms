@@ -6,10 +6,10 @@ import UserPoliciesStateModal from './components/UserPoliciesStateModal';
 
 export default function () {
     extend(UserControls, 'moderationControls', (items, user) => {
-        if (app.forum.attribute('flagrow-terms.canSeeUserPoliciesState')) {
-            items.add('flagrow-terms.state', Button.component({
+        if (app.forum.attribute('fof-terms.canSeeUserPoliciesState')) {
+            items.add('fof-terms.state', Button.component({
                 icon: 'fas fa-paperclip',
-                children: app.translator.trans('flagrow-terms.forum.user_controls.state_button'),
+                children: app.translator.trans('fof-terms.forum.user_controls.state_button'),
                 onclick() {
                     app.modal.show(new UserPoliciesStateModal({user}));
                 },

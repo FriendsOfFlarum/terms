@@ -4,22 +4,22 @@ import PermissionGrid from 'flarum/components/PermissionGrid';
 
 export default function () {
     extend(PermissionGrid.prototype, 'moderateItems', items => {
-        items.add('flagrow-terms-see-user-policies-state', {
+        items.add('fof-terms-see-user-policies-state', {
             icon: 'fas fa-paperclip',
-            label: app.translator.trans('flagrow-terms.admin.permissions.see-user-policies-state'),
-            permission: 'flagrow-terms.see-user-policies-state',
+            label: app.translator.trans('fof-terms.admin.permissions.see-user-policies-state'),
+            permission: 'fof-terms.see-user-policies-state',
         });
 
-        items.add('flagrow-terms-postpone-policies-accept', {
+        items.add('fof-terms-postpone-policies-accept', {
             icon: 'fas fa-paperclip',
-            label: app.translator.trans('flagrow-terms.admin.permissions.postpone-policies-accept'),
-            permission: 'flagrow-terms.postpone-policies-accept',
+            label: app.translator.trans('fof-terms.admin.permissions.postpone-policies-accept'),
+            permission: 'fof-terms.postpone-policies-accept',
         });
 
-        items.add('flagrow-terms-export-policies', {
+        items.add('fof-terms-export-policies', {
             icon: 'fas fa-paperclip',
-            label: app.translator.trans('flagrow-terms.admin.permissions.export-policies'),
-            permission: 'flagrow-terms.export-policies',
+            label: app.translator.trans('fof-terms.admin.permissions.export-policies'),
+            permission: 'fof-terms.export-policies',
         });
     });
 }

@@ -1,18 +1,20 @@
 <?php
 
-namespace Flagrow\Terms\Listeners;
+namespace FoF\Terms\Extenders;
 
-use Flagrow\Terms\PermissionLock;
-use Flagrow\Terms\Repositories\PolicyRepository;
-use Flarum\Group\Group;
 use Flarum\Event\PrepareUserGroups;
-use Illuminate\Contracts\Events\Dispatcher;
+use Flarum\Extend\ExtenderInterface;
+use Flarum\Extension\Extension;
+use Flarum\Group\Group;
+use FoF\Terms\PermissionLock;
+use FoF\Terms\Repositories\PolicyRepository;
+use Illuminate\Contracts\Container\Container;
 
-class RevokeAccessWhenNotAccepted
+class RevokeAccessWhenNotAccepted implements ExtenderInterface
 {
-    public function subscribe(Dispatcher $events)
+    public function extend(Container $container, Extension $extension = null)
     {
-        $events->listen(PrepareUserGroups::class, [$this, 'prepareUserGroups']);
+        $container['events']->listen(PrepareUserGroups::class, [$this, 'prepareUserGroups']);
     }
 
     public function prepareUserGroups(PrepareUserGroups $event)

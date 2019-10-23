@@ -4,6 +4,8 @@ import DiscussionPage from 'flarum/components/DiscussionPage';
 import UserPage from 'flarum/components/UserPage';
 import UpdateAlert from './components/UpdateAlert';
 
+/* global m */
+
 // This single method will be used to inject the alert into existing components
 // If the view is already an array, we add our content at the start
 // If it isn't an array we wrap the content into a new array

@@ -1,11 +1,11 @@
 <?php
 
-namespace Flagrow\Terms\Controllers;
+namespace FoF\Terms\Controllers;
 
-use Flagrow\Terms\Repositories\PolicyRepository;
-use Flagrow\Terms\Serializers\PolicySerializer;
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\User\AssertPermissionTrait;
+use FoF\Terms\Repositories\PolicyRepository;
+use FoF\Terms\Serializers\PolicySerializer;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -22,6 +22,12 @@ class PolicyOrderController extends AbstractListController
         $this->policies = $policies;
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param Document $document
+     * @return mixed
+     * @throws \Flarum\User\Exception\PermissionDeniedException
+     */
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $this->assertAdmin($request->getAttribute('actor'));

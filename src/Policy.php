@@ -1,10 +1,10 @@
 <?php
 
-namespace Flagrow\Terms;
+namespace FoF\Terms;
 
 use Carbon\Carbon;
-use Flarum\User\User;
 use Flarum\Database\AbstractModel;
+use Flarum\User\User;
 
 /**
  * @property int $id
@@ -18,7 +18,7 @@ use Flarum\Database\AbstractModel;
  */
 class Policy extends AbstractModel
 {
-    protected $table = 'flagrow_terms_policies';
+    protected $table = 'fof_terms_policies';
 
     public $timestamps = true;
 
@@ -43,7 +43,7 @@ class Policy extends AbstractModel
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'flagrow_terms_policy_user')->withPivot('accepted_at');
+        return $this->belongsToMany(User::class, 'fof_terms_policy_user')->withPivot('accepted_at');
     }
 
     protected function setUrlAttribute($value)

@@ -1,14 +1,15 @@
 <?php
 
-namespace Flagrow\Terms\Repositories;
+namespace FoF\Terms\Repositories;
 
 use Carbon\Carbon;
 use DateTime;
-use Flagrow\Terms\Policy;
-use Flagrow\Terms\Validators\PolicyValidator;
 use Flarum\User\User;
+use FoF\Terms\Policy;
+use FoF\Terms\Validators\PolicyValidator;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class PolicyRepository
 {
@@ -18,7 +19,7 @@ class PolicyRepository
 
     protected $rememberState;
 
-    const CACHE_KEY = 'flagrow-terms-policies';
+    const CACHE_KEY = 'fof-terms-policies';
 
     public function __construct(Policy $policy, PolicyValidator $validator, Repository $cache)
     {
@@ -44,7 +45,7 @@ class PolicyRepository
 
     /**
      * @param string $id
-     * @return Policy
+     * @return Policy|Model
      */
     public function findOrFail($id)
     {
@@ -54,7 +55,10 @@ class PolicyRepository
     public function state(User $user)
     {
         if (!$this->rememberState) {
-            $userPolicies = $user->flagrowTermsPolicies->keyBy('id');
+            /**
+             * @var Collection $userPolicies
+             */
+            $userPolicies = $user->fofTermsPolicies->keyBy('id');
 
             $this->rememberState = [];
 
@@ -108,6 +112,11 @@ class PolicyRepository
         return $mustAccept;
     }
 
+    /**
+     * @param array $attributes
+     * @return Policy
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(array $attributes)
     {
         $this->validator->assertValid($attributes);
@@ -120,6 +129,12 @@ class PolicyRepository
         return $policy;
     }
 
+    /**
+     * @param Policy $policy
+     * @param array $attributes
+     * @return Policy
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Policy $policy, array $attributes)
     {
         $this->validator->assertValid($attributes);
@@ -143,16 +158,16 @@ class PolicyRepository
 
     public function accept(User $user, Policy $policy)
     {
-        $exists = $user->flagrowTermsPolicies()->where('id', $policy->id)->exists();
+        $exists = $user->fofTermsPolicies()->where('id', $policy->id)->exists();
 
         $pivot = [
             'accepted_at' => Carbon::now(),
         ];
 
         if ($exists) {
-            $user->flagrowTermsPolicies()->updateExistingPivot($policy->id, $pivot);
+            $user->fofTermsPolicies()->updateExistingPivot($policy->id, $pivot);
         } else {
-            $user->flagrowTermsPolicies()->attach($policy->id, $pivot);
+            $user->fofTermsPolicies()->attach($policy->id, $pivot);
         }
     }
 
@@ -166,13 +181,15 @@ class PolicyRepository
             ];
         }
 
-        $user->flagrowTermsPolicies()->attach($relationship);
+        $user->fofTermsPolicies()->attach($relationship);
     }
 
     public function sorting(array $sorting)
     {
         foreach ($sorting as $i => $fieldId) {
-            $this->policy->where('id', $fieldId)->update(['sort' => $i]);
+            $this->policy->newQuery()
+                ->where('id', $fieldId)
+                ->update(['sort' => $i]);
         }
 
         $this->clearCache();
