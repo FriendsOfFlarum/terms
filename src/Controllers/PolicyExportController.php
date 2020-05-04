@@ -6,11 +6,11 @@ use Carbon\Carbon;
 use Flarum\User\AssertPermissionTrait;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
+use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\TextResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\Diactoros\Response\TextResponse;
 
 class PolicyExportController implements RequestHandlerInterface
 {

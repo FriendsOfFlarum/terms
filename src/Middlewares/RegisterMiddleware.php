@@ -6,11 +6,11 @@ use Flarum\Foundation\ErrorHandling\ExceptionHandler\IlluminateValidationExcepti
 use Flarum\Foundation\ErrorHandling\JsonApiFormatter;
 use FoF\Terms\Validators\RegisterPolicyValidator;
 use Illuminate\Validation\ValidationException;
+use Laminas\Diactoros\Uri;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Uri;
 
 class RegisterMiddleware implements MiddlewareInterface
 {
