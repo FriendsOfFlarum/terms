@@ -3,6 +3,7 @@
 namespace FoF\Terms;
 
 use Flarum\Extend;
+use FoF\Terms\Middlewares\RegisterMiddleware;
 use Illuminate\Contracts\Events\Dispatcher;
 
 return [
@@ -61,4 +62,6 @@ return [
         $events->subscribe(Access\PolicyPolicy::class);
         $events->subscribe(Access\UserPolicy::class);
     },
+
+    (new Extend\Middleware('forum'))->add(RegisterMiddleware::class),
 ];
