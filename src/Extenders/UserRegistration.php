@@ -5,7 +5,6 @@ namespace FoF\Terms\Extenders;
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
 use Flarum\User\Event\Registered;
-use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
 use Illuminate\Contracts\Container\Container;
 
