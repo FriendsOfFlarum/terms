@@ -8,8 +8,6 @@ It was made with the new General Data Protection Regulation in mind but please c
 
 ## Installation
 
-Use [Bazaar](https://discuss.flarum.org/d/5151) or install manually:
-
 ```bash
 composer require fof/terms
 ```
