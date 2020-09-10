@@ -12,7 +12,7 @@ export default class PolicyList extends Component {
         app.request({
             method: 'GET',
             url: app.forum.attribute('apiUrl') + '/fof/terms/policies',
-        }).then(result => {
+        }).then((result) => {
             app.store.pushPayload(result);
 
             m.redraw();
@@ -38,16 +38,21 @@ export default class PolicyList extends Component {
 
         let fieldsList = [];
 
-        sortByAttribute(policies)
-            .forEach(policy => {
-                // Build array of fields to show.
-                fieldsList.push(m('.js-policy-data', {
-                    key: policy.id(),
-                    'data-id': policy.id(),
-                }, PolicyEdit.component({
-                    policy,
-                })));
-            });
+        sortByAttribute(policies).forEach((policy) => {
+            // Build array of fields to show.
+            fieldsList.push(
+                m(
+                    '.js-policy-data',
+                    {
+                        key: policy.id(),
+                        'data-id': policy.id(),
+                    },
+                    PolicyEdit.component({
+                        policy,
+                    })
+                )
+            );
+        });
 
         return m('div', [
             m('h2', app.translator.trans('fof-terms.admin.titles.policies')),
@@ -68,7 +73,7 @@ export default class PolicyList extends Component {
             data: {
                 sort: sorting,
             },
-        }).then(result => {
+        }).then((result) => {
             // Update sort attributes
             app.store.pushPayload(result);
 
