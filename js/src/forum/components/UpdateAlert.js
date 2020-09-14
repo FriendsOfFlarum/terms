@@ -10,7 +10,9 @@ class AlertWithContainer extends Alert {
     view() {
         const vdom = super.view();
 
-        vdom.children = [m('.container', vdom.children)];
+        vdom.children = [
+            m('.container', vdom.children),
+        ];
 
         return vdom;
     }
@@ -36,9 +38,9 @@ export default class UpdateAlert extends Component {
 
         return AlertWithContainer.component({
             type: 'info',
-            children: app.session.user.fofTermsPoliciesMustAccept()
-                ? app.translator.trans('fof-terms.forum.update-alert.must-accept-message')
-                : app.translator.trans('fof-terms.forum.update-alert.can-accept-message'),
+            children: app.session.user.fofTermsPoliciesMustAccept() ?
+                app.translator.trans('fof-terms.forum.update-alert.must-accept-message') :
+                app.translator.trans('fof-terms.forum.update-alert.can-accept-message'),
             controls: [
                 Button.component({
                     className: 'Button Button--link',

@@ -1,4 +1,4 @@
-import { extend } from 'flarum/extend';
+import {extend} from 'flarum/extend';
 import app from 'flarum/app';
 import Model from 'flarum/Model';
 import User from 'flarum/models/User';

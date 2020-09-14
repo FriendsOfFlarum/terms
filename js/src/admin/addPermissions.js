@@ -1,9 +1,9 @@
-import { extend } from 'flarum/extend';
+import {extend} from 'flarum/extend';
 import app from 'flarum/app';
 import PermissionGrid from 'flarum/components/PermissionGrid';
 
 export default function () {
-    extend(PermissionGrid.prototype, 'moderateItems', (items) => {
+    extend(PermissionGrid.prototype, 'moderateItems', items => {
         items.add('fof-terms-see-user-policies-state', {
             icon: 'fas fa-paperclip',
             label: app.translator.trans('fof-terms.admin.permissions.see-user-policies-state'),
