@@ -8,10 +8,6 @@ import addFieldsToRegister from './addFieldsToRegister';
 import addUpdateAlert from './addUpdateAlert';
 import addUserPoliciesStateControl from './addUserPoliciesStateControl';
 
-export * from './components';
-export * from '../common/models';
-export * from '../common/helpers';
-
 app.initializers.add('fof-terms', () => {
     app.store.models['fof-terms-policies'] = Policy;
 
