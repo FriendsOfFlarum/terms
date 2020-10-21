@@ -1,14 +1,13 @@
 import sortable from 'html5sortable/dist/html5sortable.es.js';
 
 import app from 'flarum/app';
-import Component from 'flarum/Component';
 import PolicyEdit from './PolicyEdit';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
 
-/* global m, $ */
+/* global m */
 
-export default class PolicyList extends Component {
-    init() {
+export default class PolicyList {
+    oninit() {
         app.request({
             method: 'GET',
             url: app.forum.attribute('apiUrl') + '/fof/terms/policies',
@@ -19,15 +18,21 @@ export default class PolicyList extends Component {
         });
     }
 
-    config() {
-        sortable($.find('.js-policies-container')[0], {
+    oncreate(vnode) {
+        this.initsortable(vnode);
+    }
+
+    onupdate(vnode) {
+        // We could do this without re-creating the sortable on every redraw, but the current system works well
+        // "If it ain't broken, don't fix it"
+        this.initsortable(vnode);
+    }
+
+    initsortable(vnode) {
+        sortable(vnode.dom.querySelector('.js-policies-container'), {
             handle: '.js-policy-handle',
         })[0].addEventListener('sortupdate', () => {
-            const sorting = this.$('.js-policy-data')
-                .map(function () {
-                    return $(this).data('id');
-                })
-                .get();
+            const sorting = [].map.call(vnode.dom.querySelectorAll('.js-policy-data'), element => element.dataset.id);
 
             this.updateSort(sorting);
         });
@@ -44,7 +49,7 @@ export default class PolicyList extends Component {
                 fieldsList.push(m('.js-policy-data', {
                     key: policy.id(),
                     'data-id': policy.id(),
-                }, PolicyEdit.component({
+                }, m(PolicyEdit, {
                     policy,
                 })));
             });
@@ -53,8 +58,7 @@ export default class PolicyList extends Component {
             m('h2', app.translator.trans('fof-terms.admin.titles.policies')),
             m('.FoF-Terms-Policies-Container', [
                 m('.js-policies-container', fieldsList),
-                PolicyEdit.component({
-                    key: 'new',
+                m(PolicyEdit, {
                     policy: null,
                 }),
             ]),
@@ -65,7 +69,7 @@ export default class PolicyList extends Component {
         app.request({
             method: 'POST',
             url: app.forum.attribute('apiUrl') + '/fof/terms/policies/order',
-            data: {
+            body: {
                 sort: sorting,
             },
         }).then(result => {

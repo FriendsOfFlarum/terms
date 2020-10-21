@@ -9,9 +9,9 @@ import UpdateAlert from './components/UpdateAlert';
 // This single method will be used to inject the alert into existing components
 // If the view is already an array, we add our content at the start
 // If it isn't an array we wrap the content into a new array
-function addAlertToContent(original) {
-    const existing = original();
-    const additional = UpdateAlert.component();
+function addAlertToContent(original, ...originalArgs) {
+    const existing = original(...originalArgs);
+    const additional = m(UpdateAlert);
 
     // if the existing content is an array, add to it
     // This should only happen with the hero() override as other extensions might return an array there

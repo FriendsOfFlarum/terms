@@ -3,9 +3,10 @@
 namespace FoF\Terms\Controllers;
 
 use Carbon\Carbon;
-use Flarum\User\AssertPermissionTrait;
+use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
+use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\TextResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -14,8 +15,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class PolicyExportController implements RequestHandlerInterface
 {
-    use AssertPermissionTrait;
-
     protected $policies;
 
     public function __construct(PolicyRepository $policies)
@@ -26,13 +25,13 @@ class PolicyExportController implements RequestHandlerInterface
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws \Flarum\User\Exception\PermissionDeniedException
+     * @throws PermissionDeniedException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $id = array_get($request->getQueryParams(), 'id');
-        $format = array_get($request->getQueryParams(), 'format');
-        $rawInclude = array_get($request->getQueryParams(), 'include');
+        $id = Arr::get($request->getQueryParams(), 'id');
+        $format = Arr::get($request->getQueryParams(), 'format');
+        $rawInclude = Arr::get($request->getQueryParams(), 'include');
 
         if ($rawInclude) {
             $include = explode(',', $rawInclude);
@@ -46,14 +45,14 @@ class PolicyExportController implements RequestHandlerInterface
 
         $policy = $this->policies->findOrFail($id);
 
-        $this->assertCan($request->getAttribute('actor'), 'export', $policy);
+        /**
+         * @var $actor User
+         */
+        $actor = $request->getAttribute('actor');
+        $actor->assertCan('export', $policy);
 
-        $data = $policy->users()->orderBy('fof_terms_policy_user.accepted_at')->get()->map(function ($user) use ($include) {
-            /**
-             * @var $user User
-             */
-
-            return array_only([
+        $data = $policy->users()->orderBy('fof_terms_policy_user.accepted_at')->get()->map(function (User $user) use ($include) {
+            return Arr::only([
                 'id' => $user->id,
                 'email' => $user->email,
                 'username' => $user->username,
@@ -67,7 +66,7 @@ class PolicyExportController implements RequestHandlerInterface
             case 'csv':
                 $handle = fopen('php://memory', 'rb+');
 
-                if (count($data) > 0 && !array_get($request->getQueryParams(), 'no-csv-headers')) {
+                if (count($data) > 0 && !Arr::get($request->getQueryParams(), 'no-csv-headers')) {
                     fputcsv($handle, array_keys($data[0]));
                 }
 

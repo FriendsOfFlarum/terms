@@ -9,11 +9,10 @@ export default function () {
         if (app.forum.attribute('fof-terms.canSeeUserPoliciesState')) {
             items.add('fof-terms.state', Button.component({
                 icon: 'fas fa-paperclip',
-                children: app.translator.trans('fof-terms.forum.user_controls.state_button'),
                 onclick() {
-                    app.modal.show(new UserPoliciesStateModal({user}));
+                    app.modal.show(UserPoliciesStateModal, {user});
                 },
-            }));
+            }, app.translator.trans('fof-terms.forum.user_controls.state_button')));
         }
     });
 }

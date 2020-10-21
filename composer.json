@@ -18,11 +18,11 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/FriendsOfFlarum/linguist/issues",
-        "source": "https://github.com/FriendsOfFlarum/linguist"
+        "issues": "https://github.com/FriendsOfFlarum/terms/issues",
+        "source": "https://github.com/FriendsOfFlarum/terms"
     },
     "require": {
-        "flarum/core": ">=0.1.0-beta.12 <0.1.0-beta.14"
+        "flarum/core": ">=0.1.0-beta.14 <0.1.0-beta.15"
     },
     "replace": {
         "flagrow/terms": "*"

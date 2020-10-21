@@ -48,12 +48,12 @@ class Policy extends AbstractModel
 
     protected function setUrlAttribute($value)
     {
-        $this->attributes['url'] = $value ? $value : null;
+        $this->attributes['url'] = $value ?: null;
     }
 
     protected function setUpdateMessageAttribute($value)
     {
-        $this->attributes['update_message'] = $value ? $value : null;
+        $this->attributes['update_message'] = $value ?: null;
     }
 
     protected function setTermsUpdatedAtAttribute($value)

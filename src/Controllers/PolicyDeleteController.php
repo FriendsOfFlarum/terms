@@ -3,14 +3,14 @@
 namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractDeleteController;
-use Flarum\User\AssertPermissionTrait;
+use Flarum\User\Exception\PermissionDeniedException;
+use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 
 class PolicyDeleteController extends AbstractDeleteController
 {
-    use AssertPermissionTrait;
-
     protected $policies;
 
     public function __construct(PolicyRepository $policies)
@@ -20,13 +20,17 @@ class PolicyDeleteController extends AbstractDeleteController
 
     /**
      * @param ServerRequestInterface $request
-     * @throws \Flarum\User\Exception\PermissionDeniedException
+     * @throws PermissionDeniedException
      */
     protected function delete(ServerRequestInterface $request)
     {
-        $this->assertAdmin($request->getAttribute('actor'));
+        /**
+         * @var $actor User
+         */
+        $actor = $request->getAttribute('actor');
+        $actor->assertAdmin();
 
-        $id = array_get($request->getQueryParams(), 'id');
+        $id = Arr::get($request->getQueryParams(), 'id');
 
         $field = $this->policies->findOrFail($id);
 

@@ -6,11 +6,11 @@ import sortByAttribute from '../common/helpers/sortByAttribute';
 /* global m */
 
 export default function () {
-    extend(SignUpModal.prototype, 'init', function () {
+    extend(SignUpModal.prototype, 'oninit', function () {
         this.fofTermsPolicies = sortByAttribute(app.store.all('fof-terms-policies'));
 
         this.fofTermsPolicies.forEach(policy => {
-            this[policy.form_key()] = m.prop(false);
+            this[policy.form_key()] = false;
         });
     });
 
@@ -25,7 +25,10 @@ export default function () {
             fields.add('fof-terms-policy-' + policy.id(), m('.Form-group', m('.FoF-Terms-Check.FoF-Terms-Check--signup', m('label.checkbox', [
                 m('input', {
                     type: 'checkbox',
-                    bidi: this[policy.form_key()],
+                    checked: this[policy.form_key()],
+                    onchange: () => {
+                        this[policy.form_key()] = !this[policy.form_key()];
+                    },
                     disabled: this.loading,
                 }),
                 app.translator.trans('fof-terms.forum.signup.i-accept', {
@@ -41,7 +44,7 @@ export default function () {
 
     extend(SignUpModal.prototype, 'submitData', function (data) {
         this.fofTermsPolicies.forEach(policy => {
-            data[policy.form_key()] = this[policy.form_key()]();
+            data[policy.form_key()] = this[policy.form_key()];
         });
     });
 }

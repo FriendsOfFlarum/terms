@@ -3,16 +3,17 @@
 namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractCreateController;
-use Flarum\User\AssertPermissionTrait;
+use Flarum\User\Exception\PermissionDeniedException;
+use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
 use FoF\Terms\Serializers\PolicySerializer;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
 class PolicyUpdateController extends AbstractCreateController
 {
-    use AssertPermissionTrait;
-
     public $serializer = PolicySerializer::class;
 
     protected $policies;
@@ -26,18 +27,22 @@ class PolicyUpdateController extends AbstractCreateController
      * @param ServerRequestInterface $request
      * @param Document $document
      * @return mixed
-     * @throws \Flarum\User\Exception\PermissionDeniedException
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws PermissionDeniedException
+     * @throws ValidationException
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $this->assertAdmin($request->getAttribute('actor'));
+        /**
+         * @var $actor User
+         */
+        $actor = $request->getAttribute('actor');
+        $actor->assertAdmin();
 
-        $id = array_get($request->getQueryParams(), 'id');
+        $id = Arr::get($request->getQueryParams(), 'id');
 
         $policy = $this->policies->findOrFail($id);
 
-        $attributes = array_get($request->getParsedBody(), 'data.attributes', []);
+        $attributes = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
         return $this->policies->update($policy, $attributes);
     }

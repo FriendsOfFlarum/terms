@@ -3,7 +3,8 @@
 namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractListController;
-use Flarum\User\AssertPermissionTrait;
+use Flarum\User\Exception\PermissionDeniedException;
+use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
 use FoF\Terms\Serializers\PolicySerializer;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,8 +12,6 @@ use Tobscure\JsonApi\Document;
 
 class PolicyIndexController extends AbstractListController
 {
-    use AssertPermissionTrait;
-
     public $serializer = PolicySerializer::class;
 
     protected $policies;
@@ -26,11 +25,15 @@ class PolicyIndexController extends AbstractListController
      * @param ServerRequestInterface $request
      * @param Document $document
      * @return mixed
-     * @throws \Flarum\User\Exception\PermissionDeniedException
+     * @throws PermissionDeniedException
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $this->assertAdmin($request->getAttribute('actor'));
+        /**
+         * @var $actor User
+         */
+        $actor = $request->getAttribute('actor');
+        $actor->assertAdmin();
 
         return $this->policies->all();
     }

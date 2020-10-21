@@ -1,26 +1,16 @@
 import app from 'flarum/app';
-import Component from 'flarum/Component';
-import Alert from 'flarum/components/Alert';
 import Button from 'flarum/components/Button';
+import listItems from 'flarum/helpers/listItems';
 import AcceptPoliciesModal from './AcceptPoliciesModal';
 
 /* global m */
 
-class AlertWithContainer extends Alert {
-    view() {
-        const vdom = super.view();
-
-        vdom.children = [
-            m('.container', vdom.children),
-        ];
-
-        return vdom;
-    }
-}
-
 let temporarilyHidden = false;
 
-export default class UpdateAlert extends Component {
+/**
+ * Renders similarly to Flarum's Alert, but with an additional .container inside
+ */
+export default class UpdateAlert {
     shouldShowAlert() {
         if (temporarilyHidden) {
             return false;
@@ -36,24 +26,32 @@ export default class UpdateAlert extends Component {
             return m('div');
         }
 
-        return AlertWithContainer.component({
-            type: 'info',
-            children: app.session.user.fofTermsPoliciesMustAccept() ?
+        const controls = [
+            Button.component({
+                className: 'Button Button--link',
+                onclick: () => {
+                    app.modal.show(AcceptPoliciesModal);
+                },
+            }, app.translator.trans('fof-terms.forum.update-alert.review')),
+        ];
+
+        const dismissControl = [];
+
+        if (!app.session.user.fofTermsPoliciesMustAccept()) {
+            dismissControl.push(Button.component({
+                icon: 'fas fa-times',
+                className: 'Button Button--link Button--icon Alert-dismiss',
+                onclick: () => {
+                    temporarilyHidden = true;
+                },
+            }));
+        }
+
+        return m('.Alert.Alert-info', m('.container', [
+            m('span.Alert-body', app.session.user.fofTermsPoliciesMustAccept() ?
                 app.translator.trans('fof-terms.forum.update-alert.must-accept-message') :
-                app.translator.trans('fof-terms.forum.update-alert.can-accept-message'),
-            controls: [
-                Button.component({
-                    className: 'Button Button--link',
-                    children: app.translator.trans('fof-terms.forum.update-alert.review'),
-                    onclick: () => {
-                        app.modal.show(new AcceptPoliciesModal());
-                    },
-                }),
-            ],
-            dismissible: !app.session.user.fofTermsPoliciesMustAccept(),
-            ondismiss() {
-                temporarilyHidden = true;
-            },
-        });
+                app.translator.trans('fof-terms.forum.update-alert.can-accept-message')),
+            m('ul.Alert-controls', listItems(controls.concat(dismissControl))),
+        ]));
     }
 }

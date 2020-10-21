@@ -3,14 +3,14 @@ import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
 
-/* global m, moment */
+/* global m, dayjs */
 
 export default class AcceptPoliciesModal extends Modal {
-    init() {
-        super.init();
+    oninit(vnode) {
+        super.oninit(vnode);
 
         app.store.all('fof-terms-policies').forEach(policy => {
-            this[policy.form_key()] = m.prop(false);
+            this[policy.form_key()] = false;
         });
     }
 
@@ -32,23 +32,25 @@ export default class AcceptPoliciesModal extends Modal {
         if (policies.length === 0) {
             return Button.component({
                 className: 'Button',
-                children: app.translator.trans('fof-terms.forum.accept-modal.close'),
                 onclick() {
                     app.modal.close();
                 },
-            });
+            }, app.translator.trans('fof-terms.forum.accept-modal.close'));
         }
 
         return policies.map(policy => m('div', [
             m('h2', policy.name()),
             (app.forum.attribute('fof-terms.hide-updated-at') ? null : m('p', policy.terms_updated_at() ? app.translator.trans('fof-terms.forum.accept-modal.updated-at', {
-                date: moment(policy.terms_updated_at()).format(app.forum.attribute('fof-terms.date-format')),
+                date: dayjs(policy.terms_updated_at()).format(app.forum.attribute('fof-terms.date-format')),
             }) : app.translator.trans('fof-terms.forum.accept-modal.updated-recently'))),
             (policy.update_message() ? m('p', policy.update_message()) : null),
             m('.Form-group', m('.FoF-Terms-Check.FoF-Terms-Check--login', m('label.checkbox', [
                 m('input', {
                     type: 'checkbox',
-                    bidi: this[policy.form_key()],
+                    checked: this[policy.form_key()],
+                    onchange: () => {
+                        this[policy.form_key()] = !this[policy.form_key()];
+                    },
                 }),
                 app.translator.trans('fof-terms.forum.accept-modal.i-accept', {
                     policy: policy.name(),
@@ -60,8 +62,7 @@ export default class AcceptPoliciesModal extends Modal {
             ]))),
             Button.component({
                 className: 'Button Button--primary',
-                children: app.translator.trans('fof-terms.forum.accept-modal.accept'),
-                disabled: !this[policy.form_key()](),
+                disabled: !this[policy.form_key()],
                 onclick: () => {
                     // We need to save the "must accept" property before performing the request
                     // Because an updated user serializer will be returned
@@ -88,7 +89,7 @@ export default class AcceptPoliciesModal extends Modal {
                         m.redraw();
                     });
                 },
-            }),
+            }, app.translator.trans('fof-terms.forum.accept-modal.accept')),
         ]));
     }
 }

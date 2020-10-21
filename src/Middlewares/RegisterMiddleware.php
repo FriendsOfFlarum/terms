@@ -6,7 +6,6 @@ use Flarum\Foundation\ErrorHandling\ExceptionHandler\IlluminateValidationExcepti
 use Flarum\Foundation\ErrorHandling\JsonApiFormatter;
 use FoF\Terms\Validators\RegisterPolicyValidator;
 use Illuminate\Validation\ValidationException;
-use Laminas\Diactoros\Uri;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
@@ -23,13 +22,8 @@ class RegisterMiddleware implements MiddlewareInterface
      */
     public function process(Request $request, RequestHandlerInterface $handler): Response
     {
-        // Get the register endpoint for this Flarum
-        $registerUri = new Uri(app()->url('register'));
-
         // Compare if the current path is the register endpoint
-        // We only compare the path and not the host, that way even if Flarum redirects aren't set up correctly
-        // and Flarum is accessed via the wrong hostname this middleware will still run
-        if ($request->getUri()->getPath() === $registerUri->getPath()) {
+        if ($request->getUri()->getPath() === '/register') {
             /**
              * @var $validator RegisterPolicyValidator
              */

@@ -25,8 +25,7 @@ export default class TermsSettingsModal extends SettingsModal {
                 m('label', Switch.component({
                     state: this.setting(settingsPrefix + 'hide-updated-at')() > 0,
                     onchange: this.setting(settingsPrefix + 'hide-updated-at'),
-                    children: app.translator.trans(translationPrefix + 'field.hide-updated-at'),
-                })),
+                }, app.translator.trans(translationPrefix + 'field.hide-updated-at'))),
             ]),
             m('.Form-group', [
                 m('label', app.translator.trans(translationPrefix + 'field.date-format')),
@@ -36,12 +35,12 @@ export default class TermsSettingsModal extends SettingsModal {
                 }),
                 m('.helpText', app.translator.trans(translationPrefix + 'field.date-format-help', {
                     a: m('a', {
-                        href: 'https://momentjs.com/docs/#/displaying/format/',
+                        href: 'https://day.js.org/docs/en/display/format',
                         target: '_blank',
                     }),
                 })),
             ]),
-            PolicyList.component(),
+            m(PolicyList),
         ];
     }
 }

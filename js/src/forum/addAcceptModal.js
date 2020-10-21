@@ -7,7 +7,7 @@ import AcceptPoliciesModal from './components/AcceptPoliciesModal';
 export default function () {
     let initialized = false;
 
-    extend(Page.prototype, 'init', function () {
+    extend(Page.prototype, 'oninit', function () {
         if (initialized) {
             return;
         }
@@ -15,11 +15,14 @@ export default function () {
         // We only show the modal if the first page loaded was the index page
         // And that new updates are available
         // And that the user *must* accept them
-        if (app.current instanceof IndexPage) {
+        if (app.current.matches(IndexPage)) {
             const user = app.session.user;
 
             if (user && user.fofTermsPoliciesMustAccept()) {
-                app.modal.show(new AcceptPoliciesModal());
+                // Timeout is necessary because there is a redraw error otherwise
+                setTimeout(() => {
+                    app.modal.show(AcceptPoliciesModal);
+                }, 0);
             }
         }
 

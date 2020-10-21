@@ -4,15 +4,15 @@ namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Api\Serializer\BasicUserSerializer;
-use Flarum\User\AssertPermissionTrait;
+use Flarum\User\Exception\NotAuthenticatedException;
+use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
 class PolicyAcceptController extends AbstractShowController
 {
-    use AssertPermissionTrait;
-
     public $serializer = BasicUserSerializer::class;
 
     protected $policies;
@@ -26,17 +26,20 @@ class PolicyAcceptController extends AbstractShowController
      * @param ServerRequestInterface $request
      * @param Document $document
      * @return mixed
-     * @throws \Flarum\User\Exception\NotAuthenticatedException
+     * @throws NotAuthenticatedException
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $id = array_get($request->getQueryParams(), 'id');
+        $id = Arr::get($request->getQueryParams(), 'id');
 
         $policy = $this->policies->findOrFail($id);
 
+        /**
+         * @var $actor User
+         */
         $actor = $request->getAttribute('actor');
 
-        $this->assertRegistered($actor);
+        $actor->assertRegistered();
 
         $this->policies->accept($actor, $policy);
 

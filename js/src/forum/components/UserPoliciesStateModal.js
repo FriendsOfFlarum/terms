@@ -3,13 +3,9 @@ import humanTime from 'flarum/helpers/humanTime';
 import Modal from 'flarum/components/Modal';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
 
-/* global m, moment */
+/* global m */
 
 export default class UserPoliciesStateModal extends Modal {
-    init() {
-        super.init();
-    }
-
     title() {
         return app.translator.trans('fof-terms.forum.state-modal.title', {
             username: this.props.user.username(),
@@ -23,7 +19,7 @@ export default class UserPoliciesStateModal extends Modal {
             return m('li', [
                 policy.name() + ': ',
                 state && state.accepted_at ? app.translator.trans('fof-terms.forum.state-modal.accepted-at', {
-                    date: humanTime(moment(state.accepted_at)),
+                    date: humanTime(state.accepted_at),
                 }) : app.translator.trans('fof-terms.forum.state-modal.not-accepted'),
             ]);
         })));

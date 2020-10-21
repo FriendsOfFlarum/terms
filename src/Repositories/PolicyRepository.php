@@ -10,6 +10,8 @@ use FoF\Terms\Validators\PolicyValidator;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 
 class PolicyRepository
 {
@@ -31,7 +33,7 @@ class PolicyRepository
     /**
      * @return Policy[]|Collection
      */
-    public function all()
+    public function all(): Collection
     {
         return $this->cache->rememberForever(self::CACHE_KEY, function () {
             return $this->policy->newQuery()->orderBy('sort')->get();
@@ -47,7 +49,7 @@ class PolicyRepository
      * @param string $id
      * @return Policy|Model
      */
-    public function findOrFail($id)
+    public function findOrFail(string $id): Policy
     {
         return $this->policy->newQuery()->findOrFail($id);
     }
@@ -78,14 +80,14 @@ class PolicyRepository
         return $this->rememberState;
     }
 
-    public function hasPoliciesUpdate(User $user)
+    public function hasPoliciesUpdate(User $user): bool
     {
         $state = $this->state($user);
 
         $hasUpdates = false;
 
         foreach ($state as $s) {
-            if (array_get($s, 'has_update')) {
+            if (Arr::get($s, 'has_update')) {
                 $hasUpdates = true;
 
                 break;
@@ -102,7 +104,7 @@ class PolicyRepository
         $mustAccept = false;
 
         foreach ($state as $s) {
-            if (array_get($s, 'must_accept')) {
+            if (Arr::get($s, 'must_accept')) {
                 $mustAccept = true;
 
                 break;
@@ -115,7 +117,7 @@ class PolicyRepository
     /**
      * @param array $attributes
      * @return Policy
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(array $attributes)
     {
@@ -133,7 +135,7 @@ class PolicyRepository
      * @param Policy $policy
      * @param array $attributes
      * @return Policy
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function update(Policy $policy, array $attributes)
     {

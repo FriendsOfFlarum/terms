@@ -1,32 +1,23 @@
 <?php
 
-namespace FoF\Terms\Extenders;
+namespace FoF\Terms;
 
-use Flarum\Event\PrepareUserGroups;
-use Flarum\Extend\ExtenderInterface;
-use Flarum\Extension\Extension;
 use Flarum\Group\Group;
-use FoF\Terms\PermissionLock;
+use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
-use Illuminate\Contracts\Container\Container;
 
-class RevokeAccessWhenNotAccepted implements ExtenderInterface
+class PermissionGroupProcessor
 {
-    public function extend(Container $container, Extension $extension = null)
-    {
-        $container['events']->listen(PrepareUserGroups::class, [$this, 'prepareUserGroups']);
-    }
-
-    public function prepareUserGroups(PrepareUserGroups $event)
+    static function process(User $actor, array $groupIds): array
     {
         // Prevent infinite loop when fetching permissions inside this event
         if (!PermissionLock::shouldApplyPermissionRestrictions()) {
-            return;
+            return $groupIds;
         }
 
         // Don't look further if the user is already a guest
-        if ($event->user->isGuest()) {
-            return;
+        if ($actor->isGuest()) {
+            return $groupIds;
         }
 
         /**
@@ -42,11 +33,13 @@ class RevokeAccessWhenNotAccepted implements ExtenderInterface
         PermissionLock::stopRestrictingPermissions();
 
         // Revoke access the same way as the suspend extension does
-        if ($policies->mustAcceptNewPolicies($event->user)) {
-            $event->groupIds = [Group::GUEST_ID];
+        if ($policies->mustAcceptNewPolicies($actor)) {
+            $groupIds = [Group::GUEST_ID];
         }
 
         // Restore our ability to restrict permissions for the next permission check for the same or another user
         PermissionLock::continueRestrictingPermissions();
+
+        return $groupIds;
     }
 }

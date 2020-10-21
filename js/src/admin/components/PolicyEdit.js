@@ -1,14 +1,14 @@
 import app from 'flarum/app';
 import icon from 'flarum/helpers/icon';
 import extractText from 'flarum/utils/extractText';
-import Component from 'flarum/Component';
+import withAttr from 'flarum/utils/withAttr';
 import Button from 'flarum/components/Button';
 
-/* global m, moment */
+/* global m, dayjs */
 
-export default class PolicyEdit extends Component {
-    init() {
-        this.policy = this.props.policy;
+export default class PolicyEdit {
+    oninit(vnode) {
+        this.policy = vnode.attrs.policy;
         this.dirty = false;
         this.processing = false;
         this.toggleFields = false;
@@ -65,7 +65,7 @@ export default class PolicyEdit extends Component {
                 m('input.FormControl', {
                     type: 'text',
                     value: this.policy.name(),
-                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'name')),
+                    oninput: withAttr('value', this.updateAttribute.bind(this, 'name')),
                 }),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.name-help')),
             ]),
@@ -74,7 +74,7 @@ export default class PolicyEdit extends Component {
                 m('input.FormControl', {
                     type: 'url',
                     value: this.policy.url(),
-                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'url')),
+                    oninput: withAttr('value', this.updateAttribute.bind(this, 'url')),
                 }),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.url-help')),
             ]),
@@ -82,7 +82,7 @@ export default class PolicyEdit extends Component {
                 m('label', app.translator.trans('fof-terms.admin.policies.update-message')),
                 m('textarea.FormControl', {
                     value: this.policy.update_message(),
-                    oninput: m.withAttr('value', this.updateAttribute.bind(this, 'update_message')),
+                    oninput: withAttr('value', this.updateAttribute.bind(this, 'update_message')),
                 }),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.update-message-help')),
             ]),
@@ -92,16 +92,17 @@ export default class PolicyEdit extends Component {
                     m('input.FormControl', {
                         type: 'text',
                         value: this.policy.terms_updated_at(),
-                        oninput: m.withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
+                        oninput: withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
                         placeholder: app.translator.trans('fof-terms.admin.policies.terms-updated-at-placeholder'),
                     }),
                     Button.component({
                         className: 'Button Button--primary',
                         onclick: () => {
-                            this.updateAttribute('terms_updated_at', moment().milliseconds(0).toISOString());
+                            // We set the milliseconds to zero because it might otherwise give the impression
+                            // that we store them, when in fact the date will be stored in a MySQL TIMESTAMP column
+                            this.updateAttribute('terms_updated_at', dayjs().millisecond(0).toISOString());
                         },
-                        children: app.translator.trans('fof-terms.admin.buttons.set-to-now'),
-                    }),
+                    }, app.translator.trans('fof-terms.admin.buttons.set-to-now')),
                 ]),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.terms-updated-at-help')),
             ]),
@@ -122,18 +123,16 @@ export default class PolicyEdit extends Component {
                 Button.component({
                     type: 'submit',
                     className: 'Button Button--primary',
-                    children: app.translator.trans('fof-terms.admin.buttons.' + (this.policy.exists ? 'save' : 'add') + '-policy'),
                     loading: this.processing,
                     disabled: !this.readyToSave(),
                     onclick: this.savePolicy.bind(this),
-                }),
+                }, app.translator.trans('fof-terms.admin.buttons.' + (this.policy.exists ? 'save' : 'add') + '-policy')),
                 (this.policy.exists ? Button.component({
                     type: 'submit',
                     className: 'Button Button--danger',
-                    children: app.translator.trans('fof-terms.admin.buttons.delete-policy'),
                     loading: this.processing,
                     onclick: this.deletePolicy.bind(this),
-                }) : ''),
+                }, app.translator.trans('fof-terms.admin.buttons.delete-policy')) : ''),
             ]),
         ]);
     }
