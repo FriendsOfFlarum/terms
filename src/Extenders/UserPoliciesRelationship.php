@@ -2,33 +2,25 @@
 
 namespace FoF\Terms\Extenders;
 
-use Flarum\Api\Event\Serializing;
 use Flarum\Api\Serializer\BasicUserSerializer;
-use Flarum\Extend\ExtenderInterface;
-use Flarum\Extension\Extension;
+use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
-use Illuminate\Contracts\Container\Container;
 
-class UserPoliciesRelationship implements ExtenderInterface
+class UserPoliciesRelationship
 {
-    public function extend(Container $container, Extension $extension = null)
+    public function __invoke(BasicUserSerializer $serializer, User $user, array $attributes)
     {
-        $container['events']->listen(Serializing::class, [$this, 'addAttributes']);
-    }
+        if ($serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
+            /**
+             * @var $policies PolicyRepository
+             */
+            $policies = app(PolicyRepository::class);
 
-    public function addAttributes(Serializing $event)
-    {
-        if ($event->isSerializer(BasicUserSerializer::class)) {
-            if ($event->actor->can('seeFoFTermsPoliciesState', $event->model)) {
-                /**
-                 * @var $policies PolicyRepository
-                 */
-                $policies = app(PolicyRepository::class);
-
-                $event->attributes['fofTermsPoliciesState'] = $policies->state($event->model);
-                $event->attributes['fofTermsPoliciesHasUpdate'] = $policies->hasPoliciesUpdate($event->model);
-                $event->attributes['fofTermsPoliciesMustAccept'] = $policies->mustAcceptNewPolicies($event->model);
-            }
+            $attributes['fofTermsPoliciesState'] = $policies->state($user);
+            $attributes['fofTermsPoliciesHasUpdate'] = $policies->hasPoliciesUpdate($user);
+            $attributes['fofTermsPoliciesMustAccept'] = $policies->mustAcceptNewPolicies($user);
         }
+
+        return $attributes;
     }
 }

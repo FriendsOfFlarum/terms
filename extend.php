@@ -2,12 +2,16 @@
 
 namespace FoF\Terms;
 
+use Flarum\Api\Controller\ShowForumController;
+use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
 use Flarum\User\Event\Registered;
 use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
+use FoF\Terms\Serializers\PolicySerializer;
 use Illuminate\Contracts\Events\Dispatcher;
 
 return [
@@ -49,12 +53,36 @@ return [
         $policies->acceptAll($event->user);
     }),
 
-    new Extenders\ForumPoliciesRelationship(),
-    new Extenders\InjectSettings(),
-    new Extenders\UserPoliciesRelationship(),
-
     function (Dispatcher $events) {
         $events->subscribe(Access\PolicyPolicy::class);
         $events->subscribe(Access\UserPolicy::class);
     },
+
+    (new Extend\ApiSerializer(BasicUserSerializer::class))
+        ->mutate(Extenders\UserPoliciesRelationship::class),
+
+    (new Extend\Settings())
+        ->serializeToForum('fof-terms.signup-legal-text', 'fof-terms.signup-legal-text')
+        ->serializeToForum('fof-terms.hide-updated-at', 'fof-terms.hide-updated-at', function ($value) {
+            return (bool) $value;
+        })
+        ->serializeToForum('fof-terms.date-format', 'fof-terms.date-format', function ($value) {
+            return $value ?: 'YYYY-MM-DD';
+        }),
+
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        ->attribute('fof-terms.canSeeUserPoliciesState', function (ForumSerializer $serializer) {
+            return $serializer->getActor()->can('fof-terms.see-user-policies-state');
+        })
+        ->hasMany('fofTermsPolicies', PolicySerializer::class),
+
+    (new Extend\ApiController(ShowForumController::class))
+        ->prepareDataForSerialization(function (ShowForumController $controller, &$data) {
+            /**
+             * @var PolicyRepository
+             */
+            $policies = app(PolicyRepository::class);
+            $data['fofTermsPolicies'] = $policies->all();
+        })
+        ->addInclude('fofTermsPolicies'),
 ];
