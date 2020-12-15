@@ -23,10 +23,16 @@ export default class TermsSettingsPage extends ExtensionPage {
                     }),
                 ]),
                 m('.Form-group', [
-                    m('label', Switch.component({
-                        state: this.setting(settingsPrefix + 'hide-updated-at')() > 0,
-                        onchange: this.setting(settingsPrefix + 'hide-updated-at'),
-                    }, app.translator.trans(translationPrefix + 'field.hide-updated-at'))),
+                    m(
+                        'label',
+                        Switch.component(
+                            {
+                                state: this.setting(settingsPrefix + 'hide-updated-at')() > 0,
+                                onchange: this.setting(settingsPrefix + 'hide-updated-at'),
+                            },
+                            app.translator.trans(translationPrefix + 'field.hide-updated-at')
+                        )
+                    ),
                 ]),
                 m('.Form-group', [
                     m('label', app.translator.trans(translationPrefix + 'field.date-format')),
@@ -34,16 +40,19 @@ export default class TermsSettingsPage extends ExtensionPage {
                         bidi: this.setting(settingsPrefix + 'date-format'),
                         placeholder: 'YYYY-MM-DD',
                     }),
-                    m('.helpText', app.translator.trans(translationPrefix + 'field.date-format-help', {
-                        a: m('a', {
-                            href: 'https://day.js.org/docs/en/display/format',
-                            target: '_blank',
-                        }),
-                    })),
+                    m(
+                        '.helpText',
+                        app.translator.trans(translationPrefix + 'field.date-format-help', {
+                            a: m('a', {
+                                href: 'https://day.js.org/docs/en/display/format',
+                                target: '_blank',
+                            }),
+                        })
+                    ),
                 ]),
                 m(PolicyList),
                 this.submitButton(),
-            ])
+            ]),
         ];
     }
 }
