@@ -7,7 +7,7 @@ export default class Policy extends Model {
     url = Model.attribute('url');
     update_message = Model.attribute('update_message');
     terms_updated_at = Model.attribute('terms_updated_at');
-    form_key = computed('id', id => 'fof_terms_policy_' + id);
+    form_key = computed('id', (id) => 'fof_terms_policy_' + id);
 
     apiEndpoint() {
         return '/fof/terms/policies' + (this.exists ? '/' + this.data.id : '');

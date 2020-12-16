@@ -11,7 +11,7 @@ export default class PolicyList {
         app.request({
             method: 'GET',
             url: app.forum.attribute('apiUrl') + '/fof/terms/policies',
-        }).then(result => {
+        }).then((result) => {
             app.store.pushPayload(result);
 
             m.redraw();
@@ -32,7 +32,7 @@ export default class PolicyList {
         sortable(vnode.dom.querySelector('.js-policies-container'), {
             handle: '.js-policy-handle',
         })[0].addEventListener('sortupdate', () => {
-            const sorting = [].map.call(vnode.dom.querySelectorAll('.js-policy-data'), element => element.dataset.id);
+            const sorting = [].map.call(vnode.dom.querySelectorAll('.js-policy-data'), (element) => element.dataset.id);
 
             this.updateSort(sorting);
         });
@@ -43,16 +43,21 @@ export default class PolicyList {
 
         let fieldsList = [];
 
-        sortByAttribute(policies)
-            .forEach(policy => {
-                // Build array of fields to show.
-                fieldsList.push(m('.js-policy-data', {
-                    key: policy.id(),
-                    'data-id': policy.id(),
-                }, m(PolicyEdit, {
-                    policy,
-                })));
-            });
+        sortByAttribute(policies).forEach((policy) => {
+            // Build array of fields to show.
+            fieldsList.push(
+                m(
+                    '.js-policy-data',
+                    {
+                        key: policy.id(),
+                        'data-id': policy.id(),
+                    },
+                    m(PolicyEdit, {
+                        policy,
+                    })
+                )
+            );
+        });
 
         return m('div', [
             m('h2', app.translator.trans('fof-terms.admin.titles.policies')),
@@ -72,7 +77,7 @@ export default class PolicyList {
             body: {
                 sort: sorting,
             },
-        }).then(result => {
+        }).then((result) => {
             // Update sort attributes
             app.store.pushPayload(result);
 

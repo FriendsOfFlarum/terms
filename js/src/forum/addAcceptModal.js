@@ -1,5 +1,5 @@
 import app from 'flarum/app';
-import {extend} from 'flarum/extend';
+import { extend } from 'flarum/extend';
 import Page from 'flarum/components/Page';
 import IndexPage from 'flarum/components/IndexPage';
 import AcceptPoliciesModal from './components/AcceptPoliciesModal';

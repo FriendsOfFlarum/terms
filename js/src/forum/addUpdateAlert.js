@@ -1,4 +1,4 @@
-import {override} from 'flarum/extend';
+import { override } from 'flarum/extend';
 import IndexPage from 'flarum/components/IndexPage';
 import DiscussionPage from 'flarum/components/DiscussionPage';
 import UserPage from 'flarum/components/UserPage';
@@ -27,10 +27,7 @@ function addAlertToContent(original, ...originalArgs) {
     // We could also add to vnode.children but this could cause weird styling if another extension or custom styles
     // change the look of the base page content by targeting the original view root element based on its class
     // By using a new outer container we make sure the alert always stays full width and unaffected by the page view under it
-    return m('div', [
-        additional,
-        existing,
-    ]);
+    return m('div', [additional, existing]);
 }
 
 export default function () {

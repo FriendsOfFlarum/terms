@@ -27,31 +27,42 @@ export default class UpdateAlert {
         }
 
         const controls = [
-            Button.component({
-                className: 'Button Button--link',
-                onclick: () => {
-                    app.modal.show(AcceptPoliciesModal);
+            Button.component(
+                {
+                    className: 'Button Button--link',
+                    onclick: () => {
+                        app.modal.show(AcceptPoliciesModal);
+                    },
                 },
-            }, app.translator.trans('fof-terms.forum.update-alert.review')),
+                app.translator.trans('fof-terms.forum.update-alert.review')
+            ),
         ];
 
         const dismissControl = [];
 
         if (!app.session.user.fofTermsPoliciesMustAccept()) {
-            dismissControl.push(Button.component({
-                icon: 'fas fa-times',
-                className: 'Button Button--link Button--icon Alert-dismiss',
-                onclick: () => {
-                    temporarilyHidden = true;
-                },
-            }));
+            dismissControl.push(
+                Button.component({
+                    icon: 'fas fa-times',
+                    className: 'Button Button--link Button--icon Alert-dismiss',
+                    onclick: () => {
+                        temporarilyHidden = true;
+                    },
+                })
+            );
         }
 
-        return m('.Alert.Alert-info', m('.container', [
-            m('span.Alert-body', app.session.user.fofTermsPoliciesMustAccept() ?
-                app.translator.trans('fof-terms.forum.update-alert.must-accept-message') :
-                app.translator.trans('fof-terms.forum.update-alert.can-accept-message')),
-            m('ul.Alert-controls', listItems(controls.concat(dismissControl))),
-        ]));
+        return m(
+            '.Alert.Alert-info',
+            m('.container', [
+                m(
+                    'span.Alert-body',
+                    app.session.user.fofTermsPoliciesMustAccept()
+                        ? app.translator.trans('fof-terms.forum.update-alert.must-accept-message')
+                        : app.translator.trans('fof-terms.forum.update-alert.can-accept-message')
+                ),
+                m('ul.Alert-controls', listItems(controls.concat(dismissControl))),
+            ])
+        );
     }
 }
