@@ -8,7 +8,7 @@ import sortByAttribute from '../../common/helpers/sortByAttribute';
 export default class UserPoliciesStateModal extends Modal {
     title() {
         return app.translator.trans('fof-terms.forum.state-modal.title', {
-            username: this.props.user.username(),
+            username: this.attrs.user.username(),
         });
     }
 
@@ -18,7 +18,7 @@ export default class UserPoliciesStateModal extends Modal {
             m(
                 'ul',
                 sortByAttribute(app.store.all('fof-terms-policies')).map((policy) => {
-                    const state = this.props.user.fofTermsPoliciesState()[policy.id()];
+                    const state = this.attrs.user.fofTermsPoliciesState()[policy.id()];
 
                     return m('li', [
                         policy.name() + ': ',
