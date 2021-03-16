@@ -12,7 +12,7 @@ class RegisterPolicyValidator extends AbstractValidator
         /**
          * @var $policies PolicyRepository
          */
-        $policies = app(PolicyRepository::class);
+        $policies = resolve(PolicyRepository::class);
 
         $rules = [];
 
@@ -28,7 +28,7 @@ class RegisterPolicyValidator extends AbstractValidator
         /**
          * @var $policies PolicyRepository
          */
-        $policies = app(PolicyRepository::class);
+        $policies = resolve(PolicyRepository::class);
 
         $messages = [];
 

@@ -23,7 +23,7 @@ class PermissionGroupProcessor
         /**
          * @var $policies PolicyRepository
          */
-        $policies = app(PolicyRepository::class);
+        $policies = resolve(PolicyRepository::class);
 
         // The Repository will check permissions against the Gate, which will fetch the user permissions,
         // which will fetch the groups again, which will trigger this same event

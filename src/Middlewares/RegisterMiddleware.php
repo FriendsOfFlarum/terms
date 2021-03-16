@@ -27,7 +27,7 @@ class RegisterMiddleware implements MiddlewareInterface
             /**
              * @var $validator RegisterPolicyValidator
              */
-            $validator = app(RegisterPolicyValidator::class);
+            $validator = resolve(RegisterPolicyValidator::class);
 
             try {
                 $validator->assertValid($request->getParsedBody());
@@ -35,7 +35,7 @@ class RegisterMiddleware implements MiddlewareInterface
                 /**
                  * @var $handler IlluminateValidationExceptionHandler
                  */
-                $handler = app(IlluminateValidationExceptionHandler::class);
+                $handler = resolve(IlluminateValidationExceptionHandler::class);
 
                 // We need to handle/format the error ourselves because the front-end (forum) doesn't have that error handler
                 // Only the API-end has it (that's where the remaining of the sign up / login logic is)

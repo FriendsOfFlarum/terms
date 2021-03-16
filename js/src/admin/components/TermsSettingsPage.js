@@ -9,12 +9,8 @@ const translationPrefix = 'fof-terms.admin.settings.';
 /* global m */
 
 export default class TermsSettingsPage extends ExtensionPage {
-    oninit(vnode) {
-        super.oninit(vnode);
-    }
-
     content() {
-        return [
+        return m('.ExtensionPage-settings', [
             m('.container', [
                 m('.Form-group', [
                     m('label', app.translator.trans(translationPrefix + 'field.signup-legal-text')),
@@ -50,9 +46,9 @@ export default class TermsSettingsPage extends ExtensionPage {
                         })
                     ),
                 ]),
-                m(PolicyList),
                 this.submitButton(),
+                m(PolicyList),
             ]),
-        ];
+        ]);
     }
 }

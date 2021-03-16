@@ -12,7 +12,6 @@ use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
 use FoF\Terms\Serializers\PolicySerializer;
-use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('admin'))
@@ -46,20 +45,19 @@ return [
         /**
          * @var $policies PolicyRepository
          */
-        $policies = app(PolicyRepository::class);
+        $policies = resolve(PolicyRepository::class);
 
         // When a user registers, we automatically accept all policies
         // We assume the checkboxes validation has been properly done pre-registration by the middleware
         $policies->acceptAll($event->user);
     }),
 
-    function (Dispatcher $events) {
-        $events->subscribe(Access\PolicyPolicy::class);
-        $events->subscribe(Access\UserPolicy::class);
-    },
+    (new Extend\Policy())
+        ->modelPolicy(Policy::class, Access\PolicyPolicy::class)
+        ->modelPolicy(User::class, Access\UserPolicy::class),
 
     (new Extend\ApiSerializer(BasicUserSerializer::class))
-        ->mutate(Extenders\UserPoliciesRelationship::class),
+        ->attributes(Extenders\UserPoliciesRelationship::class),
 
     (new Extend\Settings())
         ->serializeToForum('fof-terms.signup-legal-text', 'fof-terms.signup-legal-text')
@@ -81,7 +79,7 @@ return [
             /**
              * @var PolicyRepository
              */
-            $policies = app(PolicyRepository::class);
+            $policies = resolve(PolicyRepository::class);
             $data['fofTermsPolicies'] = $policies->all();
         })
         ->addInclude('fofTermsPolicies'),
