@@ -66,7 +66,7 @@ If you want to automate the export, the available options are [documented on the
 
 ## Links
 
-- [Flarum Discuss post](https://discuss.flarum.org/d/11714-flagrow-terms-ask-your-users-to-accept-tos-and-privacy-policy)
+- [Flarum Discuss post](https://discuss.flarum.org/d/11714)
 - [Source code on GitHub](https://github.com/FriendsOfFlarum/terms)
 - [Report an issue](https://github.com/FriendsOfFlarum/terms/issues)
 - [Download via Packagist](https://packagist.org/packages/fof/terms)
