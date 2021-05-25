@@ -3,6 +3,7 @@
 namespace FoF\Terms\Controllers;
 
 use Carbon\Carbon;
+use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
@@ -48,7 +49,7 @@ class PolicyExportController implements RequestHandlerInterface
         /**
          * @var $actor User
          */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $actor->assertCan('export', $policy);
 
         $data = $policy->users()->orderBy('fof_terms_policy_user.accepted_at')->get()->map(function (User $user) use ($include) {

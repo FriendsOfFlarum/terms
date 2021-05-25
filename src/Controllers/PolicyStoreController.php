@@ -3,6 +3,7 @@
 namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
@@ -35,7 +36,7 @@ class PolicyStoreController extends AbstractCreateController
         /**
          * @var $actor User
          */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 
         $attributes = Arr::get($request->getParsedBody(), 'data.attributes', []);

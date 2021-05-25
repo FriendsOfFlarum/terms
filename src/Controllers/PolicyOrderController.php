@@ -3,6 +3,7 @@
 namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
@@ -33,7 +34,7 @@ class PolicyOrderController extends AbstractListController
         /**
          * @var $actor User
          */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 
         $attributes = $request->getParsedBody();
