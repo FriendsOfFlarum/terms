@@ -1,6 +1,6 @@
-import app from 'flarum/app';
-import Button from 'flarum/components/Button';
-import listItems from 'flarum/helpers/listItems';
+import app from 'flarum/forum/app';
+import Button from 'flarum/common/components/Button';
+import listItems from 'flarum/common/helpers/listItems';
 import AcceptPoliciesModal from './AcceptPoliciesModal';
 
 /* global m */

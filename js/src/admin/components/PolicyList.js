@@ -1,6 +1,6 @@
 import sortable from 'html5sortable/dist/html5sortable.es.js';
 
-import app from 'flarum/app';
+import app from 'flarum/admin/app';
 import PolicyEdit from './PolicyEdit';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
 

@@ -1,8 +1,8 @@
-import app from 'flarum/app';
-import icon from 'flarum/helpers/icon';
-import extractText from 'flarum/utils/extractText';
-import withAttr from 'flarum/utils/withAttr';
-import Button from 'flarum/components/Button';
+import app from 'flarum/admin/app';
+import icon from 'flarum/common/helpers/icon';
+import extractText from 'flarum/common/utils/extractText';
+import withAttr from 'flarum/common/utils/withAttr';
+import Button from 'flarum/common/components/Button';
 
 /* global m, dayjs */
 
