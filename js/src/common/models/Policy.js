@@ -1,5 +1,5 @@
-import Model from 'flarum/Model';
-import computed from 'flarum/utils/computed';
+import Model from 'flarum/common/Model';
+import computed from 'flarum/common/utils/computed';
 
 export default class Policy extends Model {
     sort = Model.attribute('sort');

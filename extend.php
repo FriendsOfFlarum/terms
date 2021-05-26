@@ -28,7 +28,7 @@ return [
         ->post('/fof/terms/policies', 'fof.terms.api.policies.store', Controllers\PolicyStoreController::class)
         ->patch('/fof/terms/policies/{id:[0-9]+}', 'fof.terms.api.policies.update', Controllers\PolicyUpdateController::class)
         ->delete('/fof/terms/policies/{id:[0-9]+}', 'fof.terms.api.policies.delete', Controllers\PolicyDeleteController::class)
-        ->post('/fof/terms/policies/{id:[0-9]+}/accept', 'fof.terms.api.policies.delete', Controllers\PolicyAcceptController::class)
+        ->post('/fof/terms/policies/{id:[0-9]+}/accept', 'fof.terms.api.policies.accept', Controllers\PolicyAcceptController::class)
         ->get('/fof/terms/policies/{id:[0-9]+}/export.{format:json|csv}', 'fof.terms.api.policies.export', Controllers\PolicyExportController::class),
 
     (new Extend\Middleware('forum'))->add(RegisterMiddleware::class),

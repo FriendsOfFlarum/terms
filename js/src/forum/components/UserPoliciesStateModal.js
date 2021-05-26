@@ -1,6 +1,6 @@
-import app from 'flarum/app';
-import humanTime from 'flarum/helpers/humanTime';
-import Modal from 'flarum/components/Modal';
+import app from 'flarum/forum/app';
+import humanTime from 'flarum/common/helpers/humanTime';
+import Modal from 'flarum/common/components/Modal';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
 
 /* global m */

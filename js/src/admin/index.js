@@ -1,4 +1,4 @@
-import app from 'flarum/app';
+import app from 'flarum/admin/app';
 import Policy from '../common/models/Policy';
 import TermsSettingsPage from './components/TermsSettingsPage';
 

@@ -1,6 +1,6 @@
-import app from 'flarum/app';
-import ExtensionPage from 'flarum/components/ExtensionPage';
-import Switch from 'flarum/components/Switch';
+import app from 'flarum/admin/app';
+import ExtensionPage from 'flarum/admin/components/ExtensionPage';
+import Switch from 'flarum/common/components/Switch';
 import PolicyList from './PolicyList';
 
 const settingsPrefix = 'fof-terms.';

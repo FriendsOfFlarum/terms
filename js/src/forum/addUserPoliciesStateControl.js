@@ -1,7 +1,7 @@
-import { extend } from 'flarum/extend';
-import app from 'flarum/app';
-import UserControls from 'flarum/utils/UserControls';
-import Button from 'flarum/components/Button';
+import { extend } from 'flarum/common/extend';
+import app from 'flarum/forum/app';
+import UserControls from 'flarum/forum/utils/UserControls';
+import Button from 'flarum/forum/components/Button';
 import UserPoliciesStateModal from './components/UserPoliciesStateModal';
 
 export default function () {

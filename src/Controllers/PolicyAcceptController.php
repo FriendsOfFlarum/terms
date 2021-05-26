@@ -4,6 +4,7 @@ namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\NotAuthenticatedException;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
@@ -37,7 +38,7 @@ class PolicyAcceptController extends AbstractShowController
         /**
          * @var $actor User
          */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $actor->assertRegistered();
 
