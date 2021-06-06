@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms\Middlewares;
 
 use Flarum\Foundation\ErrorHandling\ExceptionHandler\IlluminateValidationExceptionHandler;
@@ -16,8 +25,10 @@ class RegisterMiddleware implements MiddlewareInterface
     /**
      * Process an incoming server request and return a response, optionally delegating
      * response creation to a handler.
-     * @param Request $request
+     *
+     * @param Request                 $request
      * @param RequestHandlerInterface $handler
+     *
      * @return Response
      */
     public function process(Request $request, RequestHandlerInterface $handler): Response

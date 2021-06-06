@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms\Repositories;
 
 use Carbon\Carbon;
@@ -47,6 +56,7 @@ class PolicyRepository
 
     /**
      * @param string $id
+     *
      * @return Policy|Model
      */
     public function findOrFail(string $id): Policy
@@ -71,7 +81,7 @@ class PolicyRepository
                 $this->rememberState[$policy->id] = [
                     // Same format as Flarum is using for the serializer responses
                     'accepted_at' => $accepted_at ? $accepted_at->format(DateTime::RFC3339) : null,
-                    'has_update' => $has_update,
+                    'has_update'  => $has_update,
                     'must_accept' => $has_update && !$user->can('postponeAccept', $policy),
                 ];
             }
@@ -116,8 +126,10 @@ class PolicyRepository
 
     /**
      * @param array $attributes
-     * @return Policy
+     *
      * @throws ValidationException
+     *
+     * @return Policy
      */
     public function store(array $attributes)
     {
@@ -133,9 +145,11 @@ class PolicyRepository
 
     /**
      * @param Policy $policy
-     * @param array $attributes
-     * @return Policy
+     * @param array  $attributes
+     *
      * @throws ValidationException
+     *
+     * @return Policy
      */
     public function update(Policy $policy, array $attributes)
     {

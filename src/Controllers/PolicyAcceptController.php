@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms\Controllers;
 
 use Flarum\Api\Controller\AbstractShowController;
@@ -25,9 +34,11 @@ class PolicyAcceptController extends AbstractShowController
 
     /**
      * @param ServerRequestInterface $request
-     * @param Document $document
-     * @return mixed
+     * @param Document               $document
+     *
      * @throws NotAuthenticatedException
+     *
+     * @return mixed
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms;
 
 use Flarum\Group\Group;
@@ -8,7 +17,7 @@ use FoF\Terms\Repositories\PolicyRepository;
 
 class PermissionGroupProcessor
 {
-    static function process(User $actor, array $groupIds): array
+    public static function process(User $actor, array $groupIds): array
     {
         // Prevent infinite loop when fetching permissions inside this event
         if (!PermissionLock::shouldApplyPermissionRestrictions()) {

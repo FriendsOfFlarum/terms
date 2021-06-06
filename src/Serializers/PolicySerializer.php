@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms\Serializers;
 
 use Flarum\Api\Serializer\AbstractSerializer;
@@ -12,6 +21,7 @@ class PolicySerializer extends AbstractSerializer
 
     /**
      * @param Policy $model
+     *
      * @return array
      */
     protected function getDefaultAttributes($model)

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms\Controllers;
 
 use Carbon\Carbon;
@@ -25,8 +34,10 @@ class PolicyExportController implements RequestHandlerInterface
 
     /**
      * @param ServerRequestInterface $request
-     * @return ResponseInterface
+     *
      * @throws PermissionDeniedException
+     *
+     * @return ResponseInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -54,12 +65,12 @@ class PolicyExportController implements RequestHandlerInterface
 
         $data = $policy->users()->orderBy('fof_terms_policy_user.accepted_at')->get()->map(function (User $user) use ($include) {
             return Arr::only([
-                'id' => $user->id,
-                'email' => $user->email,
-                'username' => $user->username,
+                'id'           => $user->id,
+                'email'        => $user->email,
+                'username'     => $user->username,
                 'display_name' => $user->display_name,
-                'joined_at' => $user->joined_at->toIso8601String(),
-                'accepted_at' => Carbon::parse($user->pivot->accepted_at)->toIso8601String(),
+                'joined_at'    => $user->joined_at->toIso8601String(),
+                'accepted_at'  => Carbon::parse($user->pivot->accepted_at)->toIso8601String(),
             ], $include);
         });
 
