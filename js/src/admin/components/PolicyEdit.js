@@ -1,6 +1,7 @@
 import app from 'flarum/admin/app';
 import icon from 'flarum/common/helpers/icon';
 import extractText from 'flarum/common/utils/extractText';
+import ItemList from 'flarum/common/utils/ItemList';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 
@@ -66,82 +67,7 @@ export default class PolicyEdit {
                 onsubmit: this.savePolicy.bind(this),
             },
             [
-                m('.Form-group', [
-                    m('label', app.translator.trans('fof-terms.admin.policies.name')),
-                    m('input.FormControl', {
-                        type: 'text',
-                        value: this.policy.name(),
-                        oninput: withAttr('value', this.updateAttribute.bind(this, 'name')),
-                    }),
-                    m('.helpText', app.translator.trans('fof-terms.admin.policies.name-help')),
-                ]),
-                m('.Form-group', [
-                    m('label', app.translator.trans('fof-terms.admin.policies.url')),
-                    m('input.FormControl', {
-                        type: 'url',
-                        value: this.policy.url(),
-                        oninput: withAttr('value', this.updateAttribute.bind(this, 'url')),
-                    }),
-                    m('.helpText', app.translator.trans('fof-terms.admin.policies.url-help')),
-                ]),
-                m('.Form-group', [
-                    m('label', app.translator.trans('fof-terms.admin.policies.update-message')),
-                    m('textarea.FormControl', {
-                        value: this.policy.update_message(),
-                        oninput: withAttr('value', this.updateAttribute.bind(this, 'update_message')),
-                    }),
-                    m('.helpText', app.translator.trans('fof-terms.admin.policies.update-message-help')),
-                ]),
-                m('.Form-group', [
-                    m('label', app.translator.trans('fof-terms.admin.policies.terms-updated-at')),
-                    m('.FoF-Terms-Input-Group', [
-                        m('input.FormControl', {
-                            type: 'text',
-                            value: this.policy.terms_updated_at(),
-                            oninput: withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
-                            placeholder: app.translator.trans('fof-terms.admin.policies.terms-updated-at-placeholder'),
-                        }),
-                        Button.component(
-                            {
-                                className: 'Button Button--primary',
-                                onclick: () => {
-                                    // We set the milliseconds to zero because it might otherwise give the impression
-                                    // that we store them, when in fact the date will be stored in a MySQL TIMESTAMP column
-                                    this.updateAttribute('terms_updated_at', dayjs().millisecond(0).toISOString());
-                                },
-                            },
-                            app.translator.trans('fof-terms.admin.buttons.set-to-now')
-                        ),
-                    ]),
-                    m('.helpText', app.translator.trans('fof-terms.admin.policies.terms-updated-at-help')),
-                ]),
-                this.policy.exists
-                    ? m('.Form-group', [
-                          m('label', app.translator.trans('fof-terms.admin.policies.export-url')),
-                          m(
-                              '.ButtonGroup',
-                              ['json', 'csv'].map((format) =>
-                                  m(
-                                      'a.Button.FoF-Terms-Export-Button',
-                                      {
-                                          href: app.forum.attribute('apiUrl') + '/fof/terms/policies/' + this.policy.id() + '/export.' + format,
-                                          target: '_blank',
-                                      },
-                                      format.toUpperCase()
-                                  )
-                              )
-                          ),
-                          m(
-                              '.helpText',
-                              app.translator.trans('fof-terms.admin.policies.export-url-help', {
-                                  a: m('a', {
-                                      href: 'https://github.com/FriendsOfFlarum/terms/wiki/Export-url',
-                                      target: '_blank',
-                                  }),
-                              })
-                          ),
-                      ])
-                    : null,
+                this.fields().toArray(),
                 m('.ButtonGroup', [
                     Button.component(
                         {
@@ -166,6 +92,108 @@ export default class PolicyEdit {
                 ]),
             ]
         );
+    }
+
+    fields() {
+        const fields = new ItemList();
+
+        fields.add(
+            'name',
+            m('.Form-group', [
+                m('label', app.translator.trans('fof-terms.admin.policies.name')),
+                m('input.FormControl', {
+                    type: 'text',
+                    value: this.policy.name(),
+                    oninput: withAttr('value', this.updateAttribute.bind(this, 'name')),
+                }),
+                m('.helpText', app.translator.trans('fof-terms.admin.policies.name-help')),
+            ])
+        );
+
+        fields.add(
+            'url',
+            m('.Form-group', [
+                m('label', app.translator.trans('fof-terms.admin.policies.url')),
+                m('input.FormControl', {
+                    type: 'url',
+                    value: this.policy.url(),
+                    oninput: withAttr('value', this.updateAttribute.bind(this, 'url')),
+                }),
+                m('.helpText', app.translator.trans('fof-terms.admin.policies.url-help')),
+            ])
+        );
+
+        fields.add(
+            'update-message',
+            m('.Form-group', [
+                m('label', app.translator.trans('fof-terms.admin.policies.update-message')),
+                m('textarea.FormControl', {
+                    value: this.policy.update_message(),
+                    oninput: withAttr('value', this.updateAttribute.bind(this, 'update_message')),
+                }),
+                m('.helpText', app.translator.trans('fof-terms.admin.policies.update-message-help')),
+            ])
+        );
+
+        fields.add(
+            'terms-updated-at',
+            m('.Form-group', [
+                m('label', app.translator.trans('fof-terms.admin.policies.terms-updated-at')),
+                m('.FoF-Terms-Input-Group', [
+                    m('input.FormControl', {
+                        type: 'text',
+                        value: this.policy.terms_updated_at(),
+                        oninput: withAttr('value', this.updateAttribute.bind(this, 'terms_updated_at')),
+                        placeholder: app.translator.trans('fof-terms.admin.policies.terms-updated-at-placeholder'),
+                    }),
+                    Button.component(
+                        {
+                            className: 'Button Button--primary',
+                            onclick: () => {
+                                // We set the milliseconds to zero because it might otherwise give the impression
+                                // that we store them, when in fact the date will be stored in a MySQL TIMESTAMP column
+                                this.updateAttribute('terms_updated_at', dayjs().millisecond(0).toISOString());
+                            },
+                        },
+                        app.translator.trans('fof-terms.admin.buttons.set-to-now')
+                    ),
+                ]),
+                m('.helpText', app.translator.trans('fof-terms.admin.policies.terms-updated-at-help')),
+            ])
+        );
+
+        if (this.policy.exists) {
+            fields.add(
+                'export-url',
+                m('.Form-group', [
+                    m('label', app.translator.trans('fof-terms.admin.policies.export-url')),
+                    m(
+                        '.ButtonGroup',
+                        ['json', 'csv'].map((format) =>
+                            m(
+                                'a.Button.FoF-Terms-Export-Button',
+                                {
+                                    href: app.forum.attribute('apiUrl') + '/fof/terms/policies/' + this.policy.id() + '/export.' + format,
+                                    target: '_blank',
+                                },
+                                format.toUpperCase()
+                            )
+                        )
+                    ),
+                    m(
+                        '.helpText',
+                        app.translator.trans('fof-terms.admin.policies.export-url-help', {
+                            a: m('a', {
+                                href: 'https://github.com/FriendsOfFlarum/terms/wiki/Export-url',
+                                target: '_blank',
+                            }),
+                        })
+                    ),
+                ])
+            );
+        }
+
+        return fields;
     }
 
     updateAttribute(attribute, value) {
