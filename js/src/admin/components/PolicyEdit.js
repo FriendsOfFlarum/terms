@@ -107,7 +107,8 @@ export default class PolicyEdit {
                     oninput: withAttr('value', this.updateAttribute.bind(this, 'name')),
                 }),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.name-help')),
-            ])
+            ]),
+            100
         );
 
         fields.add(
@@ -120,7 +121,8 @@ export default class PolicyEdit {
                     oninput: withAttr('value', this.updateAttribute.bind(this, 'url')),
                 }),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.url-help')),
-            ])
+            ]),
+            95
         );
 
         fields.add(
@@ -132,7 +134,8 @@ export default class PolicyEdit {
                     oninput: withAttr('value', this.updateAttribute.bind(this, 'update_message')),
                 }),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.update-message-help')),
-            ])
+            ]),
+            90
         );
 
         fields.add(
@@ -159,7 +162,8 @@ export default class PolicyEdit {
                     ),
                 ]),
                 m('.helpText', app.translator.trans('fof-terms.admin.policies.terms-updated-at-help')),
-            ])
+            ]),
+            85
         );
 
         if (this.policy.exists) {
@@ -189,7 +193,8 @@ export default class PolicyEdit {
                             }),
                         })
                     ),
-                ])
+                ]),
+                80
             );
         }
 
