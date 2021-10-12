@@ -11,7 +11,7 @@
 
 namespace FoF\Terms\Events;
 
-use FoF\Terms\Event\AbstractPolicyEvent;
+use FoF\Terms\Events\AbstractPolicyEvent;
 
 class Deleted extends AbstractPolicyEvent
 {
