@@ -45,13 +45,13 @@ class PolicyStoreController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         /**
-         * @var $actor User
+         * @var User
          */
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 
         $attributes = Arr::get($request->getParsedBody(), 'data.attributes', []);
 
-        return $this->policies->store($attributes);
+        return $this->policies->store($actor, $attributes);
     }
 }

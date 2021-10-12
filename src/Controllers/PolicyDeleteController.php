@@ -36,7 +36,7 @@ class PolicyDeleteController extends AbstractDeleteController
     protected function delete(ServerRequestInterface $request)
     {
         /**
-         * @var $actor User
+         * @var User
          */
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
@@ -45,6 +45,6 @@ class PolicyDeleteController extends AbstractDeleteController
 
         $field = $this->policies->findOrFail($id);
 
-        $this->policies->delete($field);
+        $this->policies->delete($actor, $field);
     }
 }
