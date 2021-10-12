@@ -32,9 +32,9 @@ abstract class AbstractPolicyEvent
     public $data;
 
     /**
-     * @param Policy  $policy
-     * @param User  $actor
-     * @param array $data
+     * @param Policy $policy
+     * @param User   $actor
+     * @param array  $data
      */
     public function __construct(Policy $policy, User $actor, array $data)
     {

@@ -134,7 +134,7 @@ class PolicyRepository
     }
 
     /**
-     * @param User $actor
+     * @param User  $actor
      * @param array $attributes
      *
      * @throws ValidationException
