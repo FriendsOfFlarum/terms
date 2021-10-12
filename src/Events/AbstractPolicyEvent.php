@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace FoF\Terms\Event;
+namespace FoF\Terms\Events;
 
 use Flarum\User\User;
 use FoF\Terms\Policy;
