@@ -11,8 +11,6 @@
 
 namespace FoF\Terms\Events;
 
-use FoF\Terms\Events\AbstractPolicyEvent;
-
 class Created extends AbstractPolicyEvent
 {
 }
