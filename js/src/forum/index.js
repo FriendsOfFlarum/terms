@@ -12,15 +12,15 @@ export * from '../common/models';
 export * from '../common/helpers';
 
 app.initializers.add('fof-terms', () => {
-    app.store.models['fof-terms-policies'] = Policy;
+  app.store.models['fof-terms-policies'] = Policy;
 
-    User.prototype.fofTermsPoliciesState = Model.attribute('fofTermsPoliciesState');
-    User.prototype.fofTermsPoliciesHasUpdate = Model.attribute('fofTermsPoliciesHasUpdate');
-    User.prototype.fofTermsPoliciesMustAccept = Model.attribute('fofTermsPoliciesMustAccept');
-    User.prototype.seeFoFTermsPoliciesState = Model.attribute('seeFoFTermsPoliciesState');
+  User.prototype.fofTermsPoliciesState = Model.attribute('fofTermsPoliciesState');
+  User.prototype.fofTermsPoliciesHasUpdate = Model.attribute('fofTermsPoliciesHasUpdate');
+  User.prototype.fofTermsPoliciesMustAccept = Model.attribute('fofTermsPoliciesMustAccept');
+  User.prototype.seeFoFTermsPoliciesState = Model.attribute('seeFoFTermsPoliciesState');
 
-    addAcceptModal();
-    addFieldsToRegister();
-    addUpdateAlert();
-    addUserPoliciesStateControl();
+  addAcceptModal();
+  addFieldsToRegister();
+  addUpdateAlert();
+  addUserPoliciesStateControl();
 });

@@ -1,18 +1,22 @@
 {
     "private": true,
     "name": "@fof/terms",
+    "prettier": "@flarum/prettier-config",
     "dependencies": {
-        "flarum-webpack-config": "0.1.0-beta.10",
         "html5sortable": "^0.9.17",
-        "webpack": "^4.0.0",
-        "webpack-cli": "^3.0.7"
+        "@flarum/prettier-config": "^1.0.0",
+        "flarum-tsconfig": "^1.0.2",
+        "flarum-webpack-config": "^1.0.0",
+        "webpack": "^4.44.2",
+        "webpack-cli": "^4.9.1"
+    },
+    "devDependencies": {
+        "prettier": "^2.4.1"
     },
     "scripts": {
         "dev": "webpack --mode development --watch",
         "build": "webpack --mode production",
-        "lint": "prettier --single-quote --trailing-comma es5 --print-width 150 --tab-width 4 --write src"
-    },
-    "devDependencies": {
-        "prettier": "^2.1.2"
+        "format": "prettier --write src",
+        "format-check": "prettier --check src"
     }
 }

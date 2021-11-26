@@ -3,7 +3,7 @@ import PolicyList from './PolicyList';
 import TermsSettingsPage from './TermsSettingsPage';
 
 export const components = {
-    PolicyEdit,
-    PolicyList,
-    TermsSettingsPage,
+  PolicyEdit,
+  PolicyList,
+  TermsSettingsPage,
 };

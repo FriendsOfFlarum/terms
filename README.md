@@ -15,7 +15,7 @@ composer require fof/terms
 ## Updating
 
 ```bash
-composer require fof/terms
+composer require fof/terms:"*"
 php flarum migrate
 php flarum cache:clear
 ```

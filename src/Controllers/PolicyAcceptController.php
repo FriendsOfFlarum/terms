@@ -47,7 +47,7 @@ class PolicyAcceptController extends AbstractShowController
         $policy = $this->policies->findOrFail($id);
 
         /**
-         * @var $actor User
+         * @var User $actor
          */
         $actor = RequestUtil::getActor($request);
 
