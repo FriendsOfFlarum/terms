@@ -21,12 +21,12 @@ class UserPoliciesRelationship
      * @var PolicyRepository
      */
     protected $policies;
-    
+
     public function __construct(PolicyRepository $policies)
     {
         $this->policies = $policies;
     }
-    
+
     public function __invoke(BasicUserSerializer $serializer, User $user, array $attributes)
     {
         if ($serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
