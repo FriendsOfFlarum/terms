@@ -46,7 +46,10 @@
                 "name": "fas fa-paperclip",
                 "backgroundColor": "#e74c3c",
                 "color": "#fff"
-            }
+            },
+            "optional-dependencies": [
+                "blomstra/gdpr"
+            ]
         },
         "flagrow": {
             "discuss": "https://discuss.flarum.org/d/11714"
