@@ -44,9 +44,6 @@ class PolicyUpdateController extends AbstractCreateController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        /**
-         * @var $actor User
-         */
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 

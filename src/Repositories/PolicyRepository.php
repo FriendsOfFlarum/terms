@@ -21,7 +21,7 @@ use FoF\Terms\Validators\PolicyValidator;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 
@@ -66,7 +66,7 @@ class PolicyRepository
     /**
      * @param string $id
      *
-     * @return Policy|Model
+     * @return Policy
      */
     public function findOrFail(string $id): Policy
     {
@@ -78,6 +78,7 @@ class PolicyRepository
         if (!$this->rememberState) {
             /**
              * @var Collection $userPolicies
+             * @phpstan-ignore-next-line
              */
             $userPolicies = $user->fofTermsPolicies->keyBy('id');
 
@@ -85,7 +86,7 @@ class PolicyRepository
 
             foreach ($this->all() as $policy) {
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
-                $has_update = !$accepted_at || ($policy->terms_updated_at && $policy->terms_updated_at->gt($accepted_at));
+                $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
 
                 $this->rememberState[$policy->id] = [
                     // Same format as Flarum is using for the serializer responses
@@ -188,16 +189,16 @@ class PolicyRepository
 
     public function accept(User $user, Policy $policy)
     {
-        $exists = $user->fofTermsPolicies()->where('id', $policy->id)->exists();
+        $exists = $this->getUserPolicyRelationship($user)->where('id', $policy->id)->exists();
 
         $pivot = [
             'accepted_at' => Carbon::now(),
         ];
 
         if ($exists) {
-            $user->fofTermsPolicies()->updateExistingPivot($policy->id, $pivot);
+            $this->getUserPolicyRelationship($user)->updateExistingPivot($policy->id, $pivot);
         } else {
-            $user->fofTermsPolicies()->attach($policy->id, $pivot);
+            $this->getUserPolicyRelationship($user)->attach($policy->id, $pivot);
         }
     }
 
@@ -211,7 +212,7 @@ class PolicyRepository
             ];
         }
 
-        $user->fofTermsPolicies()->attach($relationship);
+        $this->getUserPolicyRelationship($user)->attach($relationship);
     }
 
     public function sorting(array $sorting)
@@ -223,5 +224,11 @@ class PolicyRepository
         }
 
         $this->clearCache();
+    }
+
+    protected function getUserPolicyRelationship(User $user): BelongsToMany
+    {
+        /** @phpstan-ignore-next-line */
+        return $user->fofTermsPolicies();
     }
 }

@@ -44,9 +44,6 @@ class PolicyStoreController extends AbstractCreateController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        /**
-         * @var User
-         */
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 

@@ -42,9 +42,6 @@ class PolicyOrderController extends AbstractListController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        /**
-         * @var $actor User
-         */
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 
