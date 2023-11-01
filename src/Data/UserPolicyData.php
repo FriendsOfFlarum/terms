@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms\Data;
 
 use Blomstra\Gdpr\Data\Type;
@@ -35,16 +44,15 @@ class UserPolicyData extends Type
         $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
         $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
 
-
         return [
-            'name' => $policy->name,
-            'url' => $policy->url,
-            'created_at' => $policy->created_at,
-            'update_message' => $policy->update_message,
+            'name'             => $policy->name,
+            'url'              => $policy->url,
+            'created_at'       => $policy->created_at,
+            'update_message'   => $policy->update_message,
             'terms_updated_at' => $policy->terms_updated_at,
-            'accepted_at' => $accepted_at,
-            'has_update' => $has_update,
-            'must_accept' => $has_update && !$this->user->can('postponeAccept', $policy),
+            'accepted_at'      => $accepted_at,
+            'has_update'       => $has_update,
+            'must_accept'      => $has_update && !$this->user->can('postponeAccept', $policy),
         ];
     }
 
