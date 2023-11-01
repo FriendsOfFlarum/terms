@@ -57,9 +57,6 @@ class PolicyExportController implements RequestHandlerInterface
 
         $policy = $this->policies->findOrFail($id);
 
-        /**
-         * @var $actor User
-         */
         $actor = RequestUtil::getActor($request);
         $actor->assertCan('export', $policy);
 
@@ -70,6 +67,7 @@ class PolicyExportController implements RequestHandlerInterface
                 'username'     => $user->username,
                 'display_name' => $user->display_name,
                 'joined_at'    => $user->joined_at->toIso8601String(),
+                /** @phpstan-ignore-next-line */
                 'accepted_at'  => Carbon::parse($user->pivot->accepted_at)->toIso8601String(),
             ], $include);
         });

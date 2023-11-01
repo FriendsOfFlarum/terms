@@ -21,6 +21,7 @@ use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
 use FoF\Terms\Serializers\PolicySerializer;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 return [
     (new Extend\Frontend('admin'))
@@ -40,26 +41,30 @@ return [
         ->post('/fof/terms/policies/{id:[0-9]+}/accept', 'fof.terms.api.policies.accept', Controllers\PolicyAcceptController::class)
         ->get('/fof/terms/policies/{id:[0-9]+}/export.{format:json|csv}', 'fof.terms.api.policies.export', Controllers\PolicyExportController::class),
 
-    (new Extend\Middleware('forum'))->add(RegisterMiddleware::class),
+    (new Extend\Middleware('forum'))
+        ->add(RegisterMiddleware::class),
 
-    (new Extend\Model(User::class))->relationship('fofTermsPolicies', function (AbstractModel $user) {
-        return $user->belongsToMany(Policy::class, 'fof_terms_policy_user')->withPivot('accepted_at');
-    }),
+    (new Extend\Model(User::class))
+        ->relationship('fofTermsPolicies', function (AbstractModel $user): BelongsToMany {
+            return $user->belongsToMany(Policy::class, 'fof_terms_policy_user')->withPivot('accepted_at');
+        }),
 
-    (new Extend\User())->permissionGroups(function ($actor, $groupIds) {
-        return PermissionGroupProcessor::process($actor, $groupIds);
-    }),
+    (new Extend\User())
+        ->permissionGroups(function ($actor, $groupIds) {
+            return PermissionGroupProcessor::process($actor, $groupIds);
+        }),
 
-    (new Extend\Event())->listen(Registered::class, function (Registered $event) {
-        /**
-         * @var $policies PolicyRepository
-         */
-        $policies = resolve(PolicyRepository::class);
+    (new Extend\Event())
+        ->listen(Registered::class, function (Registered $event) {
+            /**
+             * @var PolicyRepository $policies
+             */
+            $policies = resolve(PolicyRepository::class);
 
-        // When a user registers, we automatically accept all policies
-        // We assume the checkboxes validation has been properly done pre-registration by the middleware
-        $policies->acceptAll($event->user);
-    }),
+            // When a user registers, we automatically accept all policies
+            // We assume the checkboxes validation has been properly done pre-registration by the middleware
+            $policies->acceptAll($event->user);
+        }),
 
     (new Extend\Policy())
         ->modelPolicy(Policy::class, Access\PolicyPolicy::class)
@@ -70,9 +75,7 @@ return [
 
     (new Extend\Settings())
         ->serializeToForum('fof-terms.signup-legal-text', 'fof-terms.signup-legal-text')
-        ->serializeToForum('fof-terms.hide-updated-at', 'fof-terms.hide-updated-at', function ($value) {
-            return (bool) $value;
-        })
+        ->serializeToForum('fof-terms.hide-updated-at', 'fof-terms.hide-updated-at', 'boolVal')
         ->serializeToForum('fof-terms.date-format', 'fof-terms.date-format', function ($value) {
             return $value ?: 'YYYY-MM-DD';
         }),
@@ -86,7 +89,7 @@ return [
     (new Extend\ApiController(ShowForumController::class))
         ->prepareDataForSerialization(function (ShowForumController $controller, &$data) {
             /**
-             * @var PolicyRepository
+             * @var PolicyRepository $policies
              */
             $policies = resolve(PolicyRepository::class);
             $data['fofTermsPolicies'] = $policies->all();

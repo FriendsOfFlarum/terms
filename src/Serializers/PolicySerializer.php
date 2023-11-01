@@ -19,6 +19,13 @@ class PolicySerializer extends AbstractSerializer
 {
     protected $type = 'fof-terms-policies';
 
+    protected $settings;
+
+    public function __construct(SettingsRepositoryInterface $settings)
+    {
+        $this->settings = $settings;
+    }
+
     /**
      * @param Policy $model
      *
@@ -28,12 +35,7 @@ class PolicySerializer extends AbstractSerializer
     {
         $attributes = $model->toArray();
 
-        /**
-         * @var $settings SettingsRepositoryInterface
-         */
-        $settings = app(SettingsRepositoryInterface::class);
-
-        if ($settings->get('fof-terms.hide-updated-at')) {
+        if ($this->settings->get('fof-terms.hide-updated-at')) {
             $attributes['terms_updated_at'] = null;
         } else {
             $attributes['terms_updated_at'] = $this->formatDate($model->terms_updated_at);

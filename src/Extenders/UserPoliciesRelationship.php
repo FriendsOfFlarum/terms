@@ -17,17 +17,22 @@ use FoF\Terms\Repositories\PolicyRepository;
 
 class UserPoliciesRelationship
 {
+    /**
+     * @var PolicyRepository
+     */
+    protected $policies;
+
+    public function __construct(PolicyRepository $policies)
+    {
+        $this->policies = $policies;
+    }
+
     public function __invoke(BasicUserSerializer $serializer, User $user, array $attributes)
     {
         if ($serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
-            /**
-             * @var $policies PolicyRepository
-             */
-            $policies = app(PolicyRepository::class);
-
-            $attributes['fofTermsPoliciesState'] = $policies->state($user);
-            $attributes['fofTermsPoliciesHasUpdate'] = $policies->hasPoliciesUpdate($user);
-            $attributes['fofTermsPoliciesMustAccept'] = $policies->mustAcceptNewPolicies($user);
+            $attributes['fofTermsPoliciesState'] = $this->policies->state($user);
+            $attributes['fofTermsPoliciesHasUpdate'] = $this->policies->hasPoliciesUpdate($user);
+            $attributes['fofTermsPoliciesMustAccept'] = $this->policies->mustAcceptNewPolicies($user);
         }
 
         return $attributes;

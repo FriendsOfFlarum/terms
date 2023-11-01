@@ -36,7 +36,7 @@ class RegisterMiddleware implements MiddlewareInterface
         // Compare if the current path is the register endpoint
         if ($request->getUri()->getPath() === '/register') {
             /**
-             * @var $validator RegisterPolicyValidator
+             * @var RegisterPolicyValidator $validator
              */
             $validator = resolve(RegisterPolicyValidator::class);
 
@@ -44,7 +44,7 @@ class RegisterMiddleware implements MiddlewareInterface
                 $validator->assertValid($request->getParsedBody());
             } catch (ValidationException $exception) {
                 /**
-                 * @var $handler IlluminateValidationExceptionHandler
+                 * @var IlluminateValidationExceptionHandler $handler
                  */
                 $handler = resolve(IlluminateValidationExceptionHandler::class);
 

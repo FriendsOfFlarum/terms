@@ -14,7 +14,6 @@ namespace FoF\Terms\Controllers;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\PermissionDeniedException;
-use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,9 +34,6 @@ class PolicyDeleteController extends AbstractDeleteController
      */
     protected function delete(ServerRequestInterface $request)
     {
-        /**
-         * @var User
-         */
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 

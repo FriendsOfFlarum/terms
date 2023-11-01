@@ -14,7 +14,6 @@ namespace FoF\Terms\Controllers;
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\PermissionDeniedException;
-use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
 use FoF\Terms\Serializers\PolicySerializer;
 use Illuminate\Support\Arr;
@@ -44,9 +43,6 @@ class PolicyUpdateController extends AbstractCreateController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        /**
-         * @var $actor User
-         */
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();
 

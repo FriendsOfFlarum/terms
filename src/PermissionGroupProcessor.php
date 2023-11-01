@@ -30,7 +30,7 @@ class PermissionGroupProcessor
         }
 
         /**
-         * @var $policies PolicyRepository
+         * @var PolicyRepository $policies
          */
         $policies = resolve(PolicyRepository::class);
 

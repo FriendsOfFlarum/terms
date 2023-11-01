@@ -15,7 +15,6 @@ use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\NotAuthenticatedException;
-use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -46,9 +45,6 @@ class PolicyAcceptController extends AbstractShowController
 
         $policy = $this->policies->findOrFail($id);
 
-        /**
-         * @var User $actor
-         */
         $actor = RequestUtil::getActor($request);
 
         $actor->assertRegistered();

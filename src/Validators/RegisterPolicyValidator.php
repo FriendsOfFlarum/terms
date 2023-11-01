@@ -19,7 +19,7 @@ class RegisterPolicyValidator extends AbstractValidator
     protected function getRules()
     {
         /**
-         * @var $policies PolicyRepository
+         * @var PolicyRepository $policies
          */
         $policies = resolve(PolicyRepository::class);
 
@@ -35,7 +35,7 @@ class RegisterPolicyValidator extends AbstractValidator
     protected function getMessages()
     {
         /**
-         * @var $policies PolicyRepository
+         * @var PolicyRepository $policies
          */
         $policies = resolve(PolicyRepository::class);
 
