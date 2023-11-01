@@ -30,7 +30,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^1.2.0"
+        "flarum/core": "^1.8.3"
     },
     "replace": {
         "flagrow/terms": "*"
@@ -63,7 +63,8 @@
         }
     },
     "require-dev": {
-        "flarum/phpstan": "*"
+        "flarum/phpstan": "*",
+        "blomstra/gdpr": "@beta"
     },
     "scripts": {
         "analyse:phpstan": "phpstan analyse",

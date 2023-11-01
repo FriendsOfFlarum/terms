@@ -216,6 +216,11 @@ class PolicyRepository
         $this->getUserPolicyRelationship($user)->attach($relationship);
     }
 
+    public function declineAll(User $user)
+    {
+        $this->getUserPolicyRelationship($user)->detach();
+    }
+
     public function sorting(array $sorting)
     {
         foreach ($sorting as $i => $fieldId) {
