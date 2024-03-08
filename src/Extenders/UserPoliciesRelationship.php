@@ -29,7 +29,9 @@ class UserPoliciesRelationship
 
     public function __invoke(BasicUserSerializer $serializer, User $user, array $attributes)
     {
-        if ($serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
+        $request = $serializer->getRequest();
+
+        if ($request->getAttribute('routeName') === 'users.show' && $serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
             $attributes['fofTermsPoliciesState'] = $this->policies->state($user);
             $attributes['fofTermsPoliciesHasUpdate'] = $this->policies->hasPoliciesUpdate($user);
             $attributes['fofTermsPoliciesMustAccept'] = $this->policies->mustAcceptNewPolicies($user);
