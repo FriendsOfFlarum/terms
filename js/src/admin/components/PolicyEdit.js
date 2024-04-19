@@ -4,6 +4,7 @@ import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
+import Switch from 'flarum/common/components/Switch';
 
 /* global m, dayjs */
 
@@ -26,6 +27,7 @@ export default class PolicyEdit {
         url: '',
         update_message: '',
         terms_updated_at: '',
+        optional: false,
       },
     });
   }
@@ -166,6 +168,20 @@ export default class PolicyEdit {
       85
     );
 
+    fields.add(
+      'optional',
+      <div class={'Form-group fof-terms-optional-checkbox'}>
+        <label>Select new policy as optional</label>
+        <Switch
+          state={this.policy.optional()}
+          onchange={() => {
+            this.updateAttribute('optional', !this.policy.optional());
+          }}
+        />
+      </div>,
+      82
+    );
+
     if (this.policy.exists) {
       fields.add(
         'export-url',
@@ -205,7 +221,6 @@ export default class PolicyEdit {
     this.policy.pushAttributes({
       [attribute]: value,
     });
-
     this.dirty = true;
   }
 
@@ -219,7 +234,6 @@ export default class PolicyEdit {
     this.processing = true;
 
     const createNewRecord = !this.policy.exists;
-
     this.policy
       .save(this.policy.data.attributes)
       .then(() => {

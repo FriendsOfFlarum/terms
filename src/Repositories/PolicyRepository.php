@@ -88,12 +88,15 @@ class PolicyRepository
             foreach ($this->all() as $policy) {
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
+                $optional = $policy->optional;
+                $is_accepted = $user->fofTermsPoliciesState->keyBy('id')->get($policy->id)->pivot->is_accepted;
 
                 $this->rememberState[$policy->id] = [
                     // Same format as Flarum is using for the serializer responses
                     'accepted_at' => $accepted_at ? $accepted_at->format(DateTime::RFC3339) : null,
-                    'has_update'  => $has_update,
-                    'must_accept' => $has_update && !$user->can('postponeAccept', $policy),
+                    'has_update' => $has_update,
+                    'must_accept' => $has_update && !$user->can('postponeAccept', $policy) && !$optional,
+                    'is_accepted' => $is_accepted,
                 ];
             }
         }
@@ -131,17 +134,16 @@ class PolicyRepository
                 break;
             }
         }
-
         return $mustAccept;
     }
 
     /**
-     * @param User  $actor
+     * @param User $actor
      * @param array $attributes
      *
+     * @return Policy
      * @throws ValidationException
      *
-     * @return Policy
      */
     public function store(User $actor, array $attributes)
     {
@@ -159,11 +161,11 @@ class PolicyRepository
 
     /**
      * @param Policy $policy
-     * @param array  $attributes
-     *
-     * @throws ValidationException
+     * @param array $attributes
      *
      * @return Policy
+     * @throws ValidationException
+     *
      */
     public function update(Policy $policy, array $attributes)
     {
@@ -194,6 +196,7 @@ class PolicyRepository
 
         $pivot = [
             'accepted_at' => Carbon::now(),
+            'is_accepted' => true,
         ];
 
         if ($exists) {
@@ -205,15 +208,32 @@ class PolicyRepository
 
     public function acceptAll(User $user)
     {
+        
         $relationship = [];
-
         foreach ($this->all() as $policy) {
             $relationship[$policy->id] = [
                 'accepted_at' => Carbon::now(),
+                'is_accepted' => true,
             ];
         }
 
         $this->getUserPolicyRelationship($user)->attach($relationship);
+    }
+
+    public function declineOptional(User $user, Policy $policy)
+    {
+        $exists = $this->getUserPolicyRelationship($user)->where('id', $policy->id)->exists();
+
+        $pivot = [
+            'accepted_at' => Carbon::now(),
+            'is_accepted' => false,
+        ];
+
+        if ($exists) {
+            $this->getUserPolicyRelationship($user)->updateExistingPivot($policy->id, $pivot);
+        } else {
+            $this->getUserPolicyRelationship($user)->attach($policy->id, $pivot);
+        }
     }
 
     public function declineAll(User $user)

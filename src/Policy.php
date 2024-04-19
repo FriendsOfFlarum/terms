@@ -16,14 +16,15 @@ use Flarum\Database\AbstractModel;
 use Flarum\User\User;
 
 /**
- * @property int    $id
- * @property int    $sort
+ * @property int $id
+ * @property int $sort
  * @property string $name
  * @property string $url
  * @property string $update_message
  * @property Carbon $terms_updated_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property bool $optional
  */
 class Policy extends AbstractModel
 {
@@ -41,6 +42,7 @@ class Policy extends AbstractModel
         'url',
         'update_message',
         'terms_updated_at',
+        'optional',
     ];
 
     protected $fillable = [
@@ -48,6 +50,8 @@ class Policy extends AbstractModel
         'url',
         'update_message',
         'terms_updated_at',
+        'optional',
+
     ];
 
     public function users()
@@ -68,5 +72,10 @@ class Policy extends AbstractModel
     protected function setTermsUpdatedAtAttribute($value)
     {
         $this->attributes['terms_updated_at'] = $value ? Carbon::parse($value) : null;
+    }
+
+    protected function setOptionalAttribute($value)
+    {
+        $this->attributes['optional'] = $value ? true : false;
     }
 }

@@ -26,9 +26,10 @@ class RegisterPolicyValidator extends AbstractValidator
         $rules = [];
 
         foreach ($policies->all() as $policy) {
-            $rules['fof_terms_policy_'.$policy->id] = 'accepted';
+            if (!$policy->optional) {
+                $rules['fof_terms_policy_' . $policy->id] = 'accepted';
+            }
         }
-
         return $rules;
     }
 
@@ -42,7 +43,7 @@ class RegisterPolicyValidator extends AbstractValidator
         $messages = [];
 
         foreach ($policies->all() as $policy) {
-            $messages['fof_terms_policy_'.$policy->id.'.accepted'] = $this->translator->trans('fof-terms.forum.signup.must-accept', [
+            $messages['fof_terms_policy_' . $policy->id . '.accepted'] = $this->translator->trans('fof-terms.forum.signup.must-accept', [
                 '{policy}' => $policy->name,
             ]);
         }
