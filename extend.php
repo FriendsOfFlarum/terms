@@ -61,19 +61,6 @@ return [
             return PermissionGroupProcessor::process($actor, $groupIds);
         }),
 
-    (new Extend\Event())
-        ->listen(Registered::class, function (Registered $event) {
-            /**
-             * @var PolicyRepository $policies
-             */
-            $policies = resolve(PolicyRepository::class);
-
-            // When a user registers, we automatically accept all policies
-            // We assume the checkboxes validation has been properly done pre-registration by the middleware
-            $policies->acceptAll($event->user);
-
-        }),
-
     (new Extend\Policy())
         ->modelPolicy(Policy::class, Access\PolicyPolicy::class)
         ->modelPolicy(User::class, Access\UserPolicy::class),
