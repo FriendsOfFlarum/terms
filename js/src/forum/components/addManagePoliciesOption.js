@@ -9,55 +9,35 @@ export default function () {
   extend(SettingsPage.prototype, 'settingsItems', function (items) {
     const policies = app.store.all('fof-terms-policies').filter((policy) => policy.data.attributes.optional);
 
-    let dirty = false;
-
-    const savePolicies = () => {
-      policies.forEach((policy) => {
-        app
-          .request({
-            url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + (this[policy.form_key()] ? '/accept' : '/decline'),
-            method: 'POST',
-          })
-          .then((updated) => {
-            app.store.pushPayload(updated);
-          });
-      });
-      m.redraw();
-    };
-
-    const savePolicy = (policy) => {
-      app
-        .request({
-          url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + (this[policy.form_key()] ? '/accept' : '/decline'),
-          method: 'POST',
-        })
-        .then((updated) => {
-          app.store.pushPayload(updated);
-        });
-    };
-
     let policyState = app.session.user.fofTermsPoliciesState();
 
     items.add(
       'policies',
       <FieldSet label={'Policies'}>
-        {policies.map((policy) => (
-          <div class={'Fof-Terms-Policy-User-Settings-Management'}>
-            <Switch
-              state={policyState[policy.id()].is_accepted}
-              onchange={(value) => {
-                policyState[policy.id()].is_accepted = value;
-                this[policy.form_key()] = value;
-              }}
-              loading={this.loading}
-            >
-              <a href={policy.url() ? policy.url() : ''}>{policy.name()}</a>
-            </Switch>
-          </div>
-        ))}
-        <Button className={'Button Button--primary'} onclick={savePolicies}>
-          Save policies
-        </Button>
+        {policies.map((policy) => {
+          return (
+            <div class={'Fof-Terms-Policy-User-Settings-Management'}>
+              <Switch
+                state={policyState[policy.id()].is_accepted}
+                onchange={(value) => {
+                  policyState[policy.id()].is_accepted = value;
+                  this[policy.form_key()] = value;
+                  app
+                    .request({
+                      url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + (this[policy.form_key()] ? '/accept' : '/decline'),
+                      method: 'POST',
+                    })
+                    .then((updated) => {
+                      app.store.pushPayload(updated);
+                      m.redraw();
+                    });
+                }}
+              >
+                <a href={policy.url() ? policy.url() : ''}>{policy.name()}</a>
+              </Switch>
+            </div>
+          );
+        })}
       </FieldSet>,
       -200
     );

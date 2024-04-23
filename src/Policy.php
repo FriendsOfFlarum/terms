@@ -25,6 +25,7 @@ use Flarum\User\User;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property bool $optional
+ * @property object $additionalInfo
  */
 class Policy extends AbstractModel
 {
@@ -43,7 +44,7 @@ class Policy extends AbstractModel
         'update_message',
         'terms_updated_at',
         'optional',
-        'additionalData',
+        'additionalInfo',
     ];
 
     protected $fillable = [
@@ -52,6 +53,7 @@ class Policy extends AbstractModel
         'update_message',
         'terms_updated_at',
         'optional',
+        'additionalInfo'
 
     ];
 
@@ -78,5 +80,10 @@ class Policy extends AbstractModel
     protected function setOptionalAttribute($value)
     {
         $this->attributes['optional'] = $value ? true : false;
+    }
+
+    protected function setAdditionalInfoAttribute($value)
+    {
+        $this->attributes['additionalInfo'] = $value ?? null;
     }
 }
