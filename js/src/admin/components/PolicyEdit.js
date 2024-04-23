@@ -217,7 +217,21 @@ export default class PolicyEdit {
 
     fields.add(
       'extension4',
-      <ExtensionData keyattr={'extension4'} policy={this.policy} updateAttribute={this.updateAttribute} />,
+      <ExtensionData keyattr={'extension4'} policy={this.policy} updateAttribute={this.updateAttribute}>
+        <textarea
+          class={'FormControl'}
+          value={JSON.parse(this.policy.additionalInfo())?.extension4 || ''}
+          oninput={(val) => {
+            if (!this.policy.additionalInfo()) {
+              this.updateAttribute('additionalInfo', {});
+            }
+            let attributes = JSON.parse(this.policy.additionalInfo());
+            attributes.extension4 = val.target.value;
+
+            this.updateAttribute('additionalInfo', JSON.stringify(attributes));
+          }}
+        />
+      </ExtensionData>,
 
       81
     );

@@ -4,7 +4,8 @@
 
 This extension allows you to define a list of terms the user must agree to before using the forum.
 
-It was made with the new General Data Protection Regulation in mind but please consult with your legal team to see whether it fits your requirements.
+It was made with the new General Data Protection Regulation in mind but please consult with your legal team to see
+whether it fits your requirements.
 
 ## Installation
 
@@ -26,7 +27,8 @@ This extension replaces [Flagrow Terms](https://packagist.org/packages/flagrow/t
 
 To upgrade from the old extension to the new one:
 
-- **Backup your data!** You should backup the database. You can also download Terms' data as JSON, see documentation below.
+- **Backup your data!** You should backup the database. You can also download Terms' data as JSON, see documentation
+  below.
 
 - Disable the Terms extension in the admin panel.
 
@@ -46,15 +48,31 @@ Composer should let you know that `flagrow/terms` has been automatically removed
 
 You can define a list of "policies" the users must agree to. A policy has a name and url.
 
-You can define an "update message" that will be shown to users who have not yet agreed to the latest version of the policy or not agreed to the policy at all (this includes users registered before the policy extension was enabled).
+You can define an "update message" that will be shown to users who have not yet agreed to the latest version of the
+policy or not agreed to the policy at all (this includes users registered before the policy extension was enabled).
 
 You can define an "updated at" time that will ask all users who accepted prior to that date to accept again.
 
-If users don't accept the terms, they can't register. Additionally, if they already have an account, they can login but their account is locked until they accept the latest version of the terms (similar to how the suspend extension blocks users).
+If users don't accept the terms, they can't register. Additionally, if they already have an account, they can login but
+their account is locked until they accept the latest version of the terms (similar to how the suspend extension blocks
+users).
 
-You can customize who can skip the modal without accepting the new terms immediately via the permissions tab (by default admins only). You might want to give this permission to bot accounts for example as they will also be blocked from the API if there's a terms update.
+You can customize who can skip the modal without accepting the new terms immediately via the permissions tab (by default
+admins only). You might want to give this permission to bot accounts for example as they will also be blocked from the
+API if there's a terms update.
 
-Admins can see the date at which a user accepted the terms by going to their profile page and selecting the terms button in the dropdown menu. You can customize who can see those dates in the permissions.
+Admins can see the date at which a user accepted the terms by going to their profile page and selecting the terms button
+in the dropdown menu. You can customize who can see those dates in the permissions.
+
+## Integration with other extensions
+
+W bazie danych jest dodatkowa kolumna, `additionalData`, która zapisuje dodatkowe dane w formacie JSON. Możesz zapisywać
+tam dodatkowe informacje, które mogą być przydatne w innych rozszerzeniach.
+
+Aby zapisać dane ze swojego rozszerzenia, należy zrobić extend do komponentu `PolicyEdit` do metody `fields`.
+
+Tam trzeba dodać: items.add(//nazwa rozszerzenia, <ExtensionData><twoj komponent></ExtensionData> )
+//Todo - dokończyć + zamienić na eng
 
 ## Data Export
 
@@ -62,7 +80,8 @@ In case you want to export the data (for your GDPR logs for example), a JSON and
 
 The link can be found in the Policy edit form of the admin panel.
 
-If you want to automate the export, the available options are [documented on the wiki](https://github.com/FriendsOfFlarum/terms/wiki/Export-url).
+If you want to automate the export, the available options
+are [documented on the wiki](https://github.com/FriendsOfFlarum/terms/wiki/Export-url).
 
 ## Links
 

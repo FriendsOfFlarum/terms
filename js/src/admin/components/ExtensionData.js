@@ -6,6 +6,7 @@ export default class ExtensionData extends Component {
     this.keyattr = vnode.attrs.keyattr;
     this.policy = vnode.attrs.policy;
     this.updateAttribute = vnode.attrs.updateAttribute;
+    this.children = vnode.children;
   }
 
   view() {
@@ -14,20 +15,7 @@ export default class ExtensionData extends Component {
     return (
       <div class={'Form-group'}>
         <label>{this.keyattr}</label>
-        <textarea
-          class={'FormControl'}
-          value={additionalInfo[this.keyattr] || ''}
-          oninput={(val) => {
-            if (!this.policy.additionalInfo()) {
-              this.updateAttribute('additionalInfo', {});
-            }
-            let attributes = JSON.parse(this.policy.additionalInfo());
-            console.log(attributes);
-            attributes.extension4 = val.target.value;
-
-            this.updateAttribute('additionalInfo', JSON.stringify(attributes));
-          }}
-        />
+        {this.children}
       </div>
     );
   }
