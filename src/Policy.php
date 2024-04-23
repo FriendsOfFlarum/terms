@@ -43,6 +43,7 @@ class Policy extends AbstractModel
         'update_message',
         'terms_updated_at',
         'optional',
+        'additionalData',
     ];
 
     protected $fillable = [

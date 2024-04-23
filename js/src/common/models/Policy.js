@@ -8,6 +8,7 @@ export default class Policy extends Model {
   update_message = Model.attribute('update_message');
   terms_updated_at = Model.attribute('terms_updated_at');
   optional = Model.attribute('optional');
+  additionalData = Model.attribute('additionalData');
   form_key = computed('id', (id) => 'fof_terms_policy_' + id);
 
   apiEndpoint() {

@@ -5,7 +5,7 @@ import ItemList from 'flarum/common/utils/ItemList';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 import Switch from 'flarum/common/components/Switch';
-
+import ExtensionData from './ExtensionData';
 /* global m, dayjs */
 
 export default class PolicyEdit {
@@ -28,6 +28,7 @@ export default class PolicyEdit {
         update_message: '',
         terms_updated_at: '',
         optional: false,
+        additionalData: {},
       },
     });
   }
@@ -214,7 +215,39 @@ export default class PolicyEdit {
       );
     }
 
+    fields.add(
+      'extension1',
+      <ExtensionData keyattr={'extension1'}>
+        <textarea class={'FormControl'} oninput={() => console.log(this.policy.data.attributes)} />
+      </ExtensionData>,
+      81
+    );
+
     return fields;
+  }
+
+  changeExtensionKey(key, value, prevKey = null) {
+    //jeśli poprzedni klucz istniał, to usuwamy go
+
+    let attributes = this.policy.additionalData();
+
+    if (prevKey !== null) {
+      delete attributes[prevKey];
+    }
+
+    attributes[key] = value;
+
+    this.policy.pushAttributes({
+      additionalData: attributes,
+    });
+  }
+
+  changeExtensionValue(key, value) {
+    let attributes = this.policy.additionalData();
+    attributes.key = value;
+    this.policy.updateAttribute('additionalData', attributes);
+
+    this.dirty = true;
   }
 
   updateAttribute(attribute, value) {
@@ -230,7 +263,7 @@ export default class PolicyEdit {
 
   savePolicy(event) {
     event.preventDefault();
-
+    console.log(this.policy.data.attributes);
     this.processing = true;
 
     const createNewRecord = !this.policy.exists;
