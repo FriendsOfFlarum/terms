@@ -89,6 +89,12 @@ class PolicyRepository
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
                 $optional = $policy->optional;
+
+                /**
+                 * @var bool $is_accepted
+                 *
+                 * @phpstan-ignore-next-line
+                 */
                 $is_accepted = $user->fofTermsPoliciesState->keyBy('id')->get($policy->id)->pivot->is_accepted;
 
                 $this->rememberState[$policy->id] = [
