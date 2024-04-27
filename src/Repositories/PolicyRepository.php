@@ -208,7 +208,7 @@ class PolicyRepository
 
     public function acceptAll(User $user)
     {
-        
+
         $relationship = [];
         foreach ($this->all() as $policy) {
             $relationship[$policy->id] = [
@@ -225,7 +225,7 @@ class PolicyRepository
         $exists = $this->getUserPolicyRelationship($user)->where('id', $policy->id)->exists();
 
         $pivot = [
-            'accepted_at' => Carbon::now(),
+            'accepted_at' => null,
             'is_accepted' => false,
         ];
 

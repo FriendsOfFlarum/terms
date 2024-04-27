@@ -13,8 +13,8 @@ return [
         });
     },
     'down' => function (Builder $schema) {
-        $schema->table('your_table_name', function (Blueprint $table) {
-            $table->dropColumn('your_column_name');
+        $schema->table('fof_terms_policies', function (Blueprint $table) {
+            $table->dropColumn('additionalInfo');
         });
     }
 ];

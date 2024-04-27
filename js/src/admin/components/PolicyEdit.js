@@ -6,6 +6,7 @@ import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 import Switch from 'flarum/common/components/Switch';
 import ExtensionData from './ExtensionData';
+
 /* global m, dayjs */
 
 export default class PolicyEdit {
@@ -28,7 +29,7 @@ export default class PolicyEdit {
         update_message: '',
         terms_updated_at: '',
         optional: false,
-        additionalInfo: '{}',
+        additionalInfo: {},
       },
     });
   }
@@ -171,16 +172,22 @@ export default class PolicyEdit {
 
     fields.add(
       'optional',
-      <div class={'Form-group fof-terms-optional-checkbox'}>
-        <label>Select new policy as optional</label>
-        <Switch
-          state={this.policy.optional()}
-          onchange={() => {
-            this.updateAttribute('optional', !this.policy.optional());
-          }}
-        />
-      </div>,
-      82
+      <>
+        <div class={'Form-group'}>
+          <div class={' fof-terms-optional-checkbox'}>
+            <label class={'Form-group>label'}>{app.translator.trans('fof-terms.admin.policies.optional')}</label>
+            <Switch
+              className={'fof-terms-Switch-off'}
+              state={this.policy.optional()}
+              onchange={() => {
+                this.updateAttribute('optional', !this.policy.optional());
+              }}
+            />
+          </div>
+          <div class={'helpText'}>{app.translator.trans('fof-terms.admin.policies.optional-help')}</div>
+        </div>
+      </>,
+      83
     );
 
     if (this.policy.exists) {
@@ -214,27 +221,6 @@ export default class PolicyEdit {
         80
       );
     }
-
-    fields.add(
-      'extension4',
-      <ExtensionData keyattr={'extension4'} policy={this.policy} updateAttribute={this.updateAttribute}>
-        <textarea
-          class={'FormControl'}
-          value={JSON.parse(this.policy.additionalInfo())?.extension4 || ''}
-          oninput={(val) => {
-            if (!this.policy.additionalInfo()) {
-              this.updateAttribute('additionalInfo', {});
-            }
-            let attributes = JSON.parse(this.policy.additionalInfo());
-            attributes.extension4 = val.target.value;
-
-            this.updateAttribute('additionalInfo', JSON.stringify(attributes));
-          }}
-        />
-      </ExtensionData>,
-
-      81
-    );
 
     return fields;
   }

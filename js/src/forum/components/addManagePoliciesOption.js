@@ -2,12 +2,20 @@ import { extend } from 'flarum/common/extend';
 import app from 'flarum/forum/app';
 import SettingsPage from 'flarum/forum/components/SettingsPage';
 import FieldSet from 'flarum/common/components/FieldSet';
-import Button from 'flarum/common/components/Button';
 import Switch from 'flarum/common/components/Switch';
+
+async function updatePolicy(policy, value) {
+  const endpoint = `${app.forum.attribute('apiUrl')}${policy.apiEndpoint()}${value ? '/accept' : '/decline'}`;
+  const updated = await app.request({
+    url: endpoint,
+    method: 'POST',
+  });
+  app.store.pushPayload(updated);
+}
 
 export default function () {
   extend(SettingsPage.prototype, 'settingsItems', function (items) {
-    const policies = app.store.all('fof-terms-policies').filter((policy) => policy.data.attributes.optional);
+    const policies = app.store.all('fof-terms-policies').filter((policy) => policy.optional());
 
     let policyState = app.session.user.fofTermsPoliciesState();
 
@@ -15,25 +23,19 @@ export default function () {
       'policies',
       <FieldSet label={'Policies'}>
         {policies.map((policy) => {
+          const { is_accepted } = policyState[policy.id()];
           return (
             <div class={'Fof-Terms-Policy-User-Settings-Management'}>
               <Switch
-                state={policyState[policy.id()].is_accepted}
-                onchange={(value) => {
+                state={is_accepted}
+                onchange={async (value) => {
                   policyState[policy.id()].is_accepted = value;
                   this[policy.form_key()] = value;
-                  app
-                    .request({
-                      url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + (this[policy.form_key()] ? '/accept' : '/decline'),
-                      method: 'POST',
-                    })
-                    .then((updated) => {
-                      app.store.pushPayload(updated);
-                      m.redraw();
-                    });
+                  await updatePolicy(policy, value);
+                  m.redraw();
                 }}
               >
-                <a href={policy.url() ? policy.url() : ''}>{policy.name()}</a>
+                <a href={policy.url() || ''}>{policy.name()}</a>
               </Switch>
             </div>
           );

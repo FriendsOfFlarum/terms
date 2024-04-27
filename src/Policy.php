@@ -25,13 +25,17 @@ use Flarum\User\User;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property bool $optional
- * @property object $additionalInfo
+ * @property array $additionalInfo
  */
 class Policy extends AbstractModel
 {
     protected $table = 'fof_terms_policies';
 
     public $timestamps = true;
+
+    protected $casts = [
+        'additionalInfo' => 'array',
+    ];
 
     protected $dates = [
         'terms_updated_at',
@@ -84,6 +88,6 @@ class Policy extends AbstractModel
 
     protected function setAdditionalInfoAttribute($value)
     {
-        $this->attributes['additionalInfo'] = $value ?? null;
+        $this->attributes['additionalInfo'] = json_encode($value);
     }
 }

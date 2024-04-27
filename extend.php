@@ -17,7 +17,6 @@ use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
-use Flarum\User\Event\Registered;
 use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;

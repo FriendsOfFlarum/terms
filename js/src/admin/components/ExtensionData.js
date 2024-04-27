@@ -5,22 +5,28 @@ export default class ExtensionData extends Component {
     super.oninit(vnode);
     this.keyattr = vnode.attrs.keyattr;
     this.policy = vnode.attrs.policy;
-    this.updateAttribute = vnode.attrs.updateAttribute;
+    this.setDirty = vnode.attrs.setDirty;
     this.children = vnode.children;
+
+    this.updateAttribute = this.updateAttribute.bind(this); // Bind this to updateAttribute
   }
 
   view() {
-    let additionalInfo = JSON.parse(this.policy.additionalInfo());
+    let children =
+      typeof this.children[0] === 'function'
+        ? this.children[0]({ keyattr: this.keyattr, policy: this.policy, updateAttribute: this.updateAttribute })
+        : this.children;
 
-    return (
-      <div class={'Form-group'}>
-        <label>{this.keyattr}</label>
-        {this.children}
-      </div>
-    );
+    return <div class={'Form-group'}>{children}</div>;
   }
 
-  onchangevalue(value) {
-    this.attrs.onchangevalue(this.keyattr, value, this.value);
+  updateAttribute(value) {
+    let attributes = this.policy.additionalInfo();
+    attributes[this.keyattr] = value;
+    this.policy.pushAttributes({
+      ['additionalInfo']: attributes,
+    });
+
+    this.setDirty();
   }
 }
