@@ -54,7 +54,7 @@ class UserPolicyData extends Type
             'accepted_at'      => $accepted_at,
             'has_update'       => $has_update,
             'must_accept'      => $has_update && !$this->user->can('postponeAccept', $policy),
-            'additionalData'   => $policy->additionalInfo,
+            'additional_info'  => $policy->additional_info,
         ];
     }
 

@@ -47,6 +47,7 @@ class PolicyStoreController extends AbstractCreateController
         $actor->assertAdmin();
 
         $attributes = Arr::get($request->getParsedBody(), 'data.attributes', []);
+        $attributes['additional_info'] = Arr::get($attributes, 'additional_info', '{}');
 
         return $this->policies->store($actor, $attributes);
     }

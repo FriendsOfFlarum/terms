@@ -5,7 +5,6 @@ import ItemList from 'flarum/common/utils/ItemList';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 import Switch from 'flarum/common/components/Switch';
-import ExtensionData from './ExtensionData';
 
 /* global m, dayjs */
 
@@ -29,7 +28,7 @@ export default class PolicyEdit {
         update_message: '',
         terms_updated_at: '',
         optional: false,
-        additionalInfo: {},
+        additional_info: {},
       },
     });
   }
@@ -238,11 +237,8 @@ export default class PolicyEdit {
 
   savePolicy(event) {
     event.preventDefault();
-
     this.processing = true;
-    this.updateAttribute('additionalInfo', this.policy.additionalInfo());
     const createNewRecord = !this.policy.exists;
-    console.log(this.policy.data.attributes);
     this.policy
       .save(this.policy.data.attributes)
       .then(() => {

@@ -25,7 +25,7 @@ use Flarum\User\User;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property bool   $optional
- * @property array  $additionalInfo
+ * @property array  $additional_info
  */
 class Policy extends AbstractModel
 {
@@ -34,7 +34,7 @@ class Policy extends AbstractModel
     public $timestamps = true;
 
     protected $casts = [
-        'additionalInfo' => 'array',
+        'additional_info' => 'array',
     ];
 
     protected $dates = [
@@ -48,7 +48,7 @@ class Policy extends AbstractModel
         'update_message',
         'terms_updated_at',
         'optional',
-        'additionalInfo',
+        'additional_info',
     ];
 
     protected $fillable = [
@@ -57,7 +57,7 @@ class Policy extends AbstractModel
         'update_message',
         'terms_updated_at',
         'optional',
-        'additionalInfo',
+        'additional_info',
 
     ];
 
@@ -88,6 +88,6 @@ class Policy extends AbstractModel
 
     protected function setAdditionalInfoAttribute($value)
     {
-        $this->attributes['additionalInfo'] = json_encode($value);
+        $this->attributes['additional_info'] = json_encode($value);
     }
 }

@@ -8,12 +8,12 @@ use Illuminate\Database\Schema\Builder;
 return [
     'up' => function (Builder $schema) {
         $schema->table('fof_terms_policies', function (Blueprint $table) {
-            $table->json('additionalInfo');
+            $table->json('additional_info');
         });
     },
     'down' => function (Builder $schema) {
         $schema->table('fof_terms_policies', function (Blueprint $table) {
-            $table->dropColumn('additionalInfo');
+            $table->dropColumn('additional_info');
         });
     },
 ];

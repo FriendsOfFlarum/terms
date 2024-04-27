@@ -21,10 +21,10 @@ export default class ExtensionData extends Component {
   }
 
   updateAttribute(value) {
-    let attributes = this.policy.additionalInfo();
+    let attributes = this.policy.additional_info();
     attributes[this.keyattr] = value;
     this.policy.pushAttributes({
-      ['additionalInfo']: attributes,
+      ['additional_info']: attributes,
     });
 
     this.setDirty();
