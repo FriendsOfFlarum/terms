@@ -87,7 +87,7 @@ export default class PolicyEdit {
                   type: 'submit',
                   className: 'Button Button--danger',
                   loading: this.processing,
-                  onclick: this.deletePolicy.bind(this),
+                  onclick: (event) => this.deletePolicy(event),
                 },
                 app.translator.trans('fof-terms.admin.buttons.delete-policy')
               )
@@ -259,7 +259,8 @@ export default class PolicyEdit {
       });
   }
 
-  deletePolicy() {
+  deletePolicy(event) {
+    event.preventDefault();
     if (
       !confirm(
         extractText(
