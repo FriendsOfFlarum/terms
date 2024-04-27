@@ -94,7 +94,7 @@ class PolicyRepository
                 $this->rememberState[$policy->id] = [
                     // Same format as Flarum is using for the serializer responses
                     'accepted_at' => $accepted_at ? $accepted_at->format(DateTime::RFC3339) : null,
-                    'has_update' => $has_update,
+                    'has_update'  => $has_update,
                     'must_accept' => $has_update && !$user->can('postponeAccept', $policy) && !$optional,
                     'is_accepted' => $is_accepted,
                 ];
@@ -134,16 +134,17 @@ class PolicyRepository
                 break;
             }
         }
+
         return $mustAccept;
     }
 
     /**
-     * @param User $actor
+     * @param User  $actor
      * @param array $attributes
      *
-     * @return Policy
      * @throws ValidationException
      *
+     * @return Policy
      */
     public function store(User $actor, array $attributes)
     {
@@ -161,11 +162,11 @@ class PolicyRepository
 
     /**
      * @param Policy $policy
-     * @param array $attributes
+     * @param array  $attributes
      *
-     * @return Policy
      * @throws ValidationException
      *
+     * @return Policy
      */
     public function update(Policy $policy, array $attributes)
     {
@@ -208,7 +209,6 @@ class PolicyRepository
 
     public function acceptAll(User $user)
     {
-
         $relationship = [];
         foreach ($this->all() as $policy) {
             $relationship[$policy->id] = [

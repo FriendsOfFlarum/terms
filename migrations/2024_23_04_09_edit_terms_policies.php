@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
-
 use Illuminate\Database\Schema\Builder;
 
 // HINT: you might want to use a `Flarum\Database\Migration` helper method for simplicity!
@@ -16,5 +15,5 @@ return [
         $schema->table('fof_terms_policies', function (Blueprint $table) {
             $table->dropColumn('additionalInfo');
         });
-    }
+    },
 ];

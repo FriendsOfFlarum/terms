@@ -9,12 +9,8 @@
  * file that was distributed with this source code.
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
-
 use Flarum\Database\Migration;
 
 return Migration::addColumns('fof_terms_policy_user', [
     'is_accepted' => ['boolean'],
 ]);
-

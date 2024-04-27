@@ -14,4 +14,3 @@ use Flarum\Database\Migration;
 return Migration::addColumns('fof_terms_policies', [
     'optional' => ['boolean', 'default' => false],
 ]);
-

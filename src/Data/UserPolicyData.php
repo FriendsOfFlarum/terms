@@ -45,16 +45,16 @@ class UserPolicyData extends Type
         $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
 
         return [
-            'name' => $policy->name,
-            'url' => $policy->url,
-            'created_at' => $policy->created_at,
-            'update_message' => $policy->update_message,
+            'name'             => $policy->name,
+            'url'              => $policy->url,
+            'created_at'       => $policy->created_at,
+            'update_message'   => $policy->update_message,
             'terms_updated_at' => $policy->terms_updated_at,
-            'optional' => $policy->optional,
-            'accepted_at' => $accepted_at,
-            'has_update' => $has_update,
-            'must_accept' => $has_update && !$this->user->can('postponeAccept', $policy),
-            'additionalData' => $policy->additionalInfo,
+            'optional'         => $policy->optional,
+            'accepted_at'      => $accepted_at,
+            'has_update'       => $has_update,
+            'must_accept'      => $has_update && !$this->user->can('postponeAccept', $policy),
+            'additionalData'   => $policy->additionalInfo,
         ];
     }
 

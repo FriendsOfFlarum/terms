@@ -33,11 +33,11 @@ class PolicyDeclineController extends AbstractShowController
 
     /**
      * @param ServerRequestInterface $request
-     * @param Document $document
+     * @param Document               $document
      *
-     * @return mixed
      * @throws NotAuthenticatedException
      *
+     * @return mixed
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {

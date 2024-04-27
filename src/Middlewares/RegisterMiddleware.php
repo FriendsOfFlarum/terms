@@ -62,12 +62,12 @@ class RegisterMiddleware implements MiddlewareInterface
         }
 
         $response = $handler->handle($request);
-        if($response->getStatusCode() < 400){
+        if ($response->getStatusCode() < 400) {
             $response->getBody()->rewind();
-            $payload = json_decode($response->getBody()->getContents(),true);
+            $payload = json_decode($response->getBody()->getContents(), true);
 
             /** @var User $user */
-            $user = User::find(Arr::get($payload,'data.id'));
+            $user = User::find(Arr::get($payload, 'data.id'));
 
             /**
              * @var PolicyRepository $policies
@@ -77,8 +77,8 @@ class RegisterMiddleware implements MiddlewareInterface
             $requestBody = $request->getParsedBody();
 
             foreach ($policies->all() as $policy) {
-                if(Arr::has($requestBody,'fof_terms_policy_'.$policy->id) && $requestBody['fof_terms_policy_'.$policy->id] === true ) {
-                  $policies->accept($user, $policy);
+                if (Arr::has($requestBody, 'fof_terms_policy_'.$policy->id) && $requestBody['fof_terms_policy_'.$policy->id] === true) {
+                    $policies->accept($user, $policy);
                 }
             }
         }

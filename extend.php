@@ -25,13 +25,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 return [
     (new Extend\Frontend('admin'))
-        ->js(__DIR__ . '/js/dist/admin.js')
-        ->css(__DIR__ . '/resources/less/admin.less'),
+        ->js(__DIR__.'/js/dist/admin.js')
+        ->css(__DIR__.'/resources/less/admin.less'),
     (new Extend\Frontend('forum'))
-        ->js(__DIR__ . '/js/dist/forum.js')
-        ->css(__DIR__ . '/resources/less/forum.less'),
+        ->js(__DIR__.'/js/dist/forum.js')
+        ->css(__DIR__.'/resources/less/forum.less'),
 
-    new Extend\Locales(__DIR__ . '/resources/locale'),
+    new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Routes('api'))
         ->post('/fof/terms/policies/order', 'fof.terms.api.policies.order', Controllers\PolicyOrderController::class)
@@ -53,7 +53,6 @@ return [
         ->relationship('fofTermsPoliciesState', function (AbstractModel $user): BelongsToMany {
             return $user->belongsToMany(Policy::class, 'fof_terms_policy_user')->withPivot('is_accepted');
         }),
-
 
     (new Extend\User())
         ->permissionGroups(function ($actor, $groupIds) {
@@ -91,7 +90,7 @@ return [
         ->addInclude('fofTermsPolicies'),
 
     (new Extend\Conditional())
-        ->whenExtensionEnabled('blomstra-gdpr', fn() => [
+        ->whenExtensionEnabled('blomstra-gdpr', fn () => [
             (new UserData())
                 ->addType(Data\UserPolicyData::class),
         ]),
