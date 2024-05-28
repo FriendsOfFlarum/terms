@@ -43,7 +43,7 @@ fof-terms:
             export-url-help: >
                 Any user with permission "Export all policies data" can access those URLs to download the list of users who accepted this policy.
                 You can find more details about the available options on the <a>extension wiki</a>.
-            optional: Select this policy as optional
+            optional: Optional Policy
             optional-help: Choose wheter this policy could be declined by users
 
         permissions:
