@@ -15,6 +15,6 @@ return Migration::addColumns('fof_terms_policy_user', [
     'is_accepted' => [
         'boolean',
         // Prior to this migration, all policies were required, so we mark them as accepted.
-        'default' => true
+        'default' => true,
     ],
 ]);
