@@ -3,6 +3,7 @@ import app from 'flarum/forum/app';
 import SettingsPage from 'flarum/forum/components/SettingsPage';
 import FieldSet from 'flarum/common/components/FieldSet';
 import Switch from 'flarum/common/components/Switch';
+import Link from 'flarum/common/components/Link';
 
 async function updatePolicy(policy, value) {
   const endpoint = `${app.forum.attribute('apiUrl')}${policy.apiEndpoint()}${value ? '/accept' : '/decline'}`;
@@ -37,9 +38,9 @@ export default function () {
               >
                 {' '}
                 {policy.url() ? (
-                  <a target="_blank" href={policy.url()}>
+                  <Link target="_blank" href={policy.url()}>
                     {policy.name()}
-                  </a>
+                  </Link>
                 ) : (
                   policy.name()
                 )}
