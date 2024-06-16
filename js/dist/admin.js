@@ -1325,10 +1325,10 @@ sortable.__testing = {
 
 /***/ }),
 
-/***/ "./src/admin/components/ExtensionData.tsx":
-/*!************************************************!*\
-  !*** ./src/admin/components/ExtensionData.tsx ***!
-  \************************************************/
+/***/ "./src/admin/components/ExtensionData.js":
+/*!***********************************************!*\
+  !*** ./src/admin/components/ExtensionData.js ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1344,31 +1344,33 @@ __webpack_require__.r(__webpack_exports__);
 var ExtensionData = /*#__PURE__*/function (_Component) {
   (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(ExtensionData, _Component);
   function ExtensionData() {
-    var _this;
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
-    _this.keyattr = void 0;
-    _this.value = void 0;
-    _this.key = void 0;
-    _this.children = void 0;
-    return _this;
+    return _Component.apply(this, arguments) || this;
   }
   var _proto = ExtensionData.prototype;
   _proto.oninit = function oninit(vnode) {
     _Component.prototype.oninit.call(this, vnode);
-    //this.value = vnode.attrs.value;
-    //this.keyattr = vnode.attrs.key;
+    this.keyattr = vnode.attrs.keyattr;
+    this.policy = vnode.attrs.policy;
+    this.setDirty = vnode.attrs.setDirty;
     this.children = vnode.children;
+    this.updateAttribute = this.updateAttribute.bind(this); // Bind this to updateAttribute
   };
   _proto.view = function view() {
+    var children = typeof this.children[0] === 'function' ? this.children[0]({
+      keyattr: this.keyattr,
+      policy: this.policy,
+      updateAttribute: this.updateAttribute
+    }) : this.children;
     return m("div", {
       "class": 'Form-group'
-    }, this.children);
+    }, children);
   };
-  _proto.onchangevalue = function onchangevalue(value) {
-    this.attrs.onchangevalue(this.keyattr, value, this.value);
+  _proto.updateAttribute = function updateAttribute(value) {
+    var _this$policy$pushAttr;
+    var attributes = this.policy.additional_info();
+    attributes[this.keyattr] = value;
+    this.policy.pushAttributes((_this$policy$pushAttr = {}, _this$policy$pushAttr['additional_info'] = attributes, _this$policy$pushAttr));
+    this.setDirty();
   };
   return ExtensionData;
 }((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
@@ -1401,7 +1403,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var flarum_common_components_Switch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! flarum/common/components/Switch */ "flarum/common/components/Switch");
 /* harmony import */ var flarum_common_components_Switch__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Switch__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _ExtensionData__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ExtensionData */ "./src/admin/components/ExtensionData.tsx");
 
 
 
@@ -1431,7 +1432,7 @@ var PolicyEdit = /*#__PURE__*/function () {
         update_message: '',
         terms_updated_at: '',
         optional: false,
-        additionalData: {}
+        additional_info: {}
       }
     });
   };
@@ -1450,6 +1451,7 @@ var PolicyEdit = /*#__PURE__*/function () {
     }, [m('.FoF-Terms-Policiy-Header-Title', this.boxTitle()), m('div', [this.policy.exists ? [flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.buttons.edit-policy'), ' '] : null, flarum_common_helpers_icon__WEBPACK_IMPORTED_MODULE_1___default()(this.toggleFields ? 'fas fa-chevron-up' : 'fas fa-chevron-down')])]), this.toggleFields ? this.viewFields() : null]);
   };
   _proto.viewFields = function viewFields() {
+    var _this2 = this;
     return m('form.FoF-Terms-Policiy-Body', {
       onsubmit: this.savePolicy.bind(this)
     }, [this.fields().toArray(), m('.ButtonGroup', [flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5___default().component({
@@ -1461,11 +1463,13 @@ var PolicyEdit = /*#__PURE__*/function () {
       type: 'submit',
       className: 'Button Button--danger',
       loading: this.processing,
-      onclick: this.deletePolicy.bind(this)
+      onclick: function onclick(event) {
+        return _this2.deletePolicy(event);
+      }
     }, flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.buttons.delete-policy')) : ''])]);
   };
   _proto.fields = function fields() {
-    var _this2 = this;
+    var _this3 = this;
     var fields = new (flarum_common_utils_ItemList__WEBPACK_IMPORTED_MODULE_3___default())();
     fields.add('name', m('.Form-group', [m('label', flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.policies.name')), m('input.FormControl', {
       type: 'text',
@@ -1491,21 +1495,28 @@ var PolicyEdit = /*#__PURE__*/function () {
       onclick: function onclick() {
         // We set the milliseconds to zero because it might otherwise give the impression
         // that we store them, when in fact the date will be stored in a MySQL TIMESTAMP column
-        _this2.updateAttribute('terms_updated_at', dayjs().millisecond(0).toISOString());
+        _this3.updateAttribute('terms_updated_at', dayjs().millisecond(0).toISOString());
       }
     }, flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.buttons.set-to-now'))]), m('.helpText', flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.policies.terms-updated-at-help'))]), 85);
-    fields.add('optional', m("div", {
-      "class": 'Form-group fof-terms-optional-checkbox'
-    }, m("label", null, "Select new policy as optional"), m((flarum_common_components_Switch__WEBPACK_IMPORTED_MODULE_6___default()), {
+    fields.add('optional', m('[', null, m("div", {
+      "class": 'Form-group'
+    }, m("div", {
+      "class": ' fof-terms-optional-checkbox'
+    }, m("label", {
+      "class": 'Form-group>label'
+    }, flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.policies.optional')), m((flarum_common_components_Switch__WEBPACK_IMPORTED_MODULE_6___default()), {
+      className: 'fof-terms-Switch-off',
       state: this.policy.optional(),
       onchange: function onchange() {
-        _this2.updateAttribute('optional', !_this2.policy.optional());
+        _this3.updateAttribute('optional', !_this3.policy.optional());
       }
-    })), 82);
+    })), m("div", {
+      "class": 'helpText'
+    }, flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.policies.optional-help')))), 83);
     if (this.policy.exists) {
       fields.add('export-url', m('.Form-group', [m('label', flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.policies.export-url')), m('.ButtonGroup', ['json', 'csv'].map(function (format) {
         return m('a.Button.FoF-Terms-Export-Button', {
-          href: flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('apiUrl') + '/fof/terms/policies/' + _this2.policy.id() + '/export.' + format,
+          href: flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('apiUrl') + '/fof/terms/policies/' + _this3.policy.id() + '/export.' + format,
           target: '_blank'
         }, format.toUpperCase());
       })), m('.helpText', flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.policies.export-url-help', {
@@ -1515,36 +1526,7 @@ var PolicyEdit = /*#__PURE__*/function () {
         })
       }))]), 80);
     }
-    fields.add('extension1', m(_ExtensionData__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      keyattr: 'extension1'
-    }, m("textarea", {
-      "class": 'FormControl',
-      oninput: function oninput() {
-        return console.log(_this2.policy.data.attributes);
-      }
-    })), 81);
     return fields;
-  };
-  _proto.changeExtensionKey = function changeExtensionKey(key, value, prevKey) {
-    if (prevKey === void 0) {
-      prevKey = null;
-    }
-    //jeśli poprzedni klucz istniał, to usuwamy go
-
-    var attributes = this.policy.additionalData();
-    if (prevKey !== null) {
-      delete attributes[prevKey];
-    }
-    attributes[key] = value;
-    this.policy.pushAttributes({
-      additionalData: attributes
-    });
-  };
-  _proto.changeExtensionValue = function changeExtensionValue(key, value) {
-    var attributes = this.policy.additionalData();
-    attributes.key = value;
-    this.policy.updateAttribute('additionalData', attributes);
-    this.dirty = true;
   };
   _proto.updateAttribute = function updateAttribute(attribute, value) {
     var _this$policy$pushAttr;
@@ -1555,26 +1537,26 @@ var PolicyEdit = /*#__PURE__*/function () {
     return this.dirty;
   };
   _proto.savePolicy = function savePolicy(event) {
-    var _this3 = this;
+    var _this4 = this;
     event.preventDefault();
-    console.log(this.policy.data.attributes);
     this.processing = true;
     var createNewRecord = !this.policy.exists;
     this.policy.save(this.policy.data.attributes).then(function () {
       if (createNewRecord) {
-        _this3.initNewField();
-        _this3.toggleFields = false;
+        _this4.initNewField();
+        _this4.toggleFields = false;
       }
-      _this3.processing = false;
-      _this3.dirty = false;
+      _this4.processing = false;
+      _this4.dirty = false;
       m.redraw();
     })["catch"](function (err) {
-      _this3.processing = false;
+      _this4.processing = false;
       throw err;
     });
   };
-  _proto.deletePolicy = function deletePolicy() {
-    var _this4 = this;
+  _proto.deletePolicy = function deletePolicy(event) {
+    var _this5 = this;
+    event.preventDefault();
     if (!confirm(flarum_common_utils_extractText__WEBPACK_IMPORTED_MODULE_2___default()(flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-terms.admin.messages.delete-policy-confirmation', {
       name: this.policy.name()
     })))) {
@@ -1582,10 +1564,10 @@ var PolicyEdit = /*#__PURE__*/function () {
     }
     this.processing = true;
     this.policy["delete"]().then(function () {
-      _this4.processing = false;
+      _this5.processing = false;
       m.redraw();
     })["catch"](function (err) {
-      _this4.processing = false;
+      _this5.processing = false;
       throw err;
     });
   };
@@ -1753,13 +1735,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PolicyEdit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PolicyEdit */ "./src/admin/components/PolicyEdit.js");
 /* harmony import */ var _PolicyList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PolicyList */ "./src/admin/components/PolicyList.js");
 /* harmony import */ var _TermsSettingsPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TermsSettingsPage */ "./src/admin/components/TermsSettingsPage.js");
+/* harmony import */ var _ExtensionData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ExtensionData */ "./src/admin/components/ExtensionData.js");
+
 
 
 
 var components = {
   PolicyEdit: _PolicyEdit__WEBPACK_IMPORTED_MODULE_0__["default"],
   PolicyList: _PolicyList__WEBPACK_IMPORTED_MODULE_1__["default"],
-  TermsSettingsPage: _TermsSettingsPage__WEBPACK_IMPORTED_MODULE_2__["default"]
+  TermsSettingsPage: _TermsSettingsPage__WEBPACK_IMPORTED_MODULE_2__["default"],
+  ExtensionData: _ExtensionData__WEBPACK_IMPORTED_MODULE_3__["default"]
 };
 
 /***/ }),
@@ -1883,7 +1868,7 @@ var Policy = /*#__PURE__*/function (_Model) {
     _this.update_message = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('update_message');
     _this.terms_updated_at = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('terms_updated_at');
     _this.optional = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('optional');
-    _this.additionalData = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('additionalData');
+    _this.additional_info = flarum_common_Model__WEBPACK_IMPORTED_MODULE_1___default().attribute('additional_info');
     _this.form_key = flarum_common_utils_computed__WEBPACK_IMPORTED_MODULE_2___default()('id', function (id) {
       return 'fof_terms_policy_' + id;
     });
