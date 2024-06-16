@@ -34,8 +34,10 @@ export default function () {
                   await updatePolicy(policy, value);
                   m.redraw();
                 }}
-              >
-                <a href={policy.url() || ''}>{policy.name()}</a>
+              > { policy.url()  ?
+                    <a target="_blank" href={policy.url()}>{policy.name()}</a>
+                    : policy.name()
+                }
               </Switch>
             </div>
           );
