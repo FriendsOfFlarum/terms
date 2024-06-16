@@ -77,7 +77,7 @@ class RegisterMiddleware implements MiddlewareInterface
             $requestBody = $request->getParsedBody();
 
             foreach ($policies->all() as $policy) {
-                if (Arr::has($requestBody, 'fof_terms_policy_'.$policy->id) && $requestBody['fof_terms_policy_'.$policy->id] === true) {
+                if (isset( $requestBody['fof_terms_policy_'.$policy->id] ) && $requestBody['fof_terms_policy_'.$policy->id] === true) {
                     $policies->accept($user, $policy);
                 } else {
                     $policies->declineOptional($user, $policy);
