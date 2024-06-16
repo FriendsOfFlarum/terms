@@ -12,7 +12,6 @@
 namespace FoF\Terms\Extenders;
 
 use Flarum\Api\Serializer\BasicUserSerializer;
-use Flarum\Api\Serializer\CurrentUserSerializer;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
 
@@ -30,13 +29,8 @@ class UserPoliciesRelationship
 
     public function __invoke(BasicUserSerializer $serializer, User $user, array $attributes)
     {
-        $request = $serializer->getRequest();
-
-        if ($request->getAttribute('routeName') === 'users.show' && $serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
+        if ($serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
             $attributes['fofTermsPoliciesState'] = $this->policies->state($user);
-        }
-
-        if ($serializer instanceof CurrentUserSerializer) {
             $attributes['fofTermsPoliciesHasUpdate'] = $this->policies->hasPoliciesUpdate($user);
             $attributes['fofTermsPoliciesMustAccept'] = $this->policies->mustAcceptNewPolicies($user);
         }
