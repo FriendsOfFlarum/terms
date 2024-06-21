@@ -11,19 +11,18 @@
 
 namespace FoF\Terms\Controllers;
 
-use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Http\RequestUtil;
-use Flarum\User\Exception\PermissionDeniedException;
+use Flarum\User\Exception\NotAuthenticatedException;
 use FoF\Terms\Repositories\PolicyRepository;
-use FoF\Terms\Serializers\PolicySerializer;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\ValidationException;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class PolicyStoreController extends AbstractCreateController
+class PolicyDeclineController extends AbstractShowController
 {
-    public $serializer = PolicySerializer::class;
+    public $serializer = BasicUserSerializer::class;
 
     protected $policies;
 
@@ -36,19 +35,22 @@ class PolicyStoreController extends AbstractCreateController
      * @param ServerRequestInterface $request
      * @param Document               $document
      *
-     * @throws PermissionDeniedException
-     * @throws ValidationException
+     * @throws NotAuthenticatedException
      *
      * @return mixed
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        $id = Arr::get($request->getQueryParams(), 'id');
+
+        $policy = $this->policies->findOrFail($id);
+
         $actor = RequestUtil::getActor($request);
-        $actor->assertAdmin();
 
-        $attributes = Arr::get($request->getParsedBody(), 'data.attributes', []);
-        $attributes['additional_info'] = Arr::get($attributes, 'additional_info', '{}');
+        $actor->assertRegistered();
 
-        return $this->policies->store($actor, $attributes);
+        $this->policies->declineOptional($actor, $policy);
+
+        return $actor;
     }
 }

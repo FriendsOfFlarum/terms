@@ -56,6 +56,158 @@ You can customize who can skip the modal without accepting the new terms immedia
 
 Admins can see the date at which a user accepted the terms by going to their profile page and selecting the terms button in the dropdown menu. You can customize who can see those dates in the permissions.
 
+## For developers
+
+You can easily add a custom field in PolicyEdit component to integrate fof/terms with other extensions. In 
+`fof-terms-policies`, there is a column, `additionalInfo` dedicated to save your custom data into `fof/terms` database.
+Data is stored inside one, global JSON object, allowing multiple extensions to save their data. 
+
+```
+  additionalInfo JSON object example
+  
+  {
+    "fof/extension-1": "extension1 data",
+    "fof/extension-2": true,
+    "fof/extension-3": {"extension-3-boolval": false, "extension-3-stringval": "extension-3 data"}
+  }
+```
+
+You can save any value, as long as it is a primitive or a valid JSON object.
+
+To add your field to `additionalInfo`, you must follow these steps:
+1) Choose a custom **key** value, it is recommended to select Your extension's name to avoid naming conflicts. 
+2) Prepare a component, which You would want to insert into `PolicyEdit`
+3) Extend `PolicyEdit.prototype`'s `fields` method, and add Your component, wrapped inside `ExtensionData` component:
+```js
+  import { extend } from 'flarum/common/extend';
+  import PolicyEdit from 'fof/terms/components/PolicyEdit';
+  import ExtensionData from 'fof/terms/components/ExtensionData';
+  
+  export default function() {
+    extend(PolicyEdit.prototype, 'fields', function  (items) {
+      const key = 'fof/extension-1';
+      const priority = 81;
+      
+      items.add(
+        key,
+        <ExtensionData
+          keyattr={key}
+          policy={this.policy}
+          setDirty={() => {
+            this.dirty = true;
+          }}
+        >
+          {({ keyattr, policy, updateAttribute }) => 
+            <YourComponent 
+              keyattr={keyattr} 
+              policy={policy} 
+              updateAttribute={updateAttribute} 
+            />
+          }
+        </ExtensionData>,
+        priority
+      )
+    });
+  }
+``` 
+As shown above, `ExtensionData` component takes three props:
+1) `keyattr` - specified key, usually Your extension's name,
+2) `policy` - reference to `policy` object,
+3) `setDirty` - reference to function that allows saving the policy, if any change is made
+
+Your component should also take three props:
+1) `keyattr` - same as in above
+2) `policy` - same as above
+3) `updateAttribute` - reference to `ExtensionData`'s method that manages saving Your data into database 
+( it is a bit different than `PolicyEdit`'s updateAttribute method )
+
+
+Your component could look something like this:
+```js
+import Component from 'flarum/common/Component';
+
+export default class YourComponent extends Component {
+  oninit(vnode) {
+    super.oninit(vnode);
+    this.keyattr = vnode.attrs.keyattr; 
+    this.policy = vnode.attrs.policy; 
+    this.updateAttribute = vnode.attrs.updateAttribute;
+  }
+
+  view() {
+    return (
+      <>
+        <label>{this.keyattr}</label>
+        <textarea
+          class={'FormControl'}
+          value={this.policy.additionalInfo()[this.keyattr] || ''}
+          oninput={(val) => {
+            this.updateAttribute(val.target.value);
+          }}
+        />
+      </>
+    );
+  }
+}
+```
+This example shows a way to save data only as string format: `key: <string>`, however if You want to use data in a more
+sophisticated format, there are some rules that should be followed. Let's say You want to save a JSON object instead of 
+simple string, in a such form:
+`{"boolval": <boolean>,  "stringval": <string>}`.
+
+Here is an example how to obtain such behaviour:
+
+```js
+import Component from 'flarum/common/Component';
+import Switch from 'flarum/common/components/Switch';
+
+export default class YourSophisticatedComponent extends Component {
+  oninit(vnode) {
+    super.oninit(vnode);
+    this.keyattr = vnode.attrs.keyattr; 
+    this.policy = vnode.attrs.policy; 
+    this.updateAttribute = vnode.attrs.updateAttribute;
+  }
+
+  view() {
+    return (
+      <>
+        <label>{this.keyattr}</label>
+        <Switch
+          state={this.policy.additionalInfo()[this.keyattr]?.boolval || false}
+          onchange={(val) => {
+            let objectAttributes = this.policy.additionalInfo()[this.keyattr];
+            if (objectAttributes === undefined) {
+              objectAttributes = {};
+            }
+            objectAttributes['boolval'] = val;
+            this.updateAttribute(objectAttributes);
+          }}
+        >
+          boolval
+        </Switch>
+        <textarea
+          class={'FormControl'}
+          value={this.policy.additionalInfo()[this.keyattr]?.stringval || ''}
+          oninput={(val) => {
+            let objectAttributes = this.policy.additionalInfo()[this.keyattr];
+            if (objectAttributes === undefined) {
+              objectAttributes = {};
+            }
+            objectAttributes['stringval'] = val.target.value;
+            this.updateAttribute(objectAttributes);
+          }}
+        />
+      </>
+    );
+  }
+}
+```
+Note that `oninput` handler is a bit more complicated - in order to save some subvalue, you need to fetch the whole 
+JSON object, assign its subvalue, and then call `this.updateAttribute` method. 
+  
+As mentioned above, it is possible to store every value imaginable, as long as it is a primitive, or valid JSON object.
+
 ## Data Export
 
 In case you want to export the data (for your GDPR logs for example), a JSON and CSV export is available.
