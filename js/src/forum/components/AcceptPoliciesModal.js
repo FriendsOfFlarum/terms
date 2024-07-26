@@ -18,6 +18,10 @@ export default class AcceptPoliciesModal extends Modal {
     return app.translator.trans('fof-terms.forum.accept-modal.title');
   }
 
+  className() {
+    return 'AcceptPoliciesModal Modal--medium';
+  }
+
   content() {
     return m('.Modal-body', this.body());
   }

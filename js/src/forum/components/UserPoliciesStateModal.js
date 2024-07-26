@@ -12,6 +12,10 @@ export default class UserPoliciesStateModal extends Modal {
     });
   }
 
+  className() {
+    return 'UserPoliciesStateModal Modal--medium';
+  }
+
   content() {
     return m(
       '.Modal-body',
