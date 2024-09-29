@@ -17,7 +17,6 @@ use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
-use Flarum\User\Event\Registered;
 use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
@@ -29,7 +28,8 @@ return [
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/resources/less/admin.less'),
     (new Extend\Frontend('forum'))
-        ->js(__DIR__.'/js/dist/forum.js'),
+        ->js(__DIR__.'/js/dist/forum.js')
+        ->css(__DIR__.'/resources/less/forum.less'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
@@ -40,6 +40,7 @@ return [
         ->patch('/fof/terms/policies/{id:[0-9]+}', 'fof.terms.api.policies.update', Controllers\PolicyUpdateController::class)
         ->delete('/fof/terms/policies/{id:[0-9]+}', 'fof.terms.api.policies.delete', Controllers\PolicyDeleteController::class)
         ->post('/fof/terms/policies/{id:[0-9]+}/accept', 'fof.terms.api.policies.accept', Controllers\PolicyAcceptController::class)
+        ->post('/fof/terms/policies/{id:[0-9]+}/decline', 'fof.terms.api.policies.decline', Controllers\PolicyDeclineController::class)
         ->get('/fof/terms/policies/{id:[0-9]+}/export.{format:json|csv}', 'fof.terms.api.policies.export', Controllers\PolicyExportController::class),
 
     (new Extend\Middleware('forum'))
@@ -48,23 +49,14 @@ return [
     (new Extend\Model(User::class))
         ->relationship('fofTermsPolicies', function (AbstractModel $user): BelongsToMany {
             return $user->belongsToMany(Policy::class, 'fof_terms_policy_user')->withPivot('accepted_at');
+        })
+        ->relationship('fofTermsPoliciesState', function (AbstractModel $user): BelongsToMany {
+            return $user->belongsToMany(Policy::class, 'fof_terms_policy_user')->withPivot('is_accepted');
         }),
 
     (new Extend\User())
         ->permissionGroups(function ($actor, $groupIds) {
             return PermissionGroupProcessor::process($actor, $groupIds);
-        }),
-
-    (new Extend\Event())
-        ->listen(Registered::class, function (Registered $event) {
-            /**
-             * @var PolicyRepository $policies
-             */
-            $policies = resolve(PolicyRepository::class);
-
-            // When a user registers, we automatically accept all policies
-            // We assume the checkboxes validation has been properly done pre-registration by the middleware
-            $policies->acceptAll($event->user);
         }),
 
     (new Extend\Policy())

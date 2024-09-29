@@ -88,7 +88,7 @@ export default class AcceptPoliciesModal extends Modal {
         Button.component(
           {
             className: 'Button Button--primary',
-            disabled: !this[policy.form_key()],
+            disabled: !this[policy.form_key()] && !policy.optional(),
             onclick: () => {
               // We need to save the "must accept" property before performing the request
               // Because an updated user serializer will be returned
@@ -96,7 +96,7 @@ export default class AcceptPoliciesModal extends Modal {
 
               app
                 .request({
-                  url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + '/accept',
+                  url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + (this[policy.form_key()] ? '/accept' : '/decline'),
                   method: 'POST',
                   errorHandler: this.onerror.bind(this),
                 })

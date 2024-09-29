@@ -24,12 +24,18 @@ use Flarum\User\User;
  * @property Carbon $terms_updated_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property bool   $optional
+ * @property array  $additional_info
  */
 class Policy extends AbstractModel
 {
     protected $table = 'fof_terms_policies';
 
     public $timestamps = true;
+
+    protected $casts = [
+        'additional_info' => 'array',
+    ];
 
     protected $dates = [
         'terms_updated_at',
@@ -41,6 +47,8 @@ class Policy extends AbstractModel
         'url',
         'update_message',
         'terms_updated_at',
+        'optional',
+        'additional_info',
     ];
 
     protected $fillable = [
@@ -48,6 +56,9 @@ class Policy extends AbstractModel
         'url',
         'update_message',
         'terms_updated_at',
+        'optional',
+        'additional_info',
+
     ];
 
     public function users()
@@ -68,5 +79,15 @@ class Policy extends AbstractModel
     protected function setTermsUpdatedAtAttribute($value)
     {
         $this->attributes['terms_updated_at'] = $value ? Carbon::parse($value) : null;
+    }
+
+    protected function setOptionalAttribute($value)
+    {
+        $this->attributes['optional'] = $value ? true : false;
+    }
+
+    protected function setAdditionalInfoAttribute($value)
+    {
+        $this->attributes['additional_info'] = json_encode($value);
     }
 }

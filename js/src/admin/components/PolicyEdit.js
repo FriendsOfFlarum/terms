@@ -4,6 +4,7 @@ import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
+import Switch from 'flarum/common/components/Switch';
 
 /* global m, dayjs */
 
@@ -26,6 +27,8 @@ export default class PolicyEdit {
         url: '',
         update_message: '',
         terms_updated_at: '',
+        optional: false,
+        additional_info: {},
       },
     });
   }
@@ -84,7 +87,7 @@ export default class PolicyEdit {
                   type: 'submit',
                   className: 'Button Button--danger',
                   loading: this.processing,
-                  onclick: this.deletePolicy.bind(this),
+                  onclick: (event) => this.deletePolicy(event),
                 },
                 app.translator.trans('fof-terms.admin.buttons.delete-policy')
               )
@@ -166,6 +169,26 @@ export default class PolicyEdit {
       85
     );
 
+    fields.add(
+      'optional',
+      <>
+        <div class={'Form-group'}>
+          <div class={' fof-terms-optional-checkbox'}>
+            <label class={'Form-group>label'}>{app.translator.trans('fof-terms.admin.policies.optional')}</label>
+            <Switch
+              className={'fof-terms-Switch-off'}
+              state={this.policy.optional()}
+              onchange={() => {
+                this.updateAttribute('optional', !this.policy.optional());
+              }}
+            />
+          </div>
+          <div class={'helpText'}>{app.translator.trans('fof-terms.admin.policies.optional-help')}</div>
+        </div>
+      </>,
+      83
+    );
+
     if (this.policy.exists) {
       fields.add(
         'export-url',
@@ -205,7 +228,6 @@ export default class PolicyEdit {
     this.policy.pushAttributes({
       [attribute]: value,
     });
-
     this.dirty = true;
   }
 
@@ -215,11 +237,8 @@ export default class PolicyEdit {
 
   savePolicy(event) {
     event.preventDefault();
-
     this.processing = true;
-
     const createNewRecord = !this.policy.exists;
-
     this.policy
       .save(this.policy.data.attributes)
       .then(() => {
@@ -240,7 +259,8 @@ export default class PolicyEdit {
       });
   }
 
-  deletePolicy() {
+  deletePolicy(event) {
+    event.preventDefault();
     if (
       !confirm(
         extractText(

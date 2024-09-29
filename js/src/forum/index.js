@@ -6,6 +6,7 @@ import addAcceptModal from './addAcceptModal';
 import addFieldsToRegister from './addFieldsToRegister';
 import addUpdateAlert from './addUpdateAlert';
 import addUserPoliciesStateControl from './addUserPoliciesStateControl';
+import addManagePoliciesOption from './components/addManagePoliciesOption';
 
 export * from './components';
 export * from '../common/models';
@@ -23,4 +24,5 @@ app.initializers.add('fof-terms', () => {
   addFieldsToRegister();
   addUpdateAlert();
   addUserPoliciesStateControl();
+  addManagePoliciesOption();
 });

@@ -88,12 +88,21 @@ class PolicyRepository
             foreach ($this->all() as $policy) {
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
+                $optional = $policy->optional;
+
+                /**
+                 * @var bool $is_accepted
+                 *
+                 * @phpstan-ignore-next-line
+                 */
+                $is_accepted = $user->fofTermsPoliciesState->keyBy('id')->get($policy->id)->pivot->is_accepted;
 
                 $this->rememberState[$policy->id] = [
                     // Same format as Flarum is using for the serializer responses
                     'accepted_at' => $accepted_at ? $accepted_at->format(DateTime::RFC3339) : null,
                     'has_update'  => $has_update,
-                    'must_accept' => $has_update && !$user->can('postponeAccept', $policy),
+                    'must_accept' => $has_update && !$user->can('postponeAccept', $policy) && !$optional,
+                    'is_accepted' => $is_accepted,
                 ];
             }
         }
@@ -194,6 +203,7 @@ class PolicyRepository
 
         $pivot = [
             'accepted_at' => Carbon::now(),
+            'is_accepted' => true,
         ];
 
         if ($exists) {
@@ -206,14 +216,30 @@ class PolicyRepository
     public function acceptAll(User $user)
     {
         $relationship = [];
-
         foreach ($this->all() as $policy) {
             $relationship[$policy->id] = [
                 'accepted_at' => Carbon::now(),
+                'is_accepted' => true,
             ];
         }
 
         $this->getUserPolicyRelationship($user)->attach($relationship);
+    }
+
+    public function declineOptional(User $user, Policy $policy)
+    {
+        $exists = $this->getUserPolicyRelationship($user)->where('id', $policy->id)->exists();
+
+        $pivot = [
+            'accepted_at' => null,
+            'is_accepted' => false,
+        ];
+
+        if ($exists) {
+            $this->getUserPolicyRelationship($user)->updateExistingPivot($policy->id, $pivot);
+        } else {
+            $this->getUserPolicyRelationship($user)->attach($policy->id, $pivot);
+        }
     }
 
     public function declineAll(User $user)
