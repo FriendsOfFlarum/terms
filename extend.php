@@ -11,7 +11,7 @@
 
 namespace FoF\Terms;
 
-use Blomstra\Gdpr\Extend\UserData;
+use Flarum\Gdpr\Extend\UserData;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
@@ -90,7 +90,7 @@ return [
         ->addInclude('fofTermsPolicies'),
 
     (new Extend\Conditional())
-        ->whenExtensionEnabled('blomstra-gdpr', fn () => [
+        ->whenExtensionEnabled('flarum-gdpr', fn () => [
             (new UserData())
                 ->addType(Data\UserPolicyData::class),
         ]),

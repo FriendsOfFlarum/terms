@@ -11,7 +11,7 @@
 
 namespace FoF\Terms\Data;
 
-use Blomstra\Gdpr\Data\Type;
+use Flarum\Gdpr\Data\Type;
 use Carbon\Carbon;
 use FoF\Terms\Policy;
 use FoF\Terms\Repositories\PolicyRepository;
