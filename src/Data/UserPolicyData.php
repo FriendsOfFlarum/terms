@@ -11,8 +11,8 @@
 
 namespace FoF\Terms\Data;
 
-use Flarum\Gdpr\Data\Type;
 use Carbon\Carbon;
+use Flarum\Gdpr\Data\Type;
 use FoF\Terms\Policy;
 use FoF\Terms\Repositories\PolicyRepository;
 use Illuminate\Database\Eloquent\Collection;

@@ -11,12 +11,12 @@
 
 namespace FoF\Terms;
 
-use Flarum\Gdpr\Extend\UserData;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
+use Flarum\Gdpr\Extend\UserData;
 use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
