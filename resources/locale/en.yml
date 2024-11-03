@@ -77,7 +77,7 @@ fof-terms:
         user_controls:
             state_button: Terms accept state
 
-blomstra-gdpr:
+flarum-gdpr:
     lib:
         data:
             userpolicydata:

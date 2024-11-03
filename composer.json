@@ -48,7 +48,7 @@
                 "color": "#fff"
             },
             "optional-dependencies": [
-                "blomstra/gdpr"
+                "flarum/gdpr"
             ]
         },
         "flagrow": {
@@ -67,7 +67,7 @@
     },
     "require-dev": {
         "flarum/phpstan": "*",
-        "blomstra/gdpr": "@beta"
+        "flarum/gdpr": "dev-main"
     },
     "scripts": {
         "analyse:phpstan": "phpstan analyse",
