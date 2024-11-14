@@ -17,6 +17,9 @@ async function updatePolicy(policy, value) {
 export default function () {
   extend(SettingsPage.prototype, 'settingsItems', function (items) {
     const policies = app.store.all('fof-terms-policies').filter((policy) => policy.optional());
+    if (!policies.length) {
+      return;
+    }
 
     let policyState = app.session.user.fofTermsPoliciesState();
 
