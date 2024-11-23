@@ -16,14 +16,17 @@ async function updatePolicy(policy, value) {
 
 export default function () {
   extend(SettingsPage.prototype, 'settingsItems', function (items) {
-    const policies = app.store.all('fof-terms-policies').filter((policy) => policy.optional());
+    const optionalPolicies = app.store.all('fof-terms-policies').filter((policy) => policy.optional());
+    if (!optionalPolicies.length) {
+      return;
+    }
 
     let policyState = app.session.user.fofTermsPoliciesState();
 
     items.add(
       'policies',
       <FieldSet label={'Policies'}>
-        {policies.map((policy) => {
+        {optionalPolicies.map((policy) => {
           const { is_accepted } = policyState[policy.id()];
           return (
             <div class={'Fof-Terms-Policy-User-Settings-Management'}>
