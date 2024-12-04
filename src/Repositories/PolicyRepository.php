@@ -59,13 +59,9 @@ class PolicyRepository
         $this->cache->forget(self::CACHE_KEY);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return Policy
-     */
     public function findOrFail(string $id): Policy
     {
+        /** @phpstan-ignore-next-line Method FoF\Terms\Repositories\PolicyRepository::findOrFail() should return FoF\Terms\Policy but returns Illuminate\Database\Eloquent\Model.    */
         return $this->policy->newQuery()->findOrFail($id);
     }
 
@@ -82,10 +78,14 @@ class PolicyRepository
             $this->rememberState = [];
 
             foreach ($this->all() as $policy) {
+                /** @phpstan-ignore-next-line Access to an undefined property FoF\Terms\Policy::$pivot */
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
                 $optional = $policy->optional;
-                /** @var bool $is_accepted */
+                /**
+                 * @var bool $is_accepted
+                 * @phpstan-ignore-next-line Access to an undefined property FoF\Terms\Policy::$pivot
+                 */
                 $is_accepted = $userPolicies->has($policy->id) ? $userPolicies->get($policy->id)->pivot->is_accepted : false;
 
                 $this->rememberState[$policy->id] = [
