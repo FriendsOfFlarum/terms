@@ -47,8 +47,7 @@ return [
         ->add(RegisterMiddleware::class),
 
     (new Extend\Model(User::class))
-        ->relationship('fofTermsPolicies', fn(AbstractModel $user): BelongsToMany =>
-            $user
+        ->relationship('fofTermsPolicies', fn (AbstractModel $user): BelongsToMany => $user
                 ->belongsToMany(Policy::class, 'fof_terms_policy_user')
                 ->withPivot(['accepted_at', 'is_accepted'])),
 

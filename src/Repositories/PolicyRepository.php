@@ -74,6 +74,7 @@ class PolicyRepository
         if (!$this->rememberState) {
             /**
              * @var Collection<Policy> $userPolicies
+             *
              * @phpstan-ignore-next-line
              */
             $userPolicies = $user->fofTermsPolicies->keyBy('id');
