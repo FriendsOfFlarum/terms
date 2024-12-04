@@ -61,7 +61,7 @@ class PolicyRepository
 
     public function findOrFail(string $id): Policy
     {
-        /** @phpstan-ignore-next-line Method FoF\Terms\Repositories\PolicyRepository::findOrFail() should return FoF\Terms\Policy but returns Illuminate\Database\Eloquent\Model.    */
+        /** @phpstan-ignore-next-line Method FoF\Terms\Repositories\PolicyRepository::findOrFail() should return FoF\Terms\Policy but returns Illuminate\Database\Eloquent\Model. */
         return $this->policy->newQuery()->findOrFail($id);
     }
 
