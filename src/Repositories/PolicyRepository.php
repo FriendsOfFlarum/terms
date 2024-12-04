@@ -84,6 +84,7 @@ class PolicyRepository
                 $optional = $policy->optional;
                 /**
                  * @var bool $is_accepted
+                 *
                  * @phpstan-ignore-next-line Access to an undefined property FoF\Terms\Policy::$pivot
                  */
                 $is_accepted = $userPolicies->has($policy->id) ? $userPolicies->get($policy->id)->pivot->is_accepted : false;
