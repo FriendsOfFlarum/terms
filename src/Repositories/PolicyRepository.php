@@ -12,7 +12,6 @@
 namespace FoF\Terms\Repositories;
 
 use Carbon\Carbon;
-use DateTime;
 use Flarum\User\User;
 use FoF\Terms\Events\Created;
 use FoF\Terms\Events\Deleted;
@@ -27,14 +26,11 @@ use Illuminate\Validation\ValidationException;
 
 class PolicyRepository
 {
-    protected $policy;
-    protected $validator;
-    protected $cache;
+    protected Policy $policy;
+    protected PolicyValidator $validator;
+    protected Repository $cache;
 
-    /**
-     * @var Dispatcher
-     */
-    protected $events;
+    protected Dispatcher $events;
 
     protected $rememberState;
 
@@ -49,7 +45,7 @@ class PolicyRepository
     }
 
     /**
-     * @return Policy[]|Collection
+     * @return Collection<Policy>
      */
     public function all(): Collection
     {
@@ -77,8 +73,7 @@ class PolicyRepository
     {
         if (!$this->rememberState) {
             /**
-             * @var Collection $userPolicies
-             *
+             * @var Collection<Policy> $userPolicies
              * @phpstan-ignore-next-line
              */
             $userPolicies = $user->fofTermsPolicies->keyBy('id');
@@ -89,17 +84,11 @@ class PolicyRepository
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
                 $optional = $policy->optional;
-
-                /**
-                 * @var bool $is_accepted
-                 *
-                 * @phpstan-ignore-next-line
-                 */
-                $is_accepted = $user->fofTermsPoliciesState->keyBy('id')->get($policy->id)->pivot->is_accepted;
+                /** @var bool $is_accepted */
+                $is_accepted = $userPolicies->has($policy->id) ? $userPolicies->get($policy->id)->pivot->is_accepted : false;
 
                 $this->rememberState[$policy->id] = [
-                    // Same format as Flarum is using for the serializer responses
-                    'accepted_at' => $accepted_at ? $accepted_at->format(DateTime::RFC3339) : null,
+                    'accepted_at' => $accepted_at ? $accepted_at->toRfc3339String() : null,
                     'has_update'  => $has_update,
                     'must_accept' => $has_update && !$user->can('postponeAccept', $policy) && !$optional,
                     'is_accepted' => $is_accepted,

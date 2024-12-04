@@ -47,12 +47,10 @@ return [
         ->add(RegisterMiddleware::class),
 
     (new Extend\Model(User::class))
-        ->relationship('fofTermsPolicies', function (AbstractModel $user): BelongsToMany {
-            return $user->belongsToMany(Policy::class, 'fof_terms_policy_user')->withPivot('accepted_at');
-        })
-        ->relationship('fofTermsPoliciesState', function (AbstractModel $user): BelongsToMany {
-            return $user->belongsToMany(Policy::class, 'fof_terms_policy_user')->withPivot('is_accepted');
-        }),
+        ->relationship('fofTermsPolicies', fn(AbstractModel $user): BelongsToMany =>
+            $user
+                ->belongsToMany(Policy::class, 'fof_terms_policy_user')
+                ->withPivot(['accepted_at', 'is_accepted'])),
 
     (new Extend\User())
         ->permissionGroups(function ($actor, $groupIds) {
