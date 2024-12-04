@@ -74,6 +74,9 @@ fof-terms:
             can-accept-message: We recently updated the terms. You must accept them to continue using this website.
             review: Click here to review and accept the new terms
 
+        user_settings:
+            optional_policies_label: Policies
+
         user_controls:
             state_button: Terms accept state
 

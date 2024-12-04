@@ -25,11 +25,11 @@ export default function () {
 
     items.add(
       'policies',
-      <FieldSet label={'Policies'}>
+      <FieldSet label={app.translator.trans('fof-terms.forum.user_settings.optional_policies_label')}>
         {optionalPolicies.map((policy) => {
           const { is_accepted } = policyState[policy.id()];
           return (
-            <div class={'Fof-Terms-Policy-User-Settings-Management'}>
+            <div class="Fof-Terms-Policy-User-Settings-Management">
               <Switch
                 state={is_accepted}
                 onchange={async (value) => {
