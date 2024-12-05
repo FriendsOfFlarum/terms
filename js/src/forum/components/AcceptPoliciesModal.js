@@ -10,7 +10,9 @@ export default class AcceptPoliciesModal extends Modal {
     super.oninit(vnode);
 
     app.store.all('fof-terms-policies').forEach((policy) => {
-      this[policy.form_key()] = false;
+      const state = app.session.user.fofTermsPoliciesState()[policy.id()];
+      // For optional policies, maintain current acceptance status
+      this[policy.form_key()] = policy.optional() ? state?.is_accepted || false : false;
     });
   }
 

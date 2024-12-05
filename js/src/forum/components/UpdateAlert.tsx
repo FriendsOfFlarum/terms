@@ -14,13 +14,20 @@ export default class UpdateAlert {
       return false;
     }
 
-    const user = app.session.user;
+    const { user } = app.session;
 
     return user && user.fofTermsPoliciesHasUpdate();
   }
 
+  hasOnlyOptionalUpdates() {
+    const { user } = app.session;
+    return user && !user.fofTermsPoliciesMustAccept() && user.fofTermsPoliciesHasUpdate();
+  }
+
   view() {
-    if (!this.shouldShowAlert() || !app.session.user) {
+    const { user } = app.session;
+
+    if (!this.shouldShowAlert() || !user) {
       return null;
     }
 
@@ -37,7 +44,7 @@ export default class UpdateAlert {
 
     const dismissControl = [];
 
-    if (!app.session.user.fofTermsPoliciesMustAccept()) {
+    if (!user.fofTermsPoliciesMustAccept()) {
       dismissControl.push(
         <Button
           icon="fas fa-times"
@@ -54,9 +61,11 @@ export default class UpdateAlert {
       <div className="Alert Alert-info">
         <div className="container">
           <span className="Alert-body">
-            {app.session.user.fofTermsPoliciesMustAccept()
-              ? app.translator.trans('fof-terms.forum.update-alert.must-accept-message')
-              : app.translator.trans('fof-terms.forum.update-alert.can-accept-message')}
+            {this.hasOnlyOptionalUpdates()
+              ? app.translator.trans('fof-terms.forum.update-alert.can-accept-optional-message')
+              : user.fofTermsPoliciesMustAccept()
+                ? app.translator.trans('fof-terms.forum.update-alert.must-accept-message')
+                : app.translator.trans('fof-terms.forum.update-alert.can-accept-message')}
           </span>
           <ul className="Alert-controls">{listItems(controls.concat(dismissControl))}</ul>
         </div>
