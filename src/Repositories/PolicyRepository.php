@@ -12,7 +12,6 @@
 namespace FoF\Terms\Repositories;
 
 use Carbon\Carbon;
-use DateTime;
 use Flarum\User\User;
 use FoF\Terms\Events\Created;
 use FoF\Terms\Events\Deleted;
@@ -27,14 +26,11 @@ use Illuminate\Validation\ValidationException;
 
 class PolicyRepository
 {
-    protected $policy;
-    protected $validator;
-    protected $cache;
+    protected Policy $policy;
+    protected PolicyValidator $validator;
+    protected Repository $cache;
 
-    /**
-     * @var Dispatcher
-     */
-    protected $events;
+    protected Dispatcher $events;
 
     protected $rememberState;
 
@@ -49,7 +45,7 @@ class PolicyRepository
     }
 
     /**
-     * @return Policy[]|Collection
+     * @return Collection<Policy>
      */
     public function all(): Collection
     {
@@ -63,13 +59,9 @@ class PolicyRepository
         $this->cache->forget(self::CACHE_KEY);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return Policy
-     */
     public function findOrFail(string $id): Policy
     {
+        /** @phpstan-ignore-next-line Method FoF\Terms\Repositories\PolicyRepository::findOrFail() should return FoF\Terms\Policy but returns Illuminate\Database\Eloquent\Model. */
         return $this->policy->newQuery()->findOrFail($id);
     }
 
@@ -77,7 +69,7 @@ class PolicyRepository
     {
         if (!$this->rememberState) {
             /**
-             * @var Collection $userPolicies
+             * @var Collection<Policy> $userPolicies
              *
              * @phpstan-ignore-next-line
              */
@@ -86,20 +78,19 @@ class PolicyRepository
             $this->rememberState = [];
 
             foreach ($this->all() as $policy) {
+                /** @phpstan-ignore-next-line Access to an undefined property FoF\Terms\Policy::$pivot */
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
                 $optional = $policy->optional;
-
                 /**
                  * @var bool $is_accepted
                  *
-                 * @phpstan-ignore-next-line
+                 * @phpstan-ignore-next-line Access to an undefined property FoF\Terms\Policy::$pivot
                  */
-                $is_accepted = $user->fofTermsPoliciesState->keyBy('id')->get($policy->id)->pivot->is_accepted;
+                $is_accepted = $userPolicies->has($policy->id) ? $userPolicies->get($policy->id)->pivot->is_accepted : false;
 
                 $this->rememberState[$policy->id] = [
-                    // Same format as Flarum is using for the serializer responses
-                    'accepted_at' => $accepted_at ? $accepted_at->format(DateTime::RFC3339) : null,
+                    'accepted_at' => $accepted_at ? $accepted_at->toRfc3339String() : null,
                     'has_update'  => $has_update,
                     'must_accept' => $has_update && !$user->can('postponeAccept', $policy) && !$optional,
                     'is_accepted' => $is_accepted,
