@@ -45,6 +45,7 @@ export default class UpdateAlert {
           onclick={() => {
             temporarilyHidden = true;
           }}
+          aria-label={app.translator.trans('fof-terms.forum.update-alert.close')}
         />
       );
     }
