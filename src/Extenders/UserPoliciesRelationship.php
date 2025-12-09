@@ -11,7 +11,8 @@
 
 namespace FoF\Terms\Extenders;
 
-use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\Api\Controller\ListPostsController;
+use Flarum\Api\Serializer\UserSerializer;
 use Flarum\User\User;
 use FoF\Terms\Repositories\PolicyRepository;
 
@@ -27,8 +28,12 @@ class UserPoliciesRelationship
         $this->policies = $policies;
     }
 
-    public function __invoke(BasicUserSerializer $serializer, User $user, array $attributes)
+    public function __invoke(UserSerializer $serializer, User $user, array $attributes): array
     {
+        if ($serializer->getRequest()->getAttribute('controller') === ListPostsController::class) {
+            return $attributes;
+        }
+
         if ($serializer->getActor()->can('seeFoFTermsPoliciesState', $user)) {
             $attributes['fofTermsPoliciesState'] = $this->policies->state($user);
             $attributes['fofTermsPoliciesHasUpdate'] = $this->policies->hasPoliciesUpdate($user);
