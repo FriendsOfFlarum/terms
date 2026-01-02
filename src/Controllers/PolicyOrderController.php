@@ -15,7 +15,6 @@ use Flarum\Api\JsonApiResponse;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Exception\PermissionDeniedException;
-use FoF\Terms\Policy;
 use FoF\Terms\Repositories\PolicyRepository;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
@@ -55,18 +54,18 @@ class PolicyOrderController implements RequestHandlerInterface
             $hideUpdatedAt = $this->settings->get('fof-terms.hide-updated-at');
 
             $data[] = [
-                'type' => 'fof-terms-policies',
-                'id' => (string) $policy->id,
+                'type'       => 'fof-terms-policies',
+                'id'         => (string) $policy->id,
                 'attributes' => [
-                    'sort' => $policy->sort,
-                    'name' => $policy->name,
-                    'url' => $policy->url,
-                    'updateMessage' => $policy->update_message,
+                    'sort'           => $policy->sort,
+                    'name'           => $policy->name,
+                    'url'            => $policy->url,
+                    'updateMessage'  => $policy->update_message,
                     'termsUpdatedAt' => $hideUpdatedAt ? null : ($policy->terms_updated_at ? $policy->terms_updated_at->toIso8601String() : null),
-                    'optional' => $policy->optional,
+                    'optional'       => $policy->optional,
                     'additionalInfo' => $policy->additional_info,
-                    'createdAt' => $policy->created_at->toIso8601String(),
-                    'updatedAt' => $policy->updated_at->toIso8601String(),
+                    'createdAt'      => $policy->created_at->toIso8601String(),
+                    'updatedAt'      => $policy->updated_at->toIso8601String(),
                 ],
             ];
         }

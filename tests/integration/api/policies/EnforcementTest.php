@@ -34,34 +34,34 @@ class EnforcementTest extends TestCase
             ],
             Policy::class => [
                 [
-                    'id' => 1,
-                    'name' => 'Terms of Service',
-                    'url' => 'https://example.com/terms',
-                    'update_message' => null,
+                    'id'               => 1,
+                    'name'             => 'Terms of Service',
+                    'url'              => 'https://example.com/terms',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => false,
-                    'sort' => 0,
+                    'optional'         => false,
+                    'sort'             => 0,
                 ],
             ],
             'discussions' => [
                 [
-                    'id' => 1,
-                    'title' => 'Test Discussion',
-                    'slug' => 'test-discussion',
-                    'created_at' => Carbon::now(),
-                    'user_id' => 1,
+                    'id'            => 1,
+                    'title'         => 'Test Discussion',
+                    'slug'          => 'test-discussion',
+                    'created_at'    => Carbon::now(),
+                    'user_id'       => 1,
                     'first_post_id' => 1,
                     'comment_count' => 1,
                 ],
             ],
             'posts' => [
                 [
-                    'id' => 1,
+                    'id'            => 1,
                     'discussion_id' => 1,
-                    'created_at' => Carbon::now(),
-                    'user_id' => 1,
-                    'type' => 'comment',
-                    'content' => '<t><p>First post</p></t>',
+                    'created_at'    => Carbon::now(),
+                    'user_id'       => 1,
+                    'type'          => 'comment',
+                    'content'       => '<t><p>First post</p></t>',
                 ],
             ],
         ]);
@@ -86,9 +86,9 @@ class EnforcementTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/posts', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'posts',
+                        'type'       => 'posts',
                         'attributes' => [
                             'content' => 'This is a test post',
                         ],
@@ -96,7 +96,7 @@ class EnforcementTest extends TestCase
                             'discussion' => [
                                 'data' => [
                                     'type' => 'discussions',
-                                    'id' => '1',
+                                    'id'   => '1',
                                 ],
                             ],
                         ],
@@ -115,15 +115,15 @@ class EnforcementTest extends TestCase
         $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
-                            'name' => 'New Privacy Policy',
-                            'url' => 'https://example.com/privacy',
+                            'name'           => 'New Privacy Policy',
+                            'url'            => 'https://example.com/privacy',
                             'termsUpdatedAt' => Carbon::now()->toIso8601String(),
-                            'optional' => false,
-                            'sort' => 1,
+                            'optional'       => false,
+                            'sort'           => 1,
                         ],
                     ],
                 ],
@@ -134,9 +134,9 @@ class EnforcementTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/posts', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'posts',
+                        'type'       => 'posts',
                         'attributes' => [
                             'content' => 'This should be blocked',
                         ],
@@ -144,7 +144,7 @@ class EnforcementTest extends TestCase
                             'discussion' => [
                                 'data' => [
                                     'type' => 'discussions',
-                                    'id' => '1',
+                                    'id'   => '1',
                                 ],
                             ],
                         ],
@@ -163,10 +163,10 @@ class EnforcementTest extends TestCase
         $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'termsUpdatedAt' => Carbon::now()->toIso8601String(),
                         ],
@@ -179,9 +179,9 @@ class EnforcementTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/posts', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'posts',
+                        'type'       => 'posts',
                         'attributes' => [
                             'content' => 'This should be blocked',
                         ],
@@ -189,7 +189,7 @@ class EnforcementTest extends TestCase
                             'discussion' => [
                                 'data' => [
                                     'type' => 'discussions',
-                                    'id' => '1',
+                                    'id'   => '1',
                                 ],
                             ],
                         ],
@@ -208,10 +208,10 @@ class EnforcementTest extends TestCase
         $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'termsUpdatedAt' => Carbon::now()->toIso8601String(),
                         ],
@@ -231,9 +231,9 @@ class EnforcementTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/posts', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'posts',
+                        'type'       => 'posts',
                         'attributes' => [
                             'content' => 'This should work now',
                         ],
@@ -241,7 +241,7 @@ class EnforcementTest extends TestCase
                             'discussion' => [
                                 'data' => [
                                     'type' => 'discussions',
-                                    'id' => '1',
+                                    'id'   => '1',
                                 ],
                             ],
                         ],
@@ -260,15 +260,15 @@ class EnforcementTest extends TestCase
         $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
-                            'name' => 'Optional Marketing Policy',
-                            'url' => 'https://example.com/marketing',
+                            'name'           => 'Optional Marketing Policy',
+                            'url'            => 'https://example.com/marketing',
                             'termsUpdatedAt' => Carbon::now()->toIso8601String(),
-                            'optional' => true,
-                            'sort' => 1,
+                            'optional'       => true,
+                            'sort'           => 1,
                         ],
                     ],
                 ],
@@ -279,9 +279,9 @@ class EnforcementTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/posts', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'posts',
+                        'type'       => 'posts',
                         'attributes' => [
                             'content' => 'This should work',
                         ],
@@ -289,7 +289,7 @@ class EnforcementTest extends TestCase
                             'discussion' => [
                                 'data' => [
                                     'type' => 'discussions',
-                                    'id' => '1',
+                                    'id'   => '1',
                                 ],
                             ],
                         ],
@@ -308,15 +308,15 @@ class EnforcementTest extends TestCase
         $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
-                            'name' => 'New Policy',
-                            'url' => 'https://example.com/new',
+                            'name'           => 'New Policy',
+                            'url'            => 'https://example.com/new',
                             'termsUpdatedAt' => Carbon::now()->toIso8601String(),
-                            'optional' => false,
-                            'sort' => 1,
+                            'optional'       => false,
+                            'sort'           => 1,
                         ],
                     ],
                 ],
@@ -327,9 +327,9 @@ class EnforcementTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/posts', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'posts',
+                        'type'       => 'posts',
                         'attributes' => [
                             'content' => 'Admin post',
                         ],
@@ -337,7 +337,7 @@ class EnforcementTest extends TestCase
                             'discussion' => [
                                 'data' => [
                                     'type' => 'discussions',
-                                    'id' => '1',
+                                    'id'   => '1',
                                 ],
                             ],
                         ],

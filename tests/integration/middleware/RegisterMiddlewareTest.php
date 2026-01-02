@@ -25,7 +25,7 @@ class RegisterMiddlewareTest extends TestCase
         parent::setUp();
 
         $this->extend(
-            (new Extend\Csrf)->exemptRoute('register')
+            (new Extend\Csrf())->exemptRoute('register')
         );
 
         $this->extension('fof-terms');
@@ -33,22 +33,22 @@ class RegisterMiddlewareTest extends TestCase
         $this->prepareDatabase([
             Policy::class => [
                 [
-                    'id' => 1,
-                    'name' => 'Terms of Service',
-                    'url' => 'https://example.com/terms',
-                    'update_message' => null,
+                    'id'               => 1,
+                    'name'             => 'Terms of Service',
+                    'url'              => 'https://example.com/terms',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => false,
-                    'sort' => 0,
+                    'optional'         => false,
+                    'sort'             => 0,
                 ],
                 [
-                    'id' => 2,
-                    'name' => 'Privacy Policy',
-                    'url' => 'https://example.com/privacy',
-                    'update_message' => null,
+                    'id'               => 2,
+                    'name'             => 'Privacy Policy',
+                    'url'              => 'https://example.com/privacy',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => true,
-                    'sort' => 1,
+                    'optional'         => true,
+                    'sort'             => 1,
                 ],
             ],
         ]);
@@ -66,7 +66,7 @@ class RegisterMiddlewareTest extends TestCase
             $this->request('POST', '/register', [
                 'json' => [
                     'username' => 'test',
-                    'email' => 'test@example.com',
+                    'email'    => 'test@example.com',
                     'password' => 'password123',
                     // Not accepting required policy
                     'fof_terms_policy_2' => true,
@@ -88,9 +88,9 @@ class RegisterMiddlewareTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/register', [
                 'json' => [
-                    'username' => 'test',
-                    'email' => 'test@example.com',
-                    'password' => 'password123',
+                    'username'           => 'test',
+                    'email'              => 'test@example.com',
+                    'password'           => 'password123',
                     'fof_terms_policy_1' => true, // Required policy
                     'fof_terms_policy_2' => true, // Optional policy
                 ],
@@ -116,9 +116,9 @@ class RegisterMiddlewareTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/register', [
                 'json' => [
-                    'username' => 'test',
-                    'email' => 'test@example.com',
-                    'password' => 'password123',
+                    'username'           => 'test',
+                    'email'              => 'test@example.com',
+                    'password'           => 'password123',
                     'fof_terms_policy_1' => true, // Required policy
                     // Not accepting optional policy 2
                 ],
@@ -162,9 +162,9 @@ class RegisterMiddlewareTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/register', [
                 'json' => [
-                    'username' => 'newuser',
-                    'email' => 'newuser@example.com',
-                    'password' => 'securepassword',
+                    'username'           => 'newuser',
+                    'email'              => 'newuser@example.com',
+                    'password'           => 'securepassword',
                     'fof_terms_policy_1' => true,
                 ],
             ])

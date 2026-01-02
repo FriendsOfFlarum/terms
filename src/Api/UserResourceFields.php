@@ -26,20 +26,20 @@ class UserResourceFields
     {
         $fields = [
             Schema\Str::make('fofTermsPoliciesState')
-                ->visible(fn (User $user, Context $context) =>
-                    $context->getActor()->can('seeFoFTermsPoliciesState', $user)
+                ->visible(
+                    fn (User $user, Context $context) => $context->getActor()->can('seeFoFTermsPoliciesState', $user)
                 )
                 ->get(fn (User $user) => $this->policies->state($user)),
 
             Schema\Boolean::make('fofTermsPoliciesHasUpdate')
-                ->visible(fn (User $user, Context $context) =>
-                    $context->getActor()->can('seeFoFTermsPoliciesState', $user)
+                ->visible(
+                    fn (User $user, Context $context) => $context->getActor()->can('seeFoFTermsPoliciesState', $user)
                 )
                 ->get(fn (User $user) => $this->policies->hasPoliciesUpdate($user)),
 
             Schema\Boolean::make('fofTermsPoliciesMustAccept')
-                ->visible(fn (User $user, Context $context) =>
-                    $context->getActor()->can('seeFoFTermsPoliciesState', $user)
+                ->visible(
+                    fn (User $user, Context $context) => $context->getActor()->can('seeFoFTermsPoliciesState', $user)
                 )
                 ->get(fn (User $user) => $this->policies->mustAcceptNewPolicies($user)),
 

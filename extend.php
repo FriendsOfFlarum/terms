@@ -11,14 +11,14 @@
 
 namespace FoF\Terms;
 
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
 use Flarum\Gdpr\Extend\UserData;
 use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Flarum\Api\Endpoint;
-use Flarum\Api\Resource;
 
 return [
     (new Extend\Frontend('admin'))

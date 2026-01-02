@@ -41,15 +41,15 @@ class CreateTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
-                            'name' => 'Terms of Service',
-                            'url' => 'https://example.com/terms',
-                            'updateMessage' => 'Please review our updated terms',
+                            'name'           => 'Terms of Service',
+                            'url'            => 'https://example.com/terms',
+                            'updateMessage'  => 'Please review our updated terms',
                             'termsUpdatedAt' => '2024-01-01T00:00:00Z',
-                            'optional' => false,
+                            'optional'       => false,
                         ],
                     ],
                 ],
@@ -76,9 +76,9 @@ class CreateTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
                             'url' => 'https://example.com/terms',
                         ],
@@ -103,9 +103,9 @@ class CreateTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
                             'name' => 'Terms of Service',
                         ],
@@ -124,7 +124,7 @@ class CreateTest extends TestCase
             $this->request('POST', '/api/fof-terms-policies', [
                 'json' => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
                             'name' => 'Terms of Service',
                         ],
@@ -143,11 +143,11 @@ class CreateTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
-                            'name' => 'Privacy Policy',
+                            'name'     => 'Privacy Policy',
                             'optional' => true,
                         ],
                     ],

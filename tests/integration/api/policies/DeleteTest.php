@@ -34,13 +34,13 @@ class DeleteTest extends TestCase
             ],
             Policy::class => [
                 [
-                    'id' => 1,
-                    'name' => 'Terms of Service',
-                    'url' => 'https://example.com/terms',
-                    'update_message' => null,
+                    'id'               => 1,
+                    'name'             => 'Terms of Service',
+                    'url'              => 'https://example.com/terms',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => false,
-                    'sort' => 0,
+                    'optional'         => false,
+                    'sort'             => 0,
                 ],
             ],
         ]);

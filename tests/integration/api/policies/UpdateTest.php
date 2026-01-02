@@ -35,13 +35,13 @@ class UpdateTest extends TestCase
             ],
             Policy::class => [
                 [
-                    'id' => 1,
-                    'name' => 'Terms of Service',
-                    'url' => 'https://example.com/terms',
-                    'update_message' => null,
+                    'id'               => 1,
+                    'name'             => 'Terms of Service',
+                    'url'              => 'https://example.com/terms',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => false,
-                    'sort' => 0,
+                    'optional'         => false,
+                    'sort'             => 0,
                 ],
             ],
         ]);
@@ -53,12 +53,12 @@ class UpdateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
-                            'name' => 'Updated Terms',
+                            'name'          => 'Updated Terms',
                             'updateMessage' => 'We have updated our terms',
                         ],
                     ],
@@ -85,10 +85,10 @@ class UpdateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'optional' => true,
                         ],
@@ -114,10 +114,10 @@ class UpdateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'name' => 'Hacked Terms',
                         ],
@@ -139,8 +139,8 @@ class UpdateTest extends TestCase
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'json' => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'name' => 'Hacked Terms',
                         ],
@@ -161,10 +161,10 @@ class UpdateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'termsUpdatedAt' => $newDate,
                         ],

@@ -35,19 +35,19 @@ class PolicyUpdatesTest extends TestCase
             ],
             Policy::class => [
                 [
-                    'id' => 1,
-                    'name' => 'Terms of Service',
-                    'url' => 'https://example.com/terms',
-                    'update_message' => null,
+                    'id'               => 1,
+                    'name'             => 'Terms of Service',
+                    'url'              => 'https://example.com/terms',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => false,
-                    'sort' => 0,
+                    'optional'         => false,
+                    'sort'             => 0,
                 ],
             ],
             'fof_terms_policy_user' => [
                 [
-                    'policy_id' => 1,
-                    'user_id' => 2,
+                    'policy_id'   => 1,
+                    'user_id'     => 2,
                     'accepted_at' => Carbon::parse('2024-01-01 10:00:00'),
                     'is_accepted' => true,
                 ],
@@ -62,10 +62,10 @@ class PolicyUpdatesTest extends TestCase
         $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'termsUpdatedAt' => '2024-06-01T00:00:00Z',
                         ],
@@ -118,10 +118,10 @@ class PolicyUpdatesTest extends TestCase
         $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'termsUpdatedAt' => '2024-06-01T00:00:00Z',
                         ],
@@ -160,15 +160,15 @@ class PolicyUpdatesTest extends TestCase
         $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
-                            'name' => 'New Terms',
-                            'url' => 'https://example.com/new-terms',
+                            'name'           => 'New Terms',
+                            'url'            => 'https://example.com/new-terms',
                             'termsUpdatedAt' => Carbon::now()->toIso8601String(),
-                            'optional' => false,
-                            'sort' => 1,
+                            'optional'       => false,
+                            'sort'           => 1,
                         ],
                     ],
                 ],
@@ -194,10 +194,10 @@ class PolicyUpdatesTest extends TestCase
         $this->send(
             $this->request('PATCH', '/api/fof-terms-policies/1', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
-                        'id' => '1',
+                        'type'       => 'fof-terms-policies',
+                        'id'         => '1',
                         'attributes' => [
                             'termsUpdatedAt' => '2024-06-01T00:00:00Z',
                         ],
@@ -240,15 +240,15 @@ class PolicyUpdatesTest extends TestCase
         $this->send(
             $this->request('POST', '/api/fof-terms-policies', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
-                        'type' => 'fof-terms-policies',
+                        'type'       => 'fof-terms-policies',
                         'attributes' => [
-                            'name' => 'Optional Policy',
-                            'url' => 'https://example.com/optional',
+                            'name'           => 'Optional Policy',
+                            'url'            => 'https://example.com/optional',
                             'termsUpdatedAt' => Carbon::now()->toIso8601String(),
-                            'optional' => true,
-                            'sort' => 1,
+                            'optional'       => true,
+                            'sort'           => 1,
                         ],
                     ],
                 ],

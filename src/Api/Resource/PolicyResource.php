@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/terms.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Terms\Api\Resource;
 
 use Flarum\Api\Context;
@@ -25,6 +34,7 @@ class PolicyResource extends Resource\AbstractDatabaseResource
         protected PolicyRepository $policies
     ) {
     }
+
     public function type(): string
     {
         return 'fof-terms-policies';
@@ -101,7 +111,7 @@ class PolicyResource extends Resource\AbstractDatabaseResource
                     // Only optional policies can be declined
                     if (!$policy->optional) {
                         throw new \Flarum\Foundation\ValidationException([
-                            'policy' => 'Cannot decline a required policy'
+                            'policy' => 'Cannot decline a required policy',
                         ]);
                     }
 

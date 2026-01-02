@@ -35,22 +35,22 @@ class ForumWithPoliciesTest extends TestCase
             ],
             Policy::class => [
                 [
-                    'id' => 1,
-                    'name' => 'Terms of Service',
-                    'url' => 'https://example.com/terms',
-                    'update_message' => null,
+                    'id'               => 1,
+                    'name'             => 'Terms of Service',
+                    'url'              => 'https://example.com/terms',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => false,
-                    'sort' => 0,
+                    'optional'         => false,
+                    'sort'             => 0,
                 ],
                 [
-                    'id' => 2,
-                    'name' => 'Privacy Policy',
-                    'url' => 'https://example.com/privacy',
-                    'update_message' => null,
+                    'id'               => 2,
+                    'name'             => 'Privacy Policy',
+                    'url'              => 'https://example.com/privacy',
+                    'update_message'   => null,
                     'terms_updated_at' => Carbon::parse('2024-01-01'),
-                    'optional' => true,
-                    'sort' => 1,
+                    'optional'         => true,
+                    'sort'             => 1,
                 ],
             ],
         ]);
@@ -71,7 +71,7 @@ class ForumWithPoliciesTest extends TestCase
 
         // Check if policies are included
         $included = Arr::get($data, 'included', []);
-        $policies = array_filter($included, fn($item) => $item['type'] === 'fof-terms-policies');
+        $policies = array_filter($included, fn ($item) => $item['type'] === 'fof-terms-policies');
 
         $this->assertCount(2, $policies);
     }
@@ -105,7 +105,7 @@ class ForumWithPoliciesTest extends TestCase
         $data = json_decode($body, true);
 
         $included = Arr::get($data, 'included', []);
-        $policies = array_values(array_filter($included, fn($item) => $item['type'] === 'fof-terms-policies'));
+        $policies = array_values(array_filter($included, fn ($item) => $item['type'] === 'fof-terms-policies'));
 
         // Policies should be sorted by sort column
         $this->assertEquals(0, $policies[0]['attributes']['sort']);
@@ -126,7 +126,7 @@ class ForumWithPoliciesTest extends TestCase
 
         $data = json_decode($body, true);
         $included = Arr::get($data, 'included', []);
-        $policies = array_filter($included, fn($item) => $item['type'] === 'fof-terms-policies');
+        $policies = array_filter($included, fn ($item) => $item['type'] === 'fof-terms-policies');
 
         // Guests should still see policies
         $this->assertCount(2, $policies);
@@ -143,7 +143,7 @@ class ForumWithPoliciesTest extends TestCase
         $data = json_decode($body, true);
 
         $included = Arr::get($data, 'included', []);
-        $policies = array_values(array_filter($included, fn($item) => $item['type'] === 'fof-terms-policies'));
+        $policies = array_values(array_filter($included, fn ($item) => $item['type'] === 'fof-terms-policies'));
 
         $policy = $policies[0]['attributes'];
 
