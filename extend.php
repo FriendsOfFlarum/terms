@@ -12,7 +12,7 @@
 namespace FoF\Terms;
 
 use Flarum\Api\Controller\ShowForumController;
-use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
@@ -60,7 +60,7 @@ return [
         ->modelPolicy(Policy::class, Access\PolicyPolicy::class)
         ->modelPolicy(User::class, Access\UserPolicy::class),
 
-    (new Extend\ApiSerializer(BasicUserSerializer::class))
+    (new Extend\ApiSerializer(UserSerializer::class))
         ->attributes(Extenders\UserPoliciesRelationship::class),
 
     (new Extend\Settings())
