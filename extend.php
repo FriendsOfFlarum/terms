@@ -22,6 +22,10 @@ use FoF\Terms\Middlewares\RegisterMiddleware;
 use FoF\Terms\Repositories\PolicyRepository;
 use FoF\Terms\Serializers\PolicySerializer;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 
 return [
     (new Extend\Frontend('admin'))
@@ -60,6 +64,7 @@ return [
         ->modelPolicy(Policy::class, Access\PolicyPolicy::class)
         ->modelPolicy(User::class, Access\UserPolicy::class),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(UserSerializer::class))
         ->attributes(Extenders\UserPoliciesRelationship::class),
 
@@ -70,12 +75,14 @@ return [
             return $value ?: 'YYYY-MM-DD';
         }),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->attribute('fof-terms.canSeeUserPoliciesState', function (ForumSerializer $serializer) {
             return $serializer->getActor()->can('fof-terms.see-user-policies-state');
         })
         ->hasMany('fofTermsPolicies', PolicySerializer::class),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiController(ShowForumController::class))
         ->prepareDataForSerialization(function (ShowForumController $controller, &$data) {
             /**
@@ -91,4 +98,5 @@ return [
             (new UserData())
                 ->addType(Data\UserPolicyData::class),
         ]),
+    new Extend\ApiResource(Api\Resource\PolicyResource::class),
 ];
