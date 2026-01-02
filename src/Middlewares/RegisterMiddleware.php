@@ -46,8 +46,13 @@ class RegisterMiddleware implements MiddlewareInterface
          */
         $validator = resolve(RegisterPolicyValidator::class);
 
+        // Get the request body - handle both JSON:API format and plain format
+        $requestBody = $request->getParsedBody();
+        $attributes = Arr::get($requestBody, 'data.attributes', $requestBody);
+
         try {
-            $validator->assertValid($request->getParsedBody());
+            // Ensure missing required fields are validated
+            $validator->validateMissingKeys(true)->assertValid($attributes);
         } catch (ValidationException $exception) {
             /**
              * @var IlluminateValidationExceptionHandler $handler
@@ -74,10 +79,12 @@ class RegisterMiddleware implements MiddlewareInterface
              */
             $policies = resolve(PolicyRepository::class);
 
+            // Get the attributes from the request body (handles JSON:API format)
             $requestBody = $request->getParsedBody();
+            $attributes = Arr::get($requestBody, 'data.attributes', $requestBody);
 
             foreach ($policies->all() as $policy) {
-                if (isset($requestBody['fof_terms_policy_'.$policy->id]) && $requestBody['fof_terms_policy_'.$policy->id] === true) {
+                if (isset($attributes['fof_terms_policy_'.$policy->id]) && $attributes['fof_terms_policy_'.$policy->id] === true) {
                     $policies->accept($user, $policy);
                 } else {
                     $policies->declineOptional($user, $policy);

@@ -17,13 +17,21 @@ use FoF\Terms\Policy;
 
 class PolicyPolicy extends AbstractPolicy
 {
-    public function postponeAccept(User $actor, Policy $policy)
+    public function postponeAccept(User $actor, Policy $policy): ?string
     {
-        return $actor->can('fof-terms.postpone-policies-accept');
+        if ($actor->hasPermission('fof-terms.postpone-policies-accept')) {
+            return $this->allow();
+        }
+
+        return null;
     }
 
-    public function export(User $actor, Policy $policy)
+    public function export(User $actor, Policy $policy): ?string
     {
-        return $actor->can('fof-terms.export-policies');
+        if ($actor->hasPermission('fof-terms.export-policies')) {
+            return $this->allow();
+        }
+
+        return null;
     }
 }

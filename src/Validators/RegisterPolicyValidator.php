@@ -27,7 +27,7 @@ class RegisterPolicyValidator extends AbstractValidator
 
         foreach ($policies->all() as $policy) {
             if (!$policy->optional) {
-                $rules['fof_terms_policy_'.$policy->id] = 'accepted';
+                $rules['fof_terms_policy_'.$policy->id] = 'required|accepted';
             }
         }
 

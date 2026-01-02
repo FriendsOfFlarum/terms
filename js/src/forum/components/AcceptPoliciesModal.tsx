@@ -65,14 +65,14 @@ export default class AcceptPoliciesModal extends FormModal<AcceptPoliciesModalAt
         <h2>{policy.name()}</h2>
         {app.forum.attribute<boolean>('fof-terms.hide-updated-at') ? null : (
           <p>
-            {policy.terms_updated_at()
+            {policy.termsUpdatedAt()
               ? app.translator.trans('fof-terms.forum.accept-modal.updated-at', {
-                  date: dayjs(policy.terms_updated_at()).format(app.forum.attribute<string>('fof-terms.date-format')),
+                  date: dayjs(policy.termsUpdatedAt()).format(app.forum.attribute<string>('fof-terms.date-format')),
                 })
               : app.translator.trans('fof-terms.forum.accept-modal.updated-recently')}
           </p>
         )}
-        {policy.update_message() ? <p>{policy.update_message()}</p> : null}
+        {policy.updateMessage() ? <p>{policy.updateMessage()}</p> : null}
         <div className="Form-group">
           <div className="FoF-Terms-Check FoF-Terms-Check--login">
             <label className="checkbox">
@@ -100,7 +100,7 @@ export default class AcceptPoliciesModal extends FormModal<AcceptPoliciesModalAt
 
             app
               .request({
-                url: app.forum.attribute('apiUrl') + policy.apiEndpoint() + (this[policy.form_key()] ? '/accept' : '/decline'),
+                url: app.forum.attribute('apiUrl') + '/fof-terms-policies/' + policy.id() + (this[policy.form_key()] ? '/accept' : '/decline'),
                 method: 'POST',
                 errorHandler: this.onerror.bind(this),
               })

@@ -33,10 +33,10 @@ export default class ExtensionData extends Component<ExtensionDataAttrs> {
   }
 
   updateAttribute(value: any) {
-    let attributes = this.policy.additional_info() as Record<string, any>;
+    let attributes = this.policy.additionalInfo() as Record<string, any>;
     attributes[this.keyattr] = value;
     this.policy.pushAttributes({
-      additional_info: attributes,
+      additionalInfo: attributes,
     });
 
     this.setDirty();

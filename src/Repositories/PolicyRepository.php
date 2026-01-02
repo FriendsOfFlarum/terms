@@ -26,7 +26,8 @@ use Illuminate\Validation\ValidationException;
 
 class PolicyRepository
 {
-    protected $rememberState;
+    /** @var array<int, array<string, mixed>>|null */
+    protected ?array $rememberState = null;
 
     const CACHE_KEY = 'fof-terms-policies';
 
@@ -35,7 +36,7 @@ class PolicyRepository
     }
 
     /**
-     * @return Collection<Policy>
+     * @return Collection<int, Policy>
      */
     public function all(): Collection
     {
@@ -44,7 +45,7 @@ class PolicyRepository
         });
     }
 
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->cache->forget(self::CACHE_KEY);
     }
@@ -55,7 +56,10 @@ class PolicyRepository
         return $this->policy->newQuery()->findOrFail($id);
     }
 
-    public function state(User $user)
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function state(User $user): array
     {
         if (!$this->rememberState) {
             /**
@@ -108,7 +112,7 @@ class PolicyRepository
         return $hasUpdates;
     }
 
-    public function mustAcceptNewPolicies(User $user)
+    public function mustAcceptNewPolicies(User $user): bool
     {
         $state = $this->state($user);
 
@@ -167,18 +171,16 @@ class PolicyRepository
         return $policy;
     }
 
-    public function delete(User $actor, Policy $policy)
+    public function delete(User $actor, Policy $policy): void
     {
-        $res = $policy->delete();
+        $policy->delete();
 
         $this->events->dispatch(new Deleted($policy, $actor, []));
 
         $this->clearCache();
-
-        return $res;
     }
 
-    public function accept(User $user, Policy $policy)
+    public function accept(User $user, Policy $policy): void
     {
         $exists = $this->getUserPolicyRelationship($user)->where('id', $policy->id)->exists();
 
@@ -194,7 +196,7 @@ class PolicyRepository
         }
     }
 
-    public function acceptAll(User $user)
+    public function acceptAll(User $user): void
     {
         $relationship = [];
         foreach ($this->all() as $policy) {
@@ -207,12 +209,12 @@ class PolicyRepository
         $this->getUserPolicyRelationship($user)->attach($relationship);
     }
 
-    public function declineOptional(User $user, Policy $policy)
+    public function declineOptional(User $user, Policy $policy): void
     {
         $exists = $this->getUserPolicyRelationship($user)->where('id', $policy->id)->exists();
 
         $pivot = [
-            'accepted_at' => null,
+            'accepted_at' => Carbon::now(),
             'is_accepted' => false,
         ];
 
@@ -223,12 +225,12 @@ class PolicyRepository
         }
     }
 
-    public function declineAll(User $user)
+    public function declineAll(User $user): void
     {
         $this->getUserPolicyRelationship($user)->detach();
     }
 
-    public function sorting(array $sorting)
+    public function sorting(array $sorting): void
     {
         foreach ($sorting as $i => $fieldId) {
             $this->policy->newQuery()

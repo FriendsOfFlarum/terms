@@ -9,7 +9,7 @@ import type Mithril from 'mithril';
 import Policy from '../../common/models/Policy';
 
 async function updatePolicy(policy: Policy, value: boolean): Promise<void> {
-  const endpoint = `${app.forum.attribute('apiUrl')}${policy.apiEndpoint()}${value ? '/accept' : '/decline'}`;
+  const endpoint = `${app.forum.attribute('apiUrl')}/fof-terms-policies/${policy.id()}${value ? '/accept' : '/decline'}`;
   const updated: any = await app.request({
     url: endpoint,
     method: 'POST',

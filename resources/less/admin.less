@@ -40,7 +40,10 @@
 }
 
 .FoF-Terms-Export-Button {
-    .Button--color(@body-bg, #999);
+    --button-color: #999;
+    --button-bg: var(--body-bg);
+    --button-bg-hover: var(--body-bg);
+    --button-bg-active: var(--body-bg);
 
     font-weight: bold;
 }

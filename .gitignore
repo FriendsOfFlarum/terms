@@ -7,3 +7,4 @@ js/dist
 .fleet
 .vscode
 .zed
+.phpunit.cache

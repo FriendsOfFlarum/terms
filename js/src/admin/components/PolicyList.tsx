@@ -11,16 +11,10 @@ export default class PolicyList extends Component {
   oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
 
-    app
-      .request({
-        method: 'GET',
-        url: app.forum.attribute('apiUrl') + '/fof/terms/policies',
-      })
-      .then((result: any) => {
-        app.store.pushPayload(result);
-
-        m.redraw();
-      });
+    // Use JSON:API store to fetch policies
+    app.store.find<Policy[]>('fof-terms-policies').then(() => {
+      m.redraw();
+    });
   }
 
   oncreate(vnode: Mithril.VnodeDOM) {

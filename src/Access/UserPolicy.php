@@ -16,14 +16,16 @@ use Flarum\User\User;
 
 class UserPolicy extends AbstractPolicy
 {
-    public function seeFoFTermsPoliciesState(User $actor, User $user)
+    public function seeFoFTermsPoliciesState(User $actor, User $user): ?string
     {
         if ($user->id === $actor->id) {
             return $this->allow();
         }
 
-        if ($actor->can('fof-terms.see-user-policies-state')) {
+        if ($actor->hasPermission('fof-terms.see-user-policies-state')) {
             return $this->allow();
         }
+
+        return null;
     }
 }

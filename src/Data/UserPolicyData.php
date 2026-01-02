@@ -25,7 +25,10 @@ class UserPolicyData extends Type
 
         $policyRepository = resolve(PolicyRepository::class);
 
-        $policyRepository->all()->each(function (Policy $policy) use (&$exportData) {
+        /** @var Collection<int, Policy> $policies */
+        $policies = $policyRepository->all();
+
+        $policies->each(function (Policy $policy) use (&$exportData) {
             $exportData[] = ["terms/policy-{$policy->id}.json" => $this->encodeForExport($this->constructExportData($policy))];
         });
 
@@ -35,12 +38,13 @@ class UserPolicyData extends Type
     protected function constructExportData(Policy $policy): array
     {
         /**
-         * @var Collection $userPolicies
+         * @var Collection<int, Policy> $userPolicies
          *
          * @phpstan-ignore-next-line
          */
         $userPolicies = $this->user->fofTermsPolicies->keyBy('id');
 
+        /** @phpstan-ignore-next-line Access to an undefined property */
         $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
         $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
 
