@@ -52,15 +52,15 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
 
   view() {
     return (
-      <div className="FoF-Terms-Policiy-Box">
+      <div className="FoF-Terms-Policy-Box">
         {this.policy.exists && <span className="fas fa-arrows-alt FoF-Terms-Policiy-Box--handle js-policy-handle" />}
         <div
-          className="Button Button--block FoF-Terms-Policiy-Header"
+          className="Button Button--block FoF-Terms-Policy-Header"
           onclick={() => {
             this.toggleFields = !this.toggleFields;
           }}
         >
-          <div className="FoF-Terms-Policiy-Header-Title">{this.boxTitle()}</div>
+          <div className="FoF-Terms-Policy-Header-Title">{this.boxTitle()}</div>
           <div>
             {this.policy.exists && [app.translator.trans('fof-terms.admin.buttons.edit-policy'), ' ']}
             <Icon name={this.toggleFields ? 'fas fa-chevron-up' : 'fas fa-chevron-down'} />
@@ -73,7 +73,7 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
 
   viewFields() {
     return (
-      <form className="FoF-Terms-Policiy-Body" onsubmit={this.savePolicy.bind(this)}>
+      <form className="FoF-Terms-Policy-Body" onsubmit={this.savePolicy.bind(this)}>
         {this.fields().toArray()}
         <div className="ButtonGroup">
           <Button type="submit" className="Button Button--primary" loading={this.processing} disabled={!this.readyToSave()}>
