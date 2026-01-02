@@ -8,7 +8,7 @@ export * from '../common/models';
 export * from '../common/helpers';
 
 app.initializers.add('fof-terms', () => {
-  app.extensionData
+  app.registry
     .for('fof-terms')
     .registerPermission(
       {

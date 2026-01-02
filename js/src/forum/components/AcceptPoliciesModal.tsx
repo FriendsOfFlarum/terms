@@ -1,14 +1,15 @@
 import app from 'flarum/forum/app';
-import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import { IFormModalAttrs } from 'flarum/common/components/FormModal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import type Mithril from 'mithril';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
 import Policy from '../../common/models/Policy';
 import dayjs from 'dayjs';
 
-interface AcceptPoliciesModalAttrs extends IInternalModalAttrs {}
+interface AcceptPoliciesModalAttrs extends IFormModalAttrs {}
 
-export default class AcceptPoliciesModal extends Modal<AcceptPoliciesModalAttrs> {
+export default class AcceptPoliciesModal extends FormModal<AcceptPoliciesModalAttrs> {
   [key: string]: any;
 
   oninit(vnode: Mithril.Vnode<AcceptPoliciesModalAttrs, this>) {

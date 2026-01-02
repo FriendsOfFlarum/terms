@@ -1,6 +1,6 @@
 import app from 'flarum/admin/app';
 import Component, { ComponentAttrs } from 'flarum/common/Component';
-import icon from 'flarum/common/helpers/icon';
+import Icon from 'flarum/common/components/Icon';
 import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
@@ -63,7 +63,7 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
           <div className="FoF-Terms-Policiy-Header-Title">{this.boxTitle()}</div>
           <div>
             {this.policy.exists && [app.translator.trans('fof-terms.admin.buttons.edit-policy'), ' ']}
-            {icon(this.toggleFields ? 'fas fa-chevron-up' : 'fas fa-chevron-down')}
+            <Icon name={this.toggleFields ? 'fas fa-chevron-up' : 'fas fa-chevron-down'} />
           </div>
         </div>
         {this.toggleFields && this.viewFields()}
