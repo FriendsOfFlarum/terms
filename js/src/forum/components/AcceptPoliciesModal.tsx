@@ -1,16 +1,23 @@
 import app from 'flarum/forum/app';
-import Modal from 'flarum/common/components/Modal';
+import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
+import type Mithril from 'mithril';
 import sortByAttribute from '../../common/helpers/sortByAttribute';
+import Policy from '../../common/models/Policy';
+import dayjs from 'dayjs';
 
-/* global m, dayjs */
+interface AcceptPoliciesModalAttrs extends IInternalModalAttrs {}
 
-export default class AcceptPoliciesModal extends Modal {
-  oninit(vnode) {
+export default class AcceptPoliciesModal extends Modal<AcceptPoliciesModalAttrs> {
+  [key: string]: any;
+
+  oninit(vnode: Mithril.Vnode<AcceptPoliciesModalAttrs, this>) {
     super.oninit(vnode);
 
-    app.store.all('fof-terms-policies').forEach((policy) => {
-      const state = app.session.user.fofTermsPoliciesState()[policy.id()];
+    app.store.all<Policy>('fof-terms-policies').forEach((policy) => {
+      const policyId = policy.id();
+      const policiesState = app.session.user?.fofTermsPoliciesState() as Record<string, any> | undefined;
+      const state = policyId && policiesState ? policiesState[policyId] : undefined;
       // For optional policies, maintain current acceptance status
       this[policy.form_key()] = policy.optional() ? state?.is_accepted || false : false;
     });
@@ -30,8 +37,10 @@ export default class AcceptPoliciesModal extends Modal {
 
   body() {
     const policies = sortByAttribute(
-      app.store.all('fof-terms-policies').filter((policy) => {
-        const state = app.session.user.fofTermsPoliciesState()[policy.id()];
+      app.store.all<Policy>('fof-terms-policies').filter((policy) => {
+        const policyId = policy.id();
+        const policiesState = app.session.user?.fofTermsPoliciesState() as Record<string, any> | undefined;
+        const state = policyId && policiesState ? policiesState[policyId] : undefined;
 
         return !state || state.has_update;
       })
@@ -53,11 +62,11 @@ export default class AcceptPoliciesModal extends Modal {
     return policies.map((policy) => (
       <div>
         <h2>{policy.name()}</h2>
-        {app.forum.attribute('fof-terms.hide-updated-at') ? null : (
+        {app.forum.attribute<boolean>('fof-terms.hide-updated-at') ? null : (
           <p>
             {policy.terms_updated_at()
               ? app.translator.trans('fof-terms.forum.accept-modal.updated-at', {
-                  date: dayjs(policy.terms_updated_at()).format(app.forum.attribute('fof-terms.date-format')),
+                  date: dayjs(policy.terms_updated_at()).format(app.forum.attribute<string>('fof-terms.date-format')),
                 })
               : app.translator.trans('fof-terms.forum.accept-modal.updated-recently')}
           </p>
@@ -86,7 +95,7 @@ export default class AcceptPoliciesModal extends Modal {
           onclick={() => {
             // We need to save the "must accept" property before performing the request
             // Because an updated user serializer will be returned
-            const hadToAcceptToInteract = app.session.user.fofTermsPoliciesMustAccept();
+            const hadToAcceptToInteract = app.session.user?.fofTermsPoliciesMustAccept();
 
             app
               .request({
@@ -94,7 +103,7 @@ export default class AcceptPoliciesModal extends Modal {
                 method: 'POST',
                 errorHandler: this.onerror.bind(this),
               })
-              .then((updated) => {
+              .then((updated: any) => {
                 app.store.pushPayload(updated);
 
                 // If this was the last policy to accept, close the modal

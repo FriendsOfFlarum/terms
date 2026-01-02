@@ -6,18 +6,17 @@ import UserPoliciesStateModal from './components/UserPoliciesStateModal';
 
 export default function () {
   extend(UserControls, 'moderationControls', (items, user) => {
-    if (app.forum.attribute('fof-terms.canSeeUserPoliciesState')) {
+    if (app.forum.attribute<boolean>('fof-terms.canSeeUserPoliciesState')) {
       items.add(
         'fof-terms.state',
-        Button.component(
-          {
-            icon: 'fas fa-paperclip',
-            onclick() {
-              app.modal.show(UserPoliciesStateModal, { user });
-            },
-          },
-          app.translator.trans('fof-terms.forum.user_controls.state_button')
-        )
+        <Button
+          icon="fas fa-paperclip"
+          onclick={() => {
+            app.modal.show(UserPoliciesStateModal, { user });
+          }}
+        >
+          {app.translator.trans('fof-terms.forum.user_controls.state_button')}
+        </Button>
       );
     }
   });

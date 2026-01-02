@@ -2,16 +2,15 @@ import { override } from 'flarum/common/extend';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import DiscussionPage from 'flarum/forum/components/DiscussionPage';
 import UserPage from 'flarum/forum/components/UserPage';
+import type Mithril from 'mithril';
 import UpdateAlert from './components/UpdateAlert';
-
-/* global m */
 
 // This single method will be used to inject the alert into existing components
 // If the view is already an array, we add our content at the start
 // If it isn't an array we wrap the content into a new array
-function addAlertToContent(original, ...originalArgs) {
+function addAlertToContent(this: any, original: (...args: any[]) => Mithril.Children, ...originalArgs: any[]): Mithril.Children {
   const existing = original(...originalArgs);
-  const additional = m(UpdateAlert);
+  const additional = <UpdateAlert />;
 
   // if the existing content is an array, add to it
   // This should only happen with the hero() override as other extensions might return an array there
@@ -27,7 +26,7 @@ function addAlertToContent(original, ...originalArgs) {
   // We could also add to vnode.children but this could cause weird styling if another extension or custom styles
   // change the look of the base page content by targeting the original view root element based on its class
   // By using a new outer container we make sure the alert always stays full width and unaffected by the page view under it
-  return m('div', [additional, existing]);
+  return <div>{[additional, existing]}</div>;
 }
 
 export default function () {

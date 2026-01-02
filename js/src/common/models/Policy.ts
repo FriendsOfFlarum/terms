@@ -12,6 +12,6 @@ export default class Policy extends Model {
   form_key = computed('id', (id) => 'fof_terms_policy_' + id);
 
   apiEndpoint() {
-    return '/fof/terms/policies' + (this.exists ? '/' + this.data.id : '');
+    return '/fof/terms/policies' + (this.exists ? '/' + this.id() : '');
   }
 }
