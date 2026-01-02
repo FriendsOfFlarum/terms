@@ -55,11 +55,10 @@ return [
         ->modelPolicy(User::class, Access\UserPolicy::class),
 
     (new Extend\Settings())
+        ->default('fof-terms.date-format', 'YYYY-MM-DD')
         ->serializeToForum('fof-terms.signup-legal-text', 'fof-terms.signup-legal-text')
         ->serializeToForum('fof-terms.hide-updated-at', 'fof-terms.hide-updated-at', 'boolVal')
-        ->serializeToForum('fof-terms.date-format', 'fof-terms.date-format', function ($value) {
-            return $value ?: 'YYYY-MM-DD';
-        }),
+        ->serializeToForum('fof-terms.date-format', 'fof-terms.date-format', 'strVal'),
 
     (new Extend\ApiResource(Resource\UserResource::class))
         ->fields(Api\UserResourceFields::class),
