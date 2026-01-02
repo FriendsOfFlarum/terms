@@ -18,6 +18,7 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
     fields(): ItemList<Mithril.Children>;
     updateAttribute(attribute: string, value: any): void;
     readyToSave(): boolean;
+    submitData(): Record<string, any>;
     savePolicy(event: Event): void;
     deletePolicy(event: Event): void;
 }
