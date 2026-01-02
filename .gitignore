@@ -1,7 +1,6 @@
 js/node_modules
 vendor/
 composer.lock
-js/dist
 
 .idea
 .fleet
