@@ -11,7 +11,7 @@ interface SignUpModalWithPolicies extends SignUpModal {
 }
 
 export default function () {
-  extend(SignUpModal.prototype, 'oninit', function (this: SignUpModalWithPolicies) {
+  extend('flarum/forum/components/SignUpModal', 'oninit', function (this: SignUpModalWithPolicies) {
     this.fofTermsPolicies = sortByAttribute(app.store.all<Policy>('fof-terms-policies'));
 
     this.fofTermsPolicies?.forEach((policy) => {
@@ -19,7 +19,7 @@ export default function () {
     });
   });
 
-  extend(SignUpModal.prototype, 'fields', function (this: SignUpModalWithPolicies, fields: ItemList<unknown>) {
+  extend('flarum/forum/components/SignUpModal', 'fields', function (this: SignUpModalWithPolicies, fields: ItemList<unknown>) {
     const legalText = app.forum.attribute<string>('fof-terms.signup-legal-text');
 
     if (legalText) {
@@ -56,7 +56,7 @@ export default function () {
     });
   });
 
-  extend(SignUpModal.prototype, 'submitData', function (this: SignUpModalWithPolicies, data: Record<string, unknown>) {
+  extend('flarum/forum/components/SignUpModal', 'submitData', function (this: SignUpModalWithPolicies, data: Record<string, unknown>) {
     this.fofTermsPolicies?.forEach((policy) => {
       data[policy.form_key()] = this[policy.form_key()];
     });

@@ -22,7 +22,7 @@ interface SettingsPageWithPolicies extends SettingsPage {
 }
 
 export default function () {
-  extend(SettingsPage.prototype, 'settingsItems', function (this: SettingsPageWithPolicies, items: ItemList<Mithril.Children>) {
+  extend('flarum/forum/components/SettingsPage', 'settingsItems', function (this: SettingsPageWithPolicies, items: ItemList<Mithril.Children>) {
     const optionalPolicies = app.store.all<Policy>('fof-terms-policies').filter((policy) => policy.optional());
     if (!optionalPolicies.length) {
       return;
