@@ -1,5 +1,5 @@
 .FoF-Terms-Policies-Container {
-    border-radius: @border-radius;
+    border-radius: var(--border-radius);
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -12,7 +12,7 @@
 
     .FormControl {
         // Use same background color as :active, otherwise we can't see it against the policy body background
-        background-color: @body-bg;
+        background-color: var(--body-bg);
     }
 }
 
@@ -30,12 +30,12 @@
     top: 15px;
     left: 10px;
     cursor: move;
-    color: @muted-color;
+    color: var(--muted-color);
     font-size: 20px;
 }
 
 .FoF-Terms-Policiy-Body {
-    background-color: @control-bg;
+    background-color: var(--control-bg);
     padding: 10px;
 }
 
