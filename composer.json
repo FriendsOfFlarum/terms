@@ -30,13 +30,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^2.0.0-beta"
-    },
-    "replace": {
-        "flagrow/terms": "*"
-    },
-    "conflict": {
-        "reflar/user-management": "^0.1.0"
+        "flarum/core": "^2.0.0"
     },
     "extra": {
         "flarum-extension": {
@@ -51,9 +45,6 @@
                 "flarum/gdpr"
             ]
         },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/11714"
-        },
         "flarum-cli": {
             "modules": {
                 "githubActions": true
@@ -66,8 +57,9 @@
         }
     },
     "require-dev": {
-        "flarum/phpstan": "^2.0.0-beta",
-        "flarum/gdpr": "dev-main"
+        "flarum/phpstan": "^2.0.0",
+        "flarum/testing": "^2.0.0",
+        "flarum/gdpr": "^2.0.0"
     },
     "scripts": {
         "analyse:phpstan": "phpstan analyse",
@@ -75,5 +67,7 @@
     },
     "scripts-descriptions": {
         "analyse:phpstan": "Run static analysis"
-    }
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
 }
