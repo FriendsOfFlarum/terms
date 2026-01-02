@@ -9,6 +9,7 @@
     "baseUrl": ".",
     "paths": {
       "flarum/*": ["../vendor/flarum/core/js/dist-typings/*"],
-    }
+    },
+    "skipLibCheck": true
   }
 }
