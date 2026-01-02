@@ -1,14 +1,13 @@
 import app from 'flarum/admin/app';
-import Policy from '../common/models/Policy';
 import TermsSettingsPage from './components/TermsSettingsPage';
+
+export { default as extend } from './extend';
 
 export * from './components';
 export * from '../common/models';
 export * from '../common/helpers';
 
 app.initializers.add('fof-terms', () => {
-  app.store.models['fof-terms-policies'] = Policy;
-
   app.extensionData
     .for('fof-terms')
     .registerPermission(

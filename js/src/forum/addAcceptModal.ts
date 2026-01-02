@@ -1,7 +1,7 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import Page from 'flarum/common/components/Page';
-import IndexPage from 'flarum/common/components/IndexPage';
+import IndexPage from 'flarum/forum/components/IndexPage';
 import AcceptPoliciesModal from './components/AcceptPoliciesModal';
 
 export default function () {
