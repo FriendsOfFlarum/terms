@@ -25,11 +25,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class PolicyExportController implements RequestHandlerInterface
 {
-    protected $policies;
-
-    public function __construct(PolicyRepository $policies)
+    public function __construct(protected PolicyRepository $policies)
     {
-        $this->policies = $policies;
     }
 
     /**

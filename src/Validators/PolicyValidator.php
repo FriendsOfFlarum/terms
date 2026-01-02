@@ -15,7 +15,7 @@ use Flarum\Foundation\AbstractValidator;
 
 class PolicyValidator extends AbstractValidator
 {
-    protected function getRules()
+    protected function getRules(): array
     {
         return [
             'name'           => 'required|string',

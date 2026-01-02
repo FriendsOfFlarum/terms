@@ -16,30 +16,7 @@ use FoF\Terms\Policy;
 
 abstract class AbstractPolicyEvent
 {
-    /**
-     * @var Policy
-     */
-    public $policy;
-
-    /**
-     * @var User
-     */
-    public $actor;
-
-    /**
-     * @var array
-     */
-    public $data;
-
-    /**
-     * @param Policy $policy
-     * @param User   $actor
-     * @param array  $data
-     */
-    public function __construct(Policy $policy, User $actor, array $data)
+    public function __construct(public Policy $policy, public User $actor, public array $data)
     {
-        $this->policy = $policy;
-        $this->actor = $actor;
-        $this->data = $data;
     }
 }

@@ -25,11 +25,8 @@ class PolicyStoreController extends AbstractCreateController
 {
     public $serializer = PolicySerializer::class;
 
-    protected $policies;
-
-    public function __construct(PolicyRepository $policies)
+    public function __construct(protected PolicyRepository $policies)
     {
-        $this->policies = $policies;
     }
 
     /**

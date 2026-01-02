@@ -34,11 +34,7 @@ class Policy extends AbstractModel
     public $timestamps = true;
 
     protected $casts = [
-        'additional_info' => 'array',
-    ];
-
-    protected $dates = [
-        'terms_updated_at',
+        'additional_info' => 'array', 'terms_updated_at' => 'datetime',
     ];
 
     protected $visible = [

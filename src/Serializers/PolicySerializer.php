@@ -19,11 +19,8 @@ class PolicySerializer extends AbstractSerializer
 {
     protected $type = 'fof-terms-policies';
 
-    protected $settings;
-
-    public function __construct(SettingsRepositoryInterface $settings)
+    public function __construct(protected SettingsRepositoryInterface $settings)
     {
-        $this->settings = $settings;
     }
 
     /**

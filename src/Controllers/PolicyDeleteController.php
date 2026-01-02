@@ -20,11 +20,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PolicyDeleteController extends AbstractDeleteController
 {
-    protected $policies;
-
-    public function __construct(PolicyRepository $policies)
+    public function __construct(protected PolicyRepository $policies)
     {
-        $this->policies = $policies;
     }
 
     /**
@@ -32,7 +29,7 @@ class PolicyDeleteController extends AbstractDeleteController
      *
      * @throws PermissionDeniedException
      */
-    protected function delete(ServerRequestInterface $request)
+    protected function delete(ServerRequestInterface $request): void
     {
         $actor = RequestUtil::getActor($request);
         $actor->assertAdmin();

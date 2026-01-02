@@ -18,14 +18,8 @@ use FoF\Terms\Repositories\PolicyRepository;
 
 class UserPoliciesRelationship
 {
-    /**
-     * @var PolicyRepository
-     */
-    protected $policies;
-
-    public function __construct(PolicyRepository $policies)
+    public function __construct(protected PolicyRepository $policies)
     {
-        $this->policies = $policies;
     }
 
     public function __invoke(UserSerializer $serializer, User $user, array $attributes): array

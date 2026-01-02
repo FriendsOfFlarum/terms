@@ -16,7 +16,7 @@ use FoF\Terms\Repositories\PolicyRepository;
 
 class RegisterPolicyValidator extends AbstractValidator
 {
-    protected function getRules()
+    protected function getRules(): array
     {
         /**
          * @var PolicyRepository $policies
@@ -34,7 +34,7 @@ class RegisterPolicyValidator extends AbstractValidator
         return $rules;
     }
 
-    protected function getMessages()
+    protected function getMessages(): array
     {
         /**
          * @var PolicyRepository $policies

@@ -26,22 +26,12 @@ use Illuminate\Validation\ValidationException;
 
 class PolicyRepository
 {
-    protected Policy $policy;
-    protected PolicyValidator $validator;
-    protected Repository $cache;
-
-    protected Dispatcher $events;
-
     protected $rememberState;
 
     const CACHE_KEY = 'fof-terms-policies';
 
-    public function __construct(Policy $policy, PolicyValidator $validator, Repository $cache, Dispatcher $events)
+    public function __construct(protected Policy $policy, protected PolicyValidator $validator, protected Repository $cache, protected Dispatcher $events)
     {
-        $this->policy = $policy;
-        $this->validator = $validator;
-        $this->cache = $cache;
-        $this->events = $events;
     }
 
     /**
