@@ -12,8 +12,8 @@
 namespace FoF\Terms;
 
 use Flarum\Api\Controller\ShowForumController;
-use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
+use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
 use Flarum\Gdpr\Extend\UserData;
