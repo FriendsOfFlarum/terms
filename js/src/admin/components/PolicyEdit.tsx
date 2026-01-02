@@ -230,12 +230,30 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
     return this.dirty;
   }
 
+  submitData() {
+    const data: Record<string, any> = {
+      name: this.policy.name(),
+      url: this.policy.url(),
+      updateMessage: this.policy.updateMessage(),
+      termsUpdatedAt: this.policy.termsUpdatedAt(),
+      optional: this.policy.optional(),
+    };
+
+    // Only include sort if it exists (for updates), and ensure it's an integer
+    if (this.policy.sort() !== undefined && this.policy.sort() !== null) {
+      data.sort = parseInt(this.policy.sort() as any, 10);
+    }
+
+    return data;
+  }
+
   savePolicy(event: Event) {
     event.preventDefault();
     this.processing = true;
     const createNewRecord = !this.policy.exists;
+
     this.policy
-      .save(this.policy.data.attributes || {})
+      .save(this.submitData())
       .then(() => {
         if (createNewRecord) {
           this.initNewField();
