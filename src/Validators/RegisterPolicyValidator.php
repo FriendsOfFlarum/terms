@@ -16,7 +16,7 @@ use FoF\Terms\Repositories\PolicyRepository;
 
 class RegisterPolicyValidator extends AbstractValidator
 {
-    protected function getRules()
+    protected function getRules(): array
     {
         /**
          * @var PolicyRepository $policies
@@ -27,14 +27,14 @@ class RegisterPolicyValidator extends AbstractValidator
 
         foreach ($policies->all() as $policy) {
             if (!$policy->optional) {
-                $rules['fof_terms_policy_'.$policy->id] = 'accepted';
+                $rules['fof_terms_policy_'.$policy->id] = 'required|accepted';
             }
         }
 
         return $rules;
     }
 
-    protected function getMessages()
+    protected function getMessages(): array
     {
         /**
          * @var PolicyRepository $policies

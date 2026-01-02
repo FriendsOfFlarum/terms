@@ -13,19 +13,19 @@ namespace FoF\Terms;
 
 class PermissionLock
 {
-    protected static $apply = true;
+    protected static bool $apply = true;
 
-    public static function stopRestrictingPermissions()
+    public static function stopRestrictingPermissions(): void
     {
         self::$apply = false;
     }
 
-    public static function continueRestrictingPermissions()
+    public static function continueRestrictingPermissions(): void
     {
         self::$apply = true;
     }
 
-    public static function shouldApplyPermissionRestrictions()
+    public static function shouldApplyPermissionRestrictions(): bool
     {
         return self::$apply;
     }

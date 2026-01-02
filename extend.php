@@ -11,36 +11,30 @@
 
 namespace FoF\Terms;
 
-use Flarum\Api\Controller\ShowForumController;
-use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
 use Flarum\Gdpr\Extend\UserData;
 use Flarum\User\User;
 use FoF\Terms\Middlewares\RegisterMiddleware;
-use FoF\Terms\Repositories\PolicyRepository;
-use FoF\Terms\Serializers\PolicySerializer;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 return [
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/resources/less/admin.less'),
+
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
-        ->css(__DIR__.'/resources/less/forum.less'),
+        ->css(__DIR__.'/resources/less/forum.less')
+        ->jsDirectory(__DIR__.'/js/dist/forum'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Routes('api'))
+        // Custom action routes (not covered by standard CRUD endpoints)
         ->post('/fof/terms/policies/order', 'fof.terms.api.policies.order', Controllers\PolicyOrderController::class)
-        ->get('/fof/terms/policies', 'fof.terms.api.policies.index', Controllers\PolicyIndexController::class)
-        ->post('/fof/terms/policies', 'fof.terms.api.policies.store', Controllers\PolicyStoreController::class)
-        ->patch('/fof/terms/policies/{id:[0-9]+}', 'fof.terms.api.policies.update', Controllers\PolicyUpdateController::class)
-        ->delete('/fof/terms/policies/{id:[0-9]+}', 'fof.terms.api.policies.delete', Controllers\PolicyDeleteController::class)
-        ->post('/fof/terms/policies/{id:[0-9]+}/accept', 'fof.terms.api.policies.accept', Controllers\PolicyAcceptController::class)
-        ->post('/fof/terms/policies/{id:[0-9]+}/decline', 'fof.terms.api.policies.decline', Controllers\PolicyDeclineController::class)
         ->get('/fof/terms/policies/{id:[0-9]+}/export.{format:json|csv}', 'fof.terms.api.policies.export', Controllers\PolicyExportController::class),
 
     (new Extend\Middleware('forum'))
@@ -60,9 +54,6 @@ return [
         ->modelPolicy(Policy::class, Access\PolicyPolicy::class)
         ->modelPolicy(User::class, Access\UserPolicy::class),
 
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->attributes(Extenders\UserPoliciesRelationship::class),
-
     (new Extend\Settings())
         ->serializeToForum('fof-terms.signup-legal-text', 'fof-terms.signup-legal-text')
         ->serializeToForum('fof-terms.hide-updated-at', 'fof-terms.hide-updated-at', 'boolVal')
@@ -70,21 +61,16 @@ return [
             return $value ?: 'YYYY-MM-DD';
         }),
 
-    (new Extend\ApiSerializer(ForumSerializer::class))
-        ->attribute('fof-terms.canSeeUserPoliciesState', function (ForumSerializer $serializer) {
-            return $serializer->getActor()->can('fof-terms.see-user-policies-state');
-        })
-        ->hasMany('fofTermsPolicies', PolicySerializer::class),
+    (new Extend\ApiResource(Resource\UserResource::class))
+        ->fields(Api\UserResourceFields::class),
 
-    (new Extend\ApiController(ShowForumController::class))
-        ->prepareDataForSerialization(function (ShowForumController $controller, &$data) {
-            /**
-             * @var PolicyRepository $policies
-             */
-            $policies = resolve(PolicyRepository::class);
-            $data['fofTermsPolicies'] = $policies->all();
-        })
-        ->addInclude('fofTermsPolicies'),
+    (new Extend\ApiResource(Resource\ForumResource::class))
+        ->fields(Api\ForumResourceFields::class)
+        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
+            return $endpoint->addDefaultInclude(['fofTermsPolicies']);
+        }),
+
+    new Extend\ApiResource(Api\Resource\PolicyResource::class),
 
     (new Extend\Conditional())
         ->whenExtensionEnabled('flarum-gdpr', fn () => [

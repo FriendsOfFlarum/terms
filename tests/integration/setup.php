@@ -9,14 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace FoF\Terms\Events;
+use Flarum\Testing\integration\Setup\SetupScript;
 
-use Flarum\User\User;
-use FoF\Terms\Policy;
+require __DIR__.'/../../vendor/autoload.php';
 
-abstract class AbstractPolicyEvent
-{
-    public function __construct(public Policy $policy, public User $actor, public array $data)
-    {
-    }
-}
+$setup = new SetupScript();
+
+$setup->run();

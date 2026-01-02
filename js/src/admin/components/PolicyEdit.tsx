@@ -1,6 +1,6 @@
 import app from 'flarum/admin/app';
 import Component, { ComponentAttrs } from 'flarum/common/Component';
-import icon from 'flarum/common/helpers/icon';
+import Icon from 'flarum/common/components/Icon';
 import extractText from 'flarum/common/utils/extractText';
 import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
@@ -34,10 +34,10 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
       attributes: {
         name: '',
         url: '',
-        update_message: '',
-        terms_updated_at: '',
+        updateMessage: '',
+        termsUpdatedAt: '',
         optional: false,
-        additional_info: {},
+        additionalInfo: {},
       },
     }) as Policy;
   }
@@ -63,7 +63,7 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
           <div className="FoF-Terms-Policiy-Header-Title">{this.boxTitle()}</div>
           <div>
             {this.policy.exists && [app.translator.trans('fof-terms.admin.buttons.edit-policy'), ' ']}
-            {icon(this.toggleFields ? 'fas fa-chevron-up' : 'fas fa-chevron-down')}
+            <Icon name={this.toggleFields ? 'fas fa-chevron-up' : 'fas fa-chevron-down'} />
           </div>
         </div>
         {this.toggleFields && this.viewFields()}
@@ -132,9 +132,9 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
         <label>{app.translator.trans('fof-terms.admin.policies.update-message')}</label>
         <textarea
           className="FormControl"
-          value={this.policy.update_message()}
+          value={this.policy.updateMessage()}
           oninput={(e: InputEvent) => {
-            this.updateAttribute('update_message', (e.target as HTMLTextAreaElement).value);
+            this.updateAttribute('updateMessage', (e.target as HTMLTextAreaElement).value);
           }}
         />
         <div className="helpText">{app.translator.trans('fof-terms.admin.policies.update-message-help')}</div>
@@ -150,9 +150,9 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
           <input
             className="FormControl"
             type="text"
-            value={this.policy.terms_updated_at()}
+            value={this.policy.termsUpdatedAt()}
             oninput={(e: InputEvent) => {
-              this.updateAttribute('terms_updated_at', (e.target as HTMLInputElement).value);
+              this.updateAttribute('termsUpdatedAt', (e.target as HTMLInputElement).value);
             }}
             placeholder={app.translator.trans('fof-terms.admin.policies.terms-updated-at-placeholder')}
           />
@@ -161,7 +161,7 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
             onclick={() => {
               // We set the milliseconds to zero because it might otherwise give the impression
               // that we store them, when in fact the date will be stored in a MySQL TIMESTAMP column
-              this.updateAttribute('terms_updated_at', dayjs().millisecond(0).toISOString());
+              this.updateAttribute('termsUpdatedAt', dayjs().millisecond(0).toISOString());
             }}
           >
             {app.translator.trans('fof-terms.admin.buttons.set-to-now')}
