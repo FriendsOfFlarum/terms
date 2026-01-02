@@ -1,7 +1,6 @@
 import app from 'flarum/forum/app';
 import Button from 'flarum/common/components/Button';
 import listItems from 'flarum/common/helpers/listItems';
-import AcceptPoliciesModal from './AcceptPoliciesModal';
 
 let temporarilyHidden = false;
 
@@ -35,7 +34,8 @@ export default class UpdateAlert {
       <Button
         className="Button Button--link"
         onclick={() => {
-          app.modal.show(AcceptPoliciesModal);
+          // Lazy load the modal component to reduce initial bundle size
+          app.modal.show(() => import('./AcceptPoliciesModal'));
         }}
       >
         {app.translator.trans('fof-terms.forum.update-alert.review')}

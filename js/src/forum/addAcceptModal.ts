@@ -2,7 +2,6 @@ import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import Page from 'flarum/common/components/Page';
 import IndexPage from 'flarum/forum/components/IndexPage';
-import AcceptPoliciesModal from './components/AcceptPoliciesModal';
 
 export default function () {
   let initialized = false;
@@ -20,8 +19,9 @@ export default function () {
 
       if (user && user.fofTermsPoliciesMustAccept()) {
         // Timeout is necessary because there is a redraw error otherwise
+        // Lazy load the modal component to reduce initial bundle size
         setTimeout(() => {
-          app.modal.show(AcceptPoliciesModal);
+          app.modal.show(() => import('./components/AcceptPoliciesModal'));
         }, 0);
       }
     }

@@ -13,6 +13,6 @@ export default [
     .attribute<boolean>('seeFoFTermsPoliciesState'),
 
   new Extend.Model(Forum) //
-    .attribute<boolean>('fof-terms.canSeeUserPoliciesState')
+    .attribute<{ canSeeUserPoliciesState: boolean }>('fof-terms')
     .hasMany('fofTermsPolicies'),
 ];
