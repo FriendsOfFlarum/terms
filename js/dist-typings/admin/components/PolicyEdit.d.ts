@@ -1,4 +1,3 @@
-/// <reference types="flarum/@types/translator-icu-rich" />
 import Component, { ComponentAttrs } from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import type Mithril from 'mithril';
@@ -13,7 +12,7 @@ export default class PolicyEdit extends Component<PolicyEditAttrs> {
     toggleFields: boolean;
     oninit(vnode: Mithril.Vnode<PolicyEditAttrs, this>): void;
     initNewField(): void;
-    boxTitle(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
+    boxTitle(): string | any[];
     view(): JSX.Element;
     viewFields(): JSX.Element;
     fields(): ItemList<Mithril.Children>;

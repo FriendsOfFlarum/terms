@@ -1,12 +1,12 @@
-/// <reference types="flarum/@types/translator-icu-rich" />
-import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import { IFormModalAttrs } from 'flarum/common/components/FormModal';
+import FormModal from 'flarum/common/components/FormModal';
 import type Mithril from 'mithril';
-interface AcceptPoliciesModalAttrs extends IInternalModalAttrs {
+interface AcceptPoliciesModalAttrs extends IFormModalAttrs {
 }
-export default class AcceptPoliciesModal extends Modal<AcceptPoliciesModalAttrs> {
+export default class AcceptPoliciesModal extends FormModal<AcceptPoliciesModalAttrs> {
     [key: string]: any;
     oninit(vnode: Mithril.Vnode<AcceptPoliciesModalAttrs, this>): void;
-    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
+    title(): string | any[];
     className(): string;
     content(): JSX.Element;
     body(): JSX.Element | JSX.Element[];

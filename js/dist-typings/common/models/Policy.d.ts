@@ -3,10 +3,9 @@ export default class Policy extends Model {
     sort: () => string;
     name: () => string;
     url: () => string;
-    update_message: () => string;
-    terms_updated_at: () => string;
+    updateMessage: () => string;
+    termsUpdatedAt: () => string;
     optional: () => boolean;
-    additional_info: () => unknown;
+    additionalInfo: () => unknown;
     form_key: () => string;
-    apiEndpoint(): string;
 }
