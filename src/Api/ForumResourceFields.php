@@ -27,7 +27,7 @@ class ForumResourceFields
             Schema\Arr::make('fof-terms')
                 ->get(function ($forum, Context $context) {
                     return [
-                        'canSeeUserPoliciesState' => $context->getActor()->isAdmin() || $context->getActor()->hasPermission('fof-terms.see-user-policies-state'),
+                        'canSeeUserPoliciesState' => $context->getActor()->hasPermission('fof-terms.see-user-policies-state'),
                     ];
                 }),
 

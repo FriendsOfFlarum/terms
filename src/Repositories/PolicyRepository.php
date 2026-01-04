@@ -26,8 +26,8 @@ use Illuminate\Validation\ValidationException;
 
 class PolicyRepository
 {
-    /** @var array<int, array<string, mixed>>|null */
-    protected ?array $rememberState = null;
+    /** @var array<int, array<int, array<string, mixed>>> */
+    protected array $rememberState = [];
 
     const CACHE_KEY = 'fof-terms-policies';
 
@@ -61,7 +61,7 @@ class PolicyRepository
      */
     public function state(User $user): array
     {
-        if (!$this->rememberState) {
+        if (!isset($this->rememberState[$user->id])) {
             /**
              * @var Collection<Policy> $userPolicies
              *
@@ -69,7 +69,7 @@ class PolicyRepository
              */
             $userPolicies = $user->fofTermsPolicies->keyBy('id');
 
-            $this->rememberState = [];
+            $this->rememberState[$user->id] = [];
 
             foreach ($this->all() as $policy) {
                 /** @phpstan-ignore-next-line Access to an undefined property FoF\Terms\Policy::$pivot */
@@ -83,7 +83,7 @@ class PolicyRepository
                  */
                 $is_accepted = $userPolicies->has($policy->id) ? $userPolicies->get($policy->id)->pivot->is_accepted : false;
 
-                $this->rememberState[$policy->id] = [
+                $this->rememberState[$user->id][$policy->id] = [
                     'accepted_at' => $accepted_at ? $accepted_at->toRfc3339String() : null,
                     'has_update'  => $has_update,
                     'must_accept' => $has_update && !$user->can('postponeAccept', $policy) && !$optional,
@@ -92,7 +92,7 @@ class PolicyRepository
             }
         }
 
-        return $this->rememberState;
+        return $this->rememberState[$user->id];
     }
 
     public function hasPoliciesUpdate(User $user): bool
