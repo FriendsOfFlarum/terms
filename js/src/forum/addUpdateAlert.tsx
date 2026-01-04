@@ -1,40 +1,12 @@
-import { override } from 'flarum/common/extend';
-import IndexPage from 'flarum/forum/components/IndexPage';
-import DiscussionPage from 'flarum/forum/components/DiscussionPage';
-import UserPage from 'flarum/forum/components/UserPage';
-import type Mithril from 'mithril';
+import app from 'flarum/forum/app';
+import { extend } from 'flarum/common/extend';
 import UpdateAlert from './components/UpdateAlert';
+import PageStructure from 'flarum/forum/components/PageStructure';
 
-// This single method will be used to inject the alert into existing components
-// If the view is already an array, we add our content at the start
-// If it isn't an array we wrap the content into a new array
-function addAlertToContent(this: any, original: (...args: any[]) => Mithril.Children, ...originalArgs: any[]): Mithril.Children {
-  const existing = original(...originalArgs);
-  const additional = <UpdateAlert />;
-
-  // if the existing content is an array, add to it
-  // This should only happen with the hero() override as other extensions might return an array there
-  if (Array.isArray(existing)) {
-    existing.unshift(additional);
-
-    return existing;
-  }
-
-  // Otherwise return a new list of elements
-  // Use a container div otherwise when extending view() this will prevent the config() method from running
-  // as the Component class won't be able to bind config() to an array
-  // We could also add to vnode.children but this could cause weird styling if another extension or custom styles
-  // change the look of the base page content by targeting the original view root element based on its class
-  // By using a new outer container we make sure the alert always stays full width and unaffected by the page view under it
-  return <div>{[additional, existing]}</div>;
-}
-
-export default function () {
-  // There's no single place we can inject the banner
-  // So we use a few different points so it's visible on most pages
-  override(IndexPage.prototype, 'hero', addAlertToContent);
-  override(DiscussionPage.prototype, 'view', addAlertToContent);
-
-  // Covers user profile and settings
-  override(UserPage.prototype, 'view', addAlertToContent);
+export default function addUpdateAlert() {
+  extend(PageStructure.prototype, 'mainItems', function (items) {
+    if (app.session.user?.fofTermsPoliciesHasUpdate()) {
+      items.add('updateAlert', <UpdateAlert />, 1001);
+    }
+  });
 }
