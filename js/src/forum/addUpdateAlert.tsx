@@ -1,10 +1,10 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import UpdateAlert from './components/UpdateAlert';
-import PageStructure from 'flarum/forum/components/PageStructure';
+import Notices from 'flarum/forum/components/Notices';
 
 export default function addUpdateAlert() {
-  extend(PageStructure.prototype, 'mainItems', function (items) {
+  extend(Notices.prototype, 'items', function (items) {
     if (app.session.user?.fofTermsPoliciesHasUpdate()) {
       items.add('updateAlert', <UpdateAlert />, 1001);
     }

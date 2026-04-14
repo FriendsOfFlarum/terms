@@ -58,6 +58,7 @@ class Policy extends AbstractModel
 
     ];
 
+    /** @return BelongsToMany<User, $this> */
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'fof_terms_policy_user')->withPivot('accepted_at');

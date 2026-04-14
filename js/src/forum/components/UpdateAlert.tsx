@@ -1,75 +1,49 @@
 import app from 'flarum/forum/app';
+import Component from 'flarum/common/Component';
+import Alert from 'flarum/common/components/Alert';
 import Button from 'flarum/common/components/Button';
-import listItems from 'flarum/common/helpers/listItems';
+import type Mithril from 'mithril';
 
 let temporarilyHidden = false;
 
-/**
- * Renders similarly to Flarum's Alert, but with an additional .container inside
- */
-export default class UpdateAlert {
-  shouldShowAlert() {
-    if (temporarilyHidden) {
-      return false;
-    }
-
+export default class UpdateAlert extends Component {
+  view(): Mithril.Children {
     const { user } = app.session;
 
-    return user && user.fofTermsPoliciesHasUpdate();
-  }
-
-  hasOnlyOptionalUpdates() {
-    const { user } = app.session;
-    return user && !user.fofTermsPoliciesMustAccept() && user.fofTermsPoliciesHasUpdate();
-  }
-
-  view() {
-    const { user } = app.session;
-
-    if (!this.shouldShowAlert() || !user) {
+    if (temporarilyHidden || !user || !user.fofTermsPoliciesHasUpdate()) {
       return null;
     }
 
-    const controls = [
-      <Button
-        className="Button Button--link"
-        onclick={() => {
-          // Lazy load the modal component to reduce initial bundle size
-          app.modal.show(() => import('./AcceptPoliciesModal'));
-        }}
-      >
-        {app.translator.trans('fof-terms.forum.update-alert.review')}
-      </Button>,
-    ];
+    const mustAccept = user.fofTermsPoliciesMustAccept();
+    const hasOnlyOptionalUpdates = !mustAccept && user.fofTermsPoliciesHasUpdate();
 
-    const dismissControl = [];
-
-    if (!user.fofTermsPoliciesMustAccept()) {
-      dismissControl.push(
-        <Button
-          icon="fas fa-times"
-          className="Button Button--link Button--icon Alert-dismiss"
-          onclick={() => {
-            temporarilyHidden = true;
-          }}
-          aria-label={app.translator.trans('fof-terms.forum.update-alert.close')}
-        />
-      );
-    }
+    const message = hasOnlyOptionalUpdates
+      ? app.translator.trans('fof-terms.forum.update-alert.can-accept-optional-message')
+      : mustAccept
+        ? app.translator.trans('fof-terms.forum.update-alert.must-accept-message')
+        : app.translator.trans('fof-terms.forum.update-alert.can-accept-message');
 
     return (
-      <div className="Alert Alert-info">
-        <div className="container">
-          <span className="Alert-body">
-            {this.hasOnlyOptionalUpdates()
-              ? app.translator.trans('fof-terms.forum.update-alert.can-accept-optional-message')
-              : user.fofTermsPoliciesMustAccept()
-                ? app.translator.trans('fof-terms.forum.update-alert.must-accept-message')
-                : app.translator.trans('fof-terms.forum.update-alert.can-accept-message')}
-          </span>
-          <ul className="Alert-controls">{listItems(controls.concat(dismissControl))}</ul>
-        </div>
-      </div>
+      <Alert
+        containerClassName="container"
+        dismissible={!mustAccept}
+        ondismiss={() => {
+          temporarilyHidden = true;
+          m.redraw();
+        }}
+        controls={[
+          <Button
+            className="Button Button--link"
+            onclick={() => {
+              app.modal.show(() => import('./AcceptPoliciesModal'));
+            }}
+          >
+            {app.translator.trans('fof-terms.forum.update-alert.review')}
+          </Button>,
+        ]}
+      >
+        {message}
+      </Alert>
     );
   }
 }
