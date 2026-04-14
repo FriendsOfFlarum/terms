@@ -1,9 +1,5 @@
-/// <reference types="mithril" />
-/**
- * Renders similarly to Flarum's Alert, but with an additional .container inside
- */
-export default class UpdateAlert {
-    shouldShowAlert(): boolean | null;
-    hasOnlyOptionalUpdates(): boolean | null;
-    view(): JSX.Element | null;
+import Component from 'flarum/common/Component';
+import type Mithril from 'mithril';
+export default class UpdateAlert extends Component {
+    view(): Mithril.Children;
 }
