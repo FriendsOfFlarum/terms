@@ -12,7 +12,6 @@
 namespace FoF\Terms\Tests\integration\api;
 
 use Carbon\Carbon;
-use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\UserResource;
 use Flarum\Api\Schema;
 use Flarum\Discussion\Discussion;
@@ -67,9 +66,9 @@ class PolicyStateQueryCountTest extends TestCase
         }
 
         $this->prepareDatabase([
-            User::class => $users,
+            User::class       => $users,
             Discussion::class => $discussions,
-            Policy::class => [
+            Policy::class     => [
                 [
                     'id'               => 1,
                     'name'             => 'Terms of Service',
