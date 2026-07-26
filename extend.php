@@ -61,7 +61,41 @@ return [
         ->serializeToForum('fof-terms.date-format', 'fof-terms.date-format', 'strVal'),
 
     (new Extend\ApiResource(Resource\UserResource::class))
-        ->fields(Api\UserResourceFields::class),
+        ->fields(Api\UserResourceFields::class)
+        ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
+            return $endpoint->eagerLoad(['fofTermsPolicies']);
+        }),
+
+    // Permission checks on a user (e.g. another extension's per-user
+    // serializer flags) run the permission group processor, which needs the
+    // user's accepted policies. Eager load them alongside the users these
+    // endpoints already load, so that neither the processor nor the policy
+    // state fields fall back to one lazy pivot query per serialized user.
+    (new Extend\ApiResource(Resource\DiscussionResource::class))
+        ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
+            return $endpoint->eagerLoad([
+                'user.fofTermsPolicies',
+                'lastPostedUser.fofTermsPolicies',
+                'mostRelevantPost.user.fofTermsPolicies',
+            ]);
+        })
+        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
+            // Deliberately no `posts.user.*` here: eager loads apply to the
+            // primary model via loadMissing(), which would load a discussion's
+            // entire posts relation. Post stream users are covered by the
+            // posts index endpoint below.
+            return $endpoint->eagerLoad([
+                'user.fofTermsPolicies',
+                'lastPostedUser.fofTermsPolicies',
+                'firstPost.user.fofTermsPolicies',
+                'lastPost.user.fofTermsPolicies',
+            ]);
+        }),
+
+    (new Extend\ApiResource(Resource\PostResource::class))
+        ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
+            return $endpoint->eagerLoad(['user.fofTermsPolicies']);
+        }),
 
     (new Extend\ApiResource(Resource\ForumResource::class))
         ->fields(Api\ForumResourceFields::class)

@@ -29,19 +29,19 @@ class UserResourceFields
                 ->visible(
                     fn (User $user, Context $context) => $context->getActor()->can('seeFoFTermsPoliciesState', $user)
                 )
-                ->get(fn (User $user) => $this->policies->state($user)),
+                ->get($this->batched(fn (User $user) => $this->policies->state($user))),
 
             Schema\Boolean::make('fofTermsPoliciesHasUpdate')
                 ->visible(
                     fn (User $user, Context $context) => $context->getActor()->can('seeFoFTermsPoliciesState', $user)
                 )
-                ->get(fn (User $user) => $this->policies->hasPoliciesUpdate($user)),
+                ->get($this->batched(fn (User $user) => $this->policies->hasPoliciesUpdate($user))),
 
             Schema\Boolean::make('fofTermsPoliciesMustAccept')
                 ->visible(
                     fn (User $user, Context $context) => $context->getActor()->can('seeFoFTermsPoliciesState', $user)
                 )
-                ->get(fn (User $user) => $this->policies->mustAcceptNewPolicies($user)),
+                ->get($this->batched(fn (User $user) => $this->policies->mustAcceptNewPolicies($user))),
 
             Schema\Relationship\ToMany::make('fofTermsPolicies')
                 ->type('fof-terms-policies')
@@ -61,5 +61,23 @@ class UserResourceFields
         }
 
         return $fields;
+    }
+
+    /**
+     * Wrap a per-user getter so its value is resolved after the whole
+     * document has been visited, with the accepted policies of every
+     * buffered user loaded in one query instead of one query per user.
+     */
+    protected function batched(callable $callback): callable
+    {
+        return function (User $user) use ($callback) {
+            PolicyStateBuffer::add($user);
+
+            return function () use ($user, $callback) {
+                PolicyStateBuffer::loadPending();
+
+                return $callback($user);
+            };
+        };
     }
 }
