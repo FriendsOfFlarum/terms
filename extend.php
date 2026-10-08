@@ -50,6 +50,11 @@ return [
             return PermissionGroupProcessor::process($actor, $groupIds);
         }),
 
+    // Checking any user's permissions needs their accepted policies. Collect
+    // users as they're loaded, so that the first check loads them for all.
+    (new Extend\Event())
+        ->listen('eloquent.retrieved: '.User::class, fn (User $user) => Repositories\LoadedUsers::track($user)),
+
     (new Extend\Policy())
         ->modelPolicy(Policy::class, Access\PolicyPolicy::class)
         ->modelPolicy(User::class, Access\UserPolicy::class),

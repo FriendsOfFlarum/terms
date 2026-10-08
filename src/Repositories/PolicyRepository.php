@@ -62,6 +62,22 @@ class PolicyRepository
     public function state(User $user): array
     {
         if (!isset($this->rememberState[$user->id])) {
+            $this->rememberState[$user->id] = [];
+
+            $policies = $this->all();
+
+            // With nothing to accept, there's nothing to look up.
+            if ($policies->isEmpty()) {
+                return [];
+            }
+
+            // Any user whose permissions are checked lands here, often for
+            // every user on a page; load the accepted policies of all the
+            // users loaded so far together, rather than this user's alone.
+            if (!$user->relationLoaded('fofTermsPolicies')) {
+                LoadedUsers::loadPoliciesWith($user);
+            }
+
             /**
              * @var Collection<Policy> $userPolicies
              *
@@ -69,9 +85,7 @@ class PolicyRepository
              */
             $userPolicies = $user->fofTermsPolicies->keyBy('id');
 
-            $this->rememberState[$user->id] = [];
-
-            foreach ($this->all() as $policy) {
+            foreach ($policies as $policy) {
                 /** @phpstan-ignore-next-line Access to an undefined property FoF\Terms\Policy::$pivot */
                 $accepted_at = $userPolicies->has($policy->id) ? Carbon::parse($userPolicies->get($policy->id)->pivot->accepted_at) : null;
                 $has_update = !$accepted_at || (($policy->terms_updated_at !== null) && $policy->terms_updated_at->gt($accepted_at));
