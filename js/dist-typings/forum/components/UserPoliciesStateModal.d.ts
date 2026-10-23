@@ -1,4 +1,3 @@
-/// <reference types="mithril" />
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import User from 'flarum/common/models/User';
 interface UserPoliciesStateModalAttrs extends IInternalModalAttrs {
